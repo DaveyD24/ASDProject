@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Add Product to Restaurant</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <b>Add Product to Restaurant</b><br><br>
+    <form>
+        <label for="prodName">Product Name</label><br>
+        <input type="text" name="prodName" id="prodName" required><br><br>
+
+        <label for="prodCategory">Category</label><br>
+        <select id="prodCategory" name="prodCategory" >
+            <option value="main">Main</option>
+            <option value="dessert">Dessert</option>
+            <option value="drink">Drink</option>
+        </select><br><br>
+
+        <label for="prodPrice">Price $</label><br>
+        <input type="number" name="prodPrice" id="prodPrice" min="0" required><br><br>
+
+        <label for="prodDesc">Description (optional)</label><br>
+        <textarea name="prodDesc" id="prodDesc"></textarea><br><br>
+
+        <input type="submit" value="Add Product">
+        <button type="button" onclick="location.href='index.html'">Cancel</button>
+    </form>
+</body>
+</html>
