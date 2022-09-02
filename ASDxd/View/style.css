@@ -9,6 +9,11 @@ h2 {
     margin-left: 20px;
 }
 
+h3 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-left: 10px;
+}
+
 body {
     font-family: Verdana, Geneva, sans-serif;
     background-image: url(/Images/SkyBlue4.jpg);
@@ -108,3 +113,56 @@ footer a {
 li.dontH a:hover {
     color: white;
 }
+
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 25%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+    .active, .collapsible:hover {
+        background-color: #555;
+    }
+
+.content {
+    /*padding: 0 18px;*/
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    /*background-color: #f1f1f1;*/
+}
+
+.option {
+    background-color: whitesmoke;
+    color: black;
+    cursor: grab;
+    padding: 10px;
+    width: 25%;
+    border: none;
+    text-align: left;
+    outline: solid;
+    outline-width: 1px;
+    outline-color: lightgray;
+    font-size 15px;
+}
+
+
+.cart {
+    background-color: dodgerblue;
+    color: white;
+    cursor: grab;
+    padding: 10px;
+    width: 25%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size 15px;
+    font-weight: bold;
+}
+

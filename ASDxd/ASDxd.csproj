@@ -71,6 +71,7 @@
     <Content Include="Images\SkyBlue4.jpg" />
     <Content Include="View\addProduct.html" />
     <Content Include="View\index.html" />
+    <Content Include="View\productPage.html" />
     <Content Include="View\style.css" />
     <Content Include="Web.config" />
   </ItemGroup>
