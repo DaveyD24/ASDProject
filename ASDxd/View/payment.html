@@ -7,15 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <style>
-    table, th, td {
-        border: 1px solid;
-        border-collapse: collapse;
-        position: relative;
-    }
-
-    button {
-        position: absolute;
-        right: 40%;
+    .container {
+        background-color: #f2f2f2;
+        padding: 5px 20px 15px 20px;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
     }
 </style>
 
@@ -34,13 +30,38 @@
     <h2><span class="pageheading">Order Details</span></h2>
 
     <!-- Content starts here-->
-    <div>
+
+    <div class="container">
         <form>
-            <label>Name</label>
-            <input type="text" name="name">
+            <h3>Billing Address</h3>
+            <label>Full Name</label>
+            <input type="text" name="name" placeholder="John Doe">
+            <label>Email</label>
+            <input type="text" name="email" placeholder="john@email.com">
+            <label>Address</label>
+            <input type="text" name="address" placeholder="123 A Street">
+            <label>City</label>
+            <input type="text" name="city" placeholder="Sydney">
+            <label>State</label>
+            <input type="text" name="state" placeholder="NSW">
+            <label>Postcode</label>
+            <input type="text" name="postcode" placeholder="2000">
+
+            <h3>Payment</h3>
+            <label>Name on Card</label>
+            <input type="text" name="name" placeholder="John Doe">
+            <label>Card Number</label>
+            <input type="text" name="cardnumber" placeholder="1111 2222 3333 4444">
+            <label>Exp. Date</label>
+            <input type="text" name="expdate" placeholder="01-23">
+            <label>CVV</label>
+            <input type="text" name="cvv" placeholder="111">
+
+            <h3></h3>
+            <input type="submit" value="Continue to checkout">
         </form>
-        </div>
     </div>
+
     <!-- Content ends here-->
 
     <footer>
