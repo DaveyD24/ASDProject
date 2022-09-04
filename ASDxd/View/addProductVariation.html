@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Add Product Variation</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <b>Add Product Variation</b><br><br>
+    <form>
+        <b>Adding a new variation to product: <u>Cheeseburger</u></b><br><br>
+
+        <label for="prodVarName">Product Variation Name</label><br>
+        <input type="text" name="prodVarName" id="prodVarName" style="width: 250px" required><br><br>
+
+        <label for="prodVarCategory">Variation Type</label><br>
+        <select id="prodVarCategory" name="prodVarCategory" style="width: 250px">
+            <option value="main">Add On</option>
+            <option value="main">Sauce</option>
+            <option value="dessert">Other</option>
+        </select><br><br>
+
+        <label for="priceType">Price Type</label><br>
+        <select id="priceType" name="priceType" style="width: 250px">
+            <option value="add">Add to Product Price</option>
+            <option value="subtract">Subtract from Product Price</option>
+        </select><br><br>
+
+        <label for="prodVarPrice">Price $</label><br>
+        <input type="number" name="prodVarPrice" id="prodVarPrice" min="0" step="0.01" required><br><br>
+
+        <label for="prodVarDesc">Description (optional)</label><br>
+        <textarea name="prodVarDesc" id="prodVarDesc" style="width: 250px" rows="4"></textarea><br><br>
+
+        <input type="submit" value="Add Product Variation">
+        <button type="button" onclick="location.href='index.html'">Cancel</button>
+    </form>
+</body>
+</html>
