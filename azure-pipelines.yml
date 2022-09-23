@@ -33,7 +33,7 @@ steps:
   inputs:
     packageFeedSelector: 'nugetOrg'
     versionSelector: 'specificVersion'
-    testPlatformVersion: '17.3.1'
+    testPlatformVersion: '16.11.0'
 
 - task: VSTest@2
   inputs:
