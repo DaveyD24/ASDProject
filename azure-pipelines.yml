@@ -25,6 +25,8 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '**\*.sln'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 - task: VisualStudioTestPlatformInstaller@1
   inputs:
@@ -40,6 +42,9 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
+    vsTestVersion: 'toolsInstaller'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 - task: PublishBuildArtifacts@1
   inputs:
