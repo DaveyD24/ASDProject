@@ -1,0 +1,254 @@
+﻿@{     IEnumerable<ASDNew.Models.Product> __inheritsHelper = null;
+}
+
+<style>
+    h1 {
+        font-family: Verdana, Geneva, sans-serif;
+        position: fixed;
+        top: 0px;
+    }
+
+    h2 {
+        font-family: Verdana, Geneva, sans-serif;
+        margin-left: 20px;
+    }
+
+    h3 {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        margin-left: 10px;
+    }
+
+    body {
+        font-family: Verdana, Geneva, sans-serif;
+        background-image: url(/Images/SkyBlue4.jpg);
+    }
+
+    p {
+        font-family: Verdana, Geneva, sans-serif;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    span.whitestrip {
+        position: fixed;
+        top: 0;
+        margin-top: 0px;
+    }
+
+    span.pageheading {
+        color: #c68c53;
+        font-size: 30px;
+    }
+
+    ul.Navigation {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+        position: fixed;
+        width: 100%;
+        top: 75px;
+        left: 0;
+    }
+
+    li {
+        float: left;
+    }
+
+        li a {
+            display: black;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+            li a:hover {
+                background-color: #111;
+            }
+
+        li.Active {
+            background-color: #c68c53;
+        }
+
+            li.Active a:hover {
+                background-color: #c68c53;
+            }
+
+    footer {
+        font-family: Verdana, Geneva, sans-serif;
+        background-color: #333;
+        margin: 0;
+        padding: 5px 0px;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    li.ActFoot a {
+        Color: #c68c53;
+    }
+
+    ul.foot {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+    }
+
+    footer a {
+        text-decoration: none;
+        padding: 0px 15px;
+        color: white;
+    }
+
+        footer a:hover {
+            background-color: #333;
+            color: #c68c53;
+        }
+
+    li.dontH a:hover {
+        color: white;
+    }
+
+    .collapsible {
+        background-color: #777;
+        color: white;
+        cursor: pointer;
+        padding: 18px;
+        width: 25%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+    }
+
+        .active, .collapsible:hover {
+            background-color: #555;
+        }
+
+    .content {
+        /*padding: 0 18px;*/
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+        /*background-color: #f1f1f1;*/
+    }
+
+    .option {
+        background-color: whitesmoke;
+        color: black;
+        cursor: grab;
+        padding: 10px;
+        width: 25%;
+        border: none;
+        text-align: left;
+        outline: solid;
+        outline-width: 1px;
+        outline-color: lightgray;
+        font-size 15px;
+    }
+
+
+    .cart {
+        background-color: dodgerblue;
+        color: white;
+        cursor: grab;
+        padding: 10px;
+        width: 25%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size 15px;
+        font-weight: bold;
+    }
+
+</style>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>ASDxd</title>
+    <meta charset="UTF-8">
+    <!--<link href="@Url.Content("~/Views/Shared/style.css")" rel="stylesheet" type="text/css" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <h2>Example Restaurant</h2>
+
+    <p>
+        big fat description of the restaurant goes here<br>
+        maybe like a banner as well
+    </p>
+
+    <h3>Hamburgers</h3>
+    <button class="collapsible">Beef Hamburger</button>
+    <div class="content">
+        <button class="option">No Cheese</button><br>
+        <button class="option">No Pickles</button><br>
+        <button class="option">Addon: Extra cheese</button><br>
+        <button class="option">Addon: Double meat</button><br>
+        <button class="option">Sauce: Barbeque</button><br>
+        <button class="option">Sauce: Spicy</button><br>
+        <button class="option">Sauce: Tomato</button><br>
+        <button class="option">Sauce: Sweet and Sour</button><br>
+        <button class="cart">Add To Cart</button>
+    </div>
+
+    <button class="collapsible">Chicken Hamburger</button>
+    <div class="content">
+        <button class="option">No Tomato</button><br>
+        <button class="option">No Pickles</button><br>
+        <button class="option">Addon: Extra cheese</button><br>
+        <button class="option">Addon: Double meat</button><br>
+        <button class="option">Sauce: Barbeque</button><br>
+        <button class="option">Sauce: Spicy</button><br>
+        <button class="option">Sauce: Tomato</button><br>
+        <button class="option">Sauce: Sweet and Sour</button><br>
+        <button class="cart">Add To Cart</button>
+    </div>
+
+    <h3>Drinks</h3>
+    <button class="collapsible">Cola</button>
+    <div class="content">
+        <button class="option">Coca-Cola</button><br>
+        <button class="option">Coca-Cola: No Sugar</button><br>
+        <button class="option">Coca-Cola: Vanilla</button><br>
+        <button class="option">Coca-Cola: Drinkable (Pepsi)</button><br>
+        <button class="option">Coca-Cola: Cherry</button><br>
+    </div>
+
+    <input type="button" value="Tes" onclick="location.href='@Url.Action("TestMethod", "Product")'" />
+
+
+    <script>
+        //i have absolutely no idea what this is doing
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
+
