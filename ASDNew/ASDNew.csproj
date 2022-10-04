@@ -137,15 +137,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202210011324477_InitialCreate.cs" />
-    <Compile Include="Migrations\202210011324477_InitialCreate.designer.cs">
-      <DependentUpon>202210011324477_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202210041233503_Date.cs" />
-    <Compile Include="Migrations\202210041233503_Date.designer.cs">
-      <DependentUpon>202210041233503_Date.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASDContext.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />
@@ -197,13 +188,11 @@
     <Content Include="Views\Product\ProductPage.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
-    <Content Include="Views\Order\OrderPage.cshtml" />
-    <Content Include="Views\Payment\PaymentPage.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Restaurant\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Product\AddProduct.cshtml" />
-    <Content Include="Views\Payment\PaymentHistory.cshtml" />
-    <Content Include="Views\Payment\PaymentSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -221,14 +210,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202210011324477_InitialCreate.resx">
-      <DependentUpon>202210011324477_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210041233503_Date.resx">
-      <DependentUpon>202210041233503_Date.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

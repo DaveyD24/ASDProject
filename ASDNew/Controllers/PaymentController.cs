@@ -15,21 +15,15 @@ namespace ASDNew.Controllers
         private ASDContext db = new ASDContext();
 
         // GET: Product
-        public ActionResult PaymentHistory()
+        public ActionResult Index()
         {
-            //var payments = from r in db.Payments
-            //               orderby r.Id
-            //               select r;
-            //return View(payments);
-            return View(db.Payments.ToList());
+            var payments = from r in db.Payments
+                         orderby r.Id
+                         select r;
+            return View(payments);
         }
 
-        public ActionResult PaymentPage()
-        {
-            return View();
-        }
-
-        public ActionResult PaymentSuccess()
+        public ActionResult ProductPage()
         {
             return View();
         }
