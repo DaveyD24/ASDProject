@@ -1,0 +1,221 @@
+﻿@model IEnumerable<ASDNew.Models.Payment>
+
+
+<style>
+    .row {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin: 0 -16px;
+    }
+
+    hr {
+        color: black;
+        background-color: black;
+    }
+
+    .ccontainer {
+        background-color: #f2f2f2;
+        padding: 5px 20px 15px 20px;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
+    }
+
+    .divider {
+        border-bottom: 2px solid black;
+        margin-bottom:10px;
+    }
+
+    .col-25 {
+        -ms-flex: 25%; /* IE10 */
+        flex: 25%;
+    }
+
+    .col-50 {
+        -ms-flex: 50%; /* IE10 */
+        flex: 50%;
+    }
+
+    .col-75 {
+        -ms-flex: 75%; /* IE10 */
+        flex: 75%;
+    }
+
+    .col-25,
+    .col-50,
+    .col-75 {
+        padding: 0 16px;
+    }
+
+    label {
+        margin-right: 10px;
+        display: block;
+    }
+
+    input {
+        width: 100%;
+        margin-right: 10px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .btn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        width: 100%;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 17px;
+    }
+
+    span.price {
+        float: right;
+        color: grey;
+    }
+</style>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Add Product to Restaurant</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <h2>Payment</h2>
+    <div class="row">
+        <div class="col-75">
+            <div class="ccontainer">
+                <form method="post" action="@Url.Action("PaymentSuccess", "Payment")">
+                    <div class="row">
+                        <div class="col-50">
+                            <h3>Billing Address</h3>
+                            <label>Full Name<input type="text" placeholder="John Doe" name="fullname" required /></label>
+                            <label>Email<input type="email" placeholder="john.doe@gmail.com" name="email" required /></label>
+                            <label>Address<input type="text" placeholder="123 A Street" name="address" required /></label>
+                            <label>Suburb<input type="text" placeholder="Bankstown" name="suburb" required /></label>
+
+                            <div class="row">
+                                <div class="col-50">
+                                    <label>State</label>
+                                    <input type="text" placeholder="NSW" name="state" required />
+                                </div>
+                                <div class="col-50">
+                                    <label>Postcode</label>
+                                    <input type="text" placeholder="2200" name="postcode" required minlength="4" maxlength="4" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-50">
+                            <h3>Card Details</h3>
+                            <label>Name on Card<input type="text" placeholder="John Doe" name="cname" required /></label>
+                            <label>
+                                Card Number<input type="text" placeholder="1111-2222-3333-4444" name="cnum" required pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}" maxlength="19"
+                                                  title="Format: 16 digits separated by dashes every 4 digits. E.g. 1111-1111-1111-1111" />
+                            </label>
+                            <label>Exp.Date<input type="month" placeholder="January 2023" name="expdate" required min="2022-11" /></label>
+                            <label>CVV<input type="text" placeholder="123" name="cvv" required maxlength="3" minlength="3" /></label>
+                            <input type="submit" value="Finalise Payment" class="btn" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-25">
+            <div class="ccontainer">
+                @* RECEIVE DATA FROM CART (cart/order objects) *@
+                <div class="divider">
+                    <h4>Cart</h4>
+                </div>
+                <div class="divider">
+                    <p><a href="#">Product 1</a> <span class="price">$10</span></p>
+                    <p><a href="#">Product 2</a> <span class="price">$13</span></p>
+                    <p><a href="#">Product 3</a> <span class="price">$12</span></p>
+                </div>
+                <p>Total <span class="price">$35</span></p>
+            </div>
+        </div>
+    </div>
+
+
+
+    @*<div>
+            <table>
+                <thead>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Billing Name
+                </th>
+                <th>
+                    Billing Address
+                </th>
+                <th>
+                    Billing Suburb
+                </th>
+                <th>
+                    Billing State
+                </th>
+                <th>
+                    Billing PostCode
+                </th>
+                <th>
+                    CreditCardNumber
+                </th>
+                <th>
+                    Expiry
+                </th>
+                <th>
+                    CVV
+                </th>
+                </thead>
+                <tbody>
+                    @foreach (var payment in Model)
+                    {
+                        <tr>
+                            <td>
+                                @payment.Id
+                            </td>
+                            <td>
+                                @payment.BillingName
+                            </td>
+                            <td>
+                                @payment.BillingAddress
+                            </td>
+                            <td>
+                                @payment.BillingSuburb
+                            </td>
+                            <td>
+                                @payment.BillingState
+                            </td>
+                            <td>
+                                @payment.BillingPostCode
+                            </td>
+                            <td>
+                                @payment.CreditCardNumber
+                            </td>
+                            <td>
+                                @payment.CreditCardExpiry
+                            </td>
+                            <td>
+                                @payment.CVV
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>*@
+</body>
+
+</html>

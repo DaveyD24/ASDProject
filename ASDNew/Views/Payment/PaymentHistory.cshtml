@@ -1,0 +1,160 @@
+﻿@model IEnumerable<ASDNew.Models.Payment>
+
+
+<style>
+    .table-wrapper {
+        margin: 10px 70px 70px;
+        box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+    }
+
+    .fl-table {
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: normal;
+        border: none;
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 100%;
+        white-space: nowrap;
+        background-color: white;
+    }
+
+        .fl-table td, .fl-table th {
+            text-align: center;
+            padding: 8px;
+        }
+
+        .fl-table td {
+            border-right: 1px solid #f8f8f8;
+            font-size: 12px;
+        }
+
+        .fl-table thead th {
+            color: #ffffff;
+            background: black;
+        }
+</style>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Add Product to Restaurant</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="divider">
+        <h3>Payment History</h3>
+    </div>
+    <table class="fl-table">
+        <thead>
+            <tr>
+                <th>OrderID</th>
+                <th>PaymentID</th>
+                <th>Billing Name</th>
+                <th>Billing Address</th>
+                <th>Billing Suburb</th>
+                <th>Billing State</th>
+                <th>Billing Postcode</th>
+                <th>Credit Card Number</th>
+                <th>Exp. Date</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td></td>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BillingName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BillingAddress)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BillingSuburb)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BillingState)</td>  
+                    <td>@Html.DisplayFor(modelItem => item.BillingPostCode)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CreditCardNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CreditCardExpiry)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+    @*<div>
+            <table>
+                <thead>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Billing Name
+                </th>
+                <th>
+                    Billing Address
+                </th>
+                <th>
+                    Billing Suburb
+                </th>
+                <th>
+                    Billing State
+                </th>
+                <th>
+                    Billing PostCode
+                </th>
+                <th>
+                    CreditCardNumber
+                </th>
+                <th>
+                    Expiry
+                </th>
+                <th>
+                    CVV
+                </th>
+                </thead>
+                <tbody>
+                    @foreach (var payment in Model)
+                    {
+                        <tr>
+                            <td>
+                                @payment.Id
+                            </td>
+                            <td>
+                                @payment.BillingName
+                            </td>
+                            <td>
+                                @payment.BillingAddress
+                            </td>
+                            <td>
+                                @payment.BillingSuburb
+                            </td>
+                            <td>
+                                @payment.BillingState
+                            </td>
+                            <td>
+                                @payment.BillingPostCode
+                            </td>
+                            <td>
+                                @payment.CreditCardNumber
+                            </td>
+                            <td>
+                                @payment.CreditCardExpiry
+                            </td>
+                            <td>
+                                @payment.CVV
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>*@
+</body>
+
+</html>

@@ -22,6 +22,7 @@ namespace ASDNew.Models
         public string CreditCardNumber { get; set; }
         public string CreditCardExpiry { get; set; }
         public int CVV { get; set; }
+        public DateTime Date { get; set; }
     }
 
     public class PaymentDBContext : DbContext

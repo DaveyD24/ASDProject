@@ -23,7 +23,7 @@ namespace ASDNew.Controllers
             return View(orders);
         }
 
-        public ActionResult ProductPage()
+        public ActionResult OrderPage()
         {
             return View();
         }
