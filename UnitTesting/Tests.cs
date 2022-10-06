@@ -33,5 +33,18 @@ namespace UnitTesting
             };
             Assert.AreEqual("Test", p.Name);
         }
+
+        //David
+        //F105: List of Products
+        [Test]
+        public void TestProductList()
+        {
+            ASDContext3 db = new ASDContext3();
+
+        }
+
+        //David
+        //F106 - Detailed Product Description
+        //Also check that no restaurant id displays error page
     }
 }

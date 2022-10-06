@@ -14,47 +14,64 @@ namespace ASDNew.Controllers
     {
         private ASDContext3 db = new ASDContext3();
 
-        // GET: Product
         public ActionResult Index(int? RestaurantID)
         {
             if (RestaurantID == null)
             {
                 System.Diagnostics.Debug.WriteLine("xdddddddddd");
+                //Display Error Page
             }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine(RestaurantID);
-            }
+
+            
             var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
             Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
-            ViewData["Restaurant"] = Rcontroller.GetRestaurant((int)RestaurantID);
-            //var products = from p in db.Products
-            //               orderby p.Id
-            //               select p;
-            var products = db.Products
+            
+            Restaurant Restaurant = Rcontroller.GetRestaurant((int)RestaurantID);
+            ViewData["Restaurant"] = Restaurant;
+
+            List<Product> AllProducts = GetAllProducts();
+            List<Product> FilteredProducts = FilterProductList(Restaurant, AllProducts);
+            List<ProductCategory> RelevantCategories = GetRelevantCategories(FilteredProducts);
+
+            ViewData["Categories"] = RelevantCategories;
+
+            return View(FilteredProducts);
+        }
+
+        public List<Product> GetAllProducts()
+        {
+            List<Product> AllProducts = new List<Product>();
+            AllProducts = db.Products
                 .Include(a => a.Category)
                 .Include(a => a.Restaurant)
                 .ToList();
+            return AllProducts;
+        }
 
-            List<Product> newList = new List<Product>();
-            foreach (var p in products)
+        public List<Product> FilterProductList(Restaurant Restaurant, List<Product> Products)
+        {
+            List<Product> FilteredProducts = new List<Product>();
+            foreach (var p in Products)
             {
-                if (p.Restaurant.Id == RestaurantID)
+                if (p.Restaurant.Id == Restaurant.Id)
                 {
-                    newList.Add(p);
+                    FilteredProducts.Add(p);
                 }
             }
-            List<ProductCategory> categories = new List<ProductCategory>();
-            foreach (var p in newList)
+            return FilteredProducts;
+        }
+
+        public List<ProductCategory> GetRelevantCategories(List<Product> Products)
+        {
+            List<ProductCategory> RelevantCategories = new List<ProductCategory>();
+            foreach (var p in Products)
             {
-                if (!categories.Contains(p.Category))
+                if (!RelevantCategories.Contains(p.Category))
                 {
-                    categories.Add(p.Category);
+                    RelevantCategories.Add(p.Category);
                 }
             }
-            ViewData["Categories"] = categories;
-
-            return View(newList);
+            return RelevantCategories;
         }
 
         public void AddToCart(string test)
