@@ -23,13 +23,15 @@ namespace ASDNew.Controllers
             List<Restaurant> ExampleRestaurants = new List<Restaurant>();
             Restaurant Restaurant1 = new Restaurant
             {
-                Description = "Hungry Jacks",
+                Name = "Hungry Jacks",
+                Description = "yum yum",
                 Email = "contact@hjs.com",
                 Password = "hungry123"
             };
             Restaurant Restaurant2 = new Restaurant
             {
-                Description = "McDonalds",
+                Name = "McDonalds",
+                Description = "very yum",
                 Email = "info@mcdonalds.com.au",
                 Password = "MaccyD"
             };

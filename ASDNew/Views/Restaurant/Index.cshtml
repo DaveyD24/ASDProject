@@ -18,6 +18,9 @@
                 Name
             </th>
             <th>
+                Description
+            </th>
+            <th>
                 Email
             </th>
             <th>
@@ -30,6 +33,9 @@
                     <tr>
                         <td>
                             @restaurant.Id
+                        </td>
+                        <td>
+                            @Html.ActionLink(restaurant.Name ,"Index", "Product", new { RestaurantID = restaurant.Id }, null)
                         </td>
                         <td>
                             @restaurant.Description

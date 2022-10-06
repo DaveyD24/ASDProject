@@ -15,15 +15,35 @@ namespace ASDNew.Controllers
         private ASDContext3 db = new ASDContext3();
 
         // GET: Product
-        public ActionResult Index()
+        public ActionResult Index(int? RestaurantID)
         {
+            if (RestaurantID == null)
+            {
+                System.Diagnostics.Debug.WriteLine("xdddddddddd");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine(RestaurantID);
+            }
+            ViewData["RestaurantID"] = RestaurantID;
             //var products = from p in db.Products
             //               orderby p.Id
             //               select p;
             var products = db.Products
                 .Include(a => a.Category)
-                .Include(a => a.Restaurant).ToList();
-            return View(products);
+                .Include(a => a.Restaurant)
+                .ToList();
+
+            List<Product> newList = new List<Product>();
+            foreach (var p in products)
+            {
+                if (p.Restaurant.Id == RestaurantID)
+                {
+                    newList.Add(p);
+                }
+            }
+
+            return View(newList);
         }
 
         public ActionResult ProductPage()

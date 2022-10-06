@@ -62,7 +62,7 @@ namespace ASDNew.Controllers
                               select r;
             foreach (var r in restaurants)
             {
-                if (r.Description.Equals(Name))
+                if (r.Name.Equals(Name))
                 {
                     return r;
                 }
