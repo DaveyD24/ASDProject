@@ -25,11 +25,11 @@ namespace ASDNew.Controllers
             
             var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
             Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
-            
-            Restaurant Restaurant = Rcontroller.GetRestaurant((int)RestaurantID);
+
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantID);
             ViewData["Restaurant"] = Restaurant;
 
-            List<Product> AllProducts = GetAllProducts();
+            List<Product> AllProducts = GetAllProducts(db);
             List<Product> FilteredProducts = FilterProductList(Restaurant, AllProducts);
             List<ProductCategory> RelevantCategories = GetRelevantCategories(FilteredProducts);
 
@@ -38,7 +38,7 @@ namespace ASDNew.Controllers
             return View(FilteredProducts);
         }
 
-        public List<Product> GetAllProducts()
+        public static List<Product> GetAllProducts(ASDContext3 db)
         {
             List<Product> AllProducts = new List<Product>();
             AllProducts = db.Products
@@ -48,7 +48,7 @@ namespace ASDNew.Controllers
             return AllProducts;
         }
 
-        public List<Product> FilterProductList(Restaurant Restaurant, List<Product> Products)
+        public static List<Product> FilterProductList(Restaurant Restaurant, List<Product> Products)
         {
             List<Product> FilteredProducts = new List<Product>();
             foreach (var p in Products)
@@ -61,7 +61,7 @@ namespace ASDNew.Controllers
             return FilteredProducts;
         }
 
-        public List<ProductCategory> GetRelevantCategories(List<Product> Products)
+        public static List<ProductCategory> GetRelevantCategories(List<Product> Products)
         {
             List<ProductCategory> RelevantCategories = new List<ProductCategory>();
             foreach (var p in Products)
@@ -117,7 +117,7 @@ namespace ASDNew.Controllers
 
             Product product = new Product
             {
-                Restaurant = Rcontroller.GetRestaurant(5),
+                Restaurant = RestaurantController.GetRestaurant(db, 5),
                 Category = Cat,
                 Name = prodName,
                 Price = prodPrice,

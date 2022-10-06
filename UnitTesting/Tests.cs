@@ -1,4 +1,5 @@
-﻿using ASDNew.Models;
+﻿using ASDNew.Controllers;
+using ASDNew.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,10 @@ namespace UnitTesting
         public void TestProductList()
         {
             ASDContext3 db = new ASDContext3();
+            Restaurant Restaurant = 
+            List<Product> AllProducts = ProductController.GetAllProducts(db);
+            List<Product> FilteredProducts = ProductController.FilterProductList();
+            ProductController.GetRelevantCategories();
 
         }
 

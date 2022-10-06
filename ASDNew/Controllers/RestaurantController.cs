@@ -35,7 +35,7 @@ namespace ASDNew.Controllers
             return RedirectToAction("Index");
         }
 
-        public Restaurant GetRestaurant(int Id)
+        public static Restaurant GetRestaurant(ASDContext3 db, int Id)
         {
             //var restaurants = from r in db.Restaurants
             //                  select r;
@@ -56,7 +56,7 @@ namespace ASDNew.Controllers
 
         }
 
-        public Restaurant GetRestaurant(string Name)
+        public static Restaurant GetRestaurant(ASDContext3 db, string Name)
         {
             var restaurants = from r in db.Restaurants
                               select r;

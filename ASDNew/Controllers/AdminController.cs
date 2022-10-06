@@ -9,6 +9,8 @@ namespace ASDNew.Controllers
 {
     public class AdminController : Controller
     {
+        ASDContext3 db = new ASDContext3();
+
         // GET: Admin
         public ActionResult Index()
         {
@@ -61,7 +63,7 @@ namespace ASDNew.Controllers
             Product Product1 = new Product
             {
                 Name = "Whopper Value Meal",
-                Restaurant = Rcontroller.GetRestaurant("Hungry Jacks"),
+                Restaurant = RestaurantController.GetRestaurant(db, "Hungry Jacks"),
                 Category = new ProductCategory
                 {
                     Name = "Burgers"
@@ -73,7 +75,7 @@ namespace ASDNew.Controllers
             Product Product2 = new Product
             {
                 Name = "Oreo McFlurry",
-                Restaurant = Rcontroller.GetRestaurant("McDonalds"),
+                Restaurant = RestaurantController.GetRestaurant(db, "McDonalds"),
                 Category = new ProductCategory
                 {
                     Name = "Ice Cream"
