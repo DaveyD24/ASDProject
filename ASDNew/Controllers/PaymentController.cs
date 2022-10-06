@@ -12,7 +12,7 @@ namespace ASDNew.Controllers
 
     public class PaymentController : Controller
     {
-        private ASDContext db = new ASDContext();
+        private ASDContext2 db = new ASDContext2();
 
         // GET: Product
         public ActionResult Index()

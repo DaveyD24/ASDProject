@@ -27,6 +27,7 @@ namespace ASDNew.Models
         public Payment Payment { get; set; }
         public DateTime Date { get; set; }
         public Status Status { get; set; } = Status.Unconfirmed;
+        public Cart Cart { get; set; }
     }
 
     public class OrderDBContext : DbContext
