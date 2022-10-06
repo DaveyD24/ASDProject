@@ -6,12 +6,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Web;
+using System.Web.Mvc;
+
+
+
+
 
 namespace UnitTesting
 {
+
     [TestFixture]
     public class Tests
     {
+
+        ASDContext3 db = new ASDContext3();
+
         [Test]
         public void TestMethod()
         {
@@ -40,11 +51,13 @@ namespace UnitTesting
         [Test]
         public void TestProductList()
         {
-            ASDContext3 db = new ASDContext3();
-            Restaurant Restaurant = 
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, 7);
             List<Product> AllProducts = ProductController.GetAllProducts(db);
-            List<Product> FilteredProducts = ProductController.FilterProductList();
-            ProductController.GetRelevantCategories();
+            List<Product> FilteredProducts = ProductController.FilterProductList(Restaurant, AllProducts);
+            List<ProductCategory> Categories = ProductController.GetRelevantCategories(FilteredProducts);
+
+            Assert.That(Categories.Contains(ProductController.GetCategory(db, "Burgers")));
+            Assert.That(Categories.Count == 1);
 
         }
 

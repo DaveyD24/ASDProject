@@ -8,9 +8,12 @@ namespace ASDNew.Models
 {
     public class ASDContext3 : DbContext
     {
+
         public ASDContext3()
         {
-
+            var type = typeof(System.Data.Entity.SqlServer.SqlProviderServices);
+            if (type == null)
+                throw new Exception("Do not remove, ensures static reference to System.Data.Entity.SqlServer");
         }
 
         public DbSet<Customer> Customers { get; set; }

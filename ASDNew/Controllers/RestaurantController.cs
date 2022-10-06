@@ -70,6 +70,11 @@ namespace ASDNew.Controllers
             return null;
         }
 
+        public static ASDContext3 GetDatabase()
+        {
+            return new ASDContext3();
+        }
+
         //public ActionResult Edit()
         //{
 

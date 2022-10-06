@@ -74,6 +74,32 @@ namespace ASDNew.Controllers
             return RelevantCategories;
         }
 
+        public static ProductCategory GetCategory(ASDContext3 db, string ProductCategoryName)
+        {
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            foreach (ProductCategory Category in AllCategories)
+            {
+                if (Category.Name.Equals(ProductCategoryName))
+                {
+                    return Category;
+                }
+            }
+            return null;
+        }
+
+        public static ProductCategory GetCategory(ASDContext3 db, int? ProductCategoryID)
+        {
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            foreach (ProductCategory Category in AllCategories)
+            {
+                if (Category.Id == (int)ProductCategoryID)
+                {
+                    return Category;
+                }
+            }
+            return null;
+        }
+
         public void AddToCart(string test)
         {
             System.Diagnostics.Debug.WriteLine(test);
