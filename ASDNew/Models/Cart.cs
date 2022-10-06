@@ -16,5 +16,6 @@ namespace ASDNew.Models
         public Customer Customer { get; set; }
         public Restaurant Restaurant { get; set; }
         public int TotalCost { get; set; }
+        public List<Product> Products {get; set;}
     }
 }

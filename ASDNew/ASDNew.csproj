@@ -139,6 +139,7 @@
     </Compile>
     <Compile Include="Models\ASDContext.cs" />
     <Compile Include="Models\ASDContext2.cs" />
+    <Compile Include="Models\ASDContext3.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />
