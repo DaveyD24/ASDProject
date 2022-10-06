@@ -25,7 +25,9 @@ namespace ASDNew.Controllers
             {
                 System.Diagnostics.Debug.WriteLine(RestaurantID);
             }
-            ViewData["RestaurantID"] = RestaurantID;
+            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
+            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
+            ViewData["Restaurant"] = Rcontroller.GetRestaurant((int)RestaurantID);
             //var products = from p in db.Products
             //               orderby p.Id
             //               select p;
@@ -42,8 +44,22 @@ namespace ASDNew.Controllers
                     newList.Add(p);
                 }
             }
+            List<ProductCategory> categories = new List<ProductCategory>();
+            foreach (var p in newList)
+            {
+                if (!categories.Contains(p.Category))
+                {
+                    categories.Add(p.Category);
+                }
+            }
+            ViewData["Categories"] = categories;
 
             return View(newList);
+        }
+
+        public void AddToCart(string test)
+        {
+            System.Diagnostics.Debug.WriteLine(test);
         }
 
         public ActionResult ProductPage()
