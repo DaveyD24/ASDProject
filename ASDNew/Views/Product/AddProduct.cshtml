@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<ASDNew.Models.ProductCategory>
-
+@using ASDNew.Models;
+@{
+    Restaurant restaurant = (Restaurant)ViewData["Restaurant"];
+    List<ProductCategory> categories = (List<ProductCategory>)ViewData["AllCategories"];
+}
 
 <!DOCTYPE html>
 
@@ -12,67 +16,51 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Restaurant Ordering</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
-                <li><a href="#">Page 2</a></li>
-                <li><a href="#">Page 3</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Page body -->
     <div class="container">
         <h1>Add Product to Restaurant</h1>
         @using (Html.BeginForm("Create", "Product", FormMethod.Post))
         {
+        <input type="hidden" name="restaurantId" id="restaurantId" value="@restaurant.Id">
 
-
-            <div class="form-group">
-                <label for="prodName" class="control-label col-sm-2">Product Name</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="prodName" id="prodName" required>
-                </div>
+        <div class="form-group">
+            <label for="prodName" class="control-label col-sm-2">Product Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="prodName" id="prodName" required>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="prodCategory" class="control-label col-sm-2">Category</label>
-                <div class="col-sm-10">
-                    <select id="prodCategory" name="prodCategory" class="form-control">
-                        @foreach (var category in Model)
+        <div class="form-group">
+            <label for="prodCategory" class="control-label col-sm-2">Category</label>
+            <div class="col-sm-10">
+                <select id="prodCategory" name="prodCategory" class="form-control">
+                    @foreach (var category in Model)
                         {
-                            <option name="@category.Name" value=@category.Name>@category.Name</option>
+                    <option name="@category.Name" value=@category.Id>@category.Name</option>
                         }
-                    </select>
-                </div>
+                </select>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="prodPrice" class="control-label col-sm-2">Price $</label>
-                <div class="col-sm-10">
-                    <input type="number" name="prodPrice" id="prodPrice" min="0" step="0.01" required class="form-control">
-                </div>
+        <div class="form-group">
+            <label for="prodPrice" class="control-label col-sm-2">Price $</label>
+            <div class="col-sm-10">
+                <input type="number" name="prodPrice" id="prodPrice" min="0" step="0.01" required class="form-control">
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="prodDesc" class="control-label col-sm-2">Description (Optional)</label>
-                <div class="col-sm-10">
-                    <textarea name="prodDesc" id="prodDesc" rows="4" class="form-control"></textarea>
-                </div>
+        <div class="form-group">
+            <label for="prodDesc" class="control-label col-sm-2">Description (Optional)</label>
+            <div class="col-sm-10">
+                <textarea name="prodDesc" id="prodDesc" rows="4" class="form-control"></textarea>
             </div>
+        </div>
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <input type="submit" class="btn btn-primary" value="Add Product">
-                    <button type="button" onclick="location.href='index.html'" class="btn btn-default">Cancel</button>
-                </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-primary" value="Add Product">
+                <button type="button" onclick="location.href='@Url.Action("Index", "Product", new {RestaurantID = restaurant.Id }, null)'" class="btn btn-default">Cancel</button>
             </div>
+        </div>
         }
     </div>
 </body>
