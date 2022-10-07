@@ -414,6 +414,7 @@
                             <button class="option">Sauce: Sweet and Sour</button><br>
                             <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new {test = "xd" })"'>Add To Cart</button>
                             <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {prodId = p.Id, restaurantId = restaurant.Id })"'>Edit Product</button>
+                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {prodId = p.Id, restaurantId = restaurant.Id })"'>Delete Product</button>
                         </div>
                     }
                 }

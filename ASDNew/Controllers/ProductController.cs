@@ -140,6 +140,15 @@ namespace ASDNew.Controllers
             return View(product);
         }
 
+        public ActionResult DeleteProduct(int prodId, int restaurantId)
+        {
+            Product product = db.Products.Find(prodId);
+            ViewData["AllCategories"] = GetProductCategories(db);
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)restaurantId);
+            ViewData["Restaurant"] = Restaurant;
+            return View(product);
+        }
+
         [HttpPost]
         public ActionResult Create(int restaurantId, int prodCategory, string prodName, double prodPrice, string prodDesc)
         {
@@ -159,7 +168,7 @@ namespace ASDNew.Controllers
 
             Product product = new Product
             {
-                Restaurant = RestaurantController.GetRestaurant(db, restaurantId),
+                Restaurant = RestaurantController.GetRestaurantForDBOperation(db, restaurantId),
                 Category = Cat,
                 Name = prodName,
                 Price = prodPrice,
@@ -188,7 +197,7 @@ namespace ASDNew.Controllers
 
             Product product = new Product
             {
-                Restaurant = RestaurantController.GetRestaurant(db, restaurantId),
+                Restaurant = RestaurantController.GetRestaurantForDBOperation(db, restaurantId),
                 Category = Cat,
                 Name = prodName,
                 Price = prodPrice,
@@ -214,22 +223,27 @@ namespace ASDNew.Controllers
                 {
                     System.Diagnostics.Debug.WriteLine(e.Message);
                     System.Diagnostics.Debug.WriteLine(e.StackTrace);
-                    return View("Error", "Shared");
+                    return View("Error");
                 }
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine("EditProduct entity is null");
-                return View("Error", "Shared");
+                return View("Error");
             }
 
             
         }
 
-        //public ActionResult Delete()
-        //{
+        public ActionResult Delete(int prodId, int restaurantId, int prodCategory, string prodName, double prodPrice, string prodDesc)
+        {
+            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
+            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
 
-        //}
+            // TODO: Complete implementation, Set deleted flag = true
+
+            return View("Error");
+        }
 
     }
 }

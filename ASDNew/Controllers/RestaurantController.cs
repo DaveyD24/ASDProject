@@ -56,6 +56,15 @@ namespace ASDNew.Controllers
 
         }
 
+        // This is a copy of the GetRestaurant(ASDContext3 db, int Id) method with change tracking
+        public static Restaurant GetRestaurantForDBOperation(ASDContext3 db, int Id)
+        {
+            var restaurant = db.Restaurants
+               .Where(d => d.Id == Id)
+               .FirstOrDefault();
+            return restaurant;
+        }
+
         public static Restaurant GetRestaurant(ASDContext3 db, string Name)
         {
             var restaurants = from r in db.Restaurants

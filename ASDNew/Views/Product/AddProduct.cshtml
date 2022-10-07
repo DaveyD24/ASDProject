@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Add Product to Restaurant</h1>
+        <h1>Add a New Product</h1>
         @using (Html.BeginForm("Create", "Product", FormMethod.Post))
         {
         <input type="hidden" name="restaurantId" id="restaurantId" value="@restaurant.Id">
@@ -57,8 +57,8 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" class="btn btn-primary" value="Add Product">
-                <button type="button" onclick="location.href='@Url.Action("Index", "Product", new {RestaurantID = restaurant.Id }, null)'" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+                <button type="button" onclick="location.href='@Url.Action("Index", "Product", new {RestaurantID = restaurant.Id }, null)'" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
             </div>
         </div>
         }
