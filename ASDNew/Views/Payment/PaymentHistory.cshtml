@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ASDNew.Models.Payment>
+
+
+<style>
+    table {
+        font-size: 16px;
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+    }
+</style>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Suburb</th>
+                    <th>State</th>
+                    <th>Postcode</th>
+                    <th>Credit Card Name</th>
+                    <th>Credit Card Number</th>
+                    <th>Date and Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Reverse().Take(1))
+                {
+                    foreach (var payment in Model)
+                    {
+                        if (payment.BillingEmail == item.BillingEmail)
+                        {
+                            <tr>
+                                <td>
+                                    @payment.Id
+                                </td>
+                                <td>
+                                    @payment.BillingName
+                                </td>
+                                <td>
+                                    @payment.BillingEmail
+                                </td>
+                                <td>
+                                    @payment.BillingStreetNum @payment.BillingStreet
+                                <td>
+                                    @payment.BillingSuburb
+                                </td>
+                                <td>
+                                    @payment.BillingState
+                                </td>
+                                <td>
+                                    @payment.BillingPostCode
+                                </td>
+                                <td>
+                                    @payment.CreditCardName
+                                </td>
+                                <td>
+                                    @payment.CreditCardNumber
+                                </td>
+                                <td>@payment.Date</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -15,24 +15,26 @@ namespace ASDNew.Controllers
         private ASDContext3 db = new ASDContext3();
 
         // GET: Product
-        public ActionResult Index()
+        public ActionResult PaymentHistory()
         {
-            var payments = from r in db.Payments
-                         orderby r.Id
-                         select r;
-            return View(payments);
+            return View(db.Payments.ToList());
         }
 
-        public ActionResult ProductPage()
+        public ActionResult PaymentPage()
         {
             return View();
         }
 
-        public ActionResult Create(Payment payment)
+        public ActionResult PaymentSuccess(Payment payment)
         {
-            db.Payments.Add(payment);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                payment.Date = DateTime.Now;
+                db.Payments.Add(payment);
+                db.SaveChanges();
+                return View(db.Payments.ToList());
+            }
+            return View("PaymentPage",payment);
         }
 
         //public ActionResult Edit()

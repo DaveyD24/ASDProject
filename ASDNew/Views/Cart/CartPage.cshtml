@@ -1,0 +1,125 @@
+﻿@model ASDNew.Models.Cart
+
+<style>
+    table {
+        font-size: 16px;
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+    }
+</style>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Add Product to Restaurant</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <h2>Cart</h2>
+    @using (Html.BeginForm("AddtoCart", "Cart", FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price(each)</th>
+                <th>Subtotal</th>
+            </tr>
+
+            @*@foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product.Id</td>
+                    <td>@item.Quantity</td>
+                    <td>$@item.Product.Price</td>
+                    <td>$@(item.Quantity * item.Product.Price)</td>
+                </tr>
+            }*@
+
+            <tr>
+                <td colspan="3" align="right">Total</td>
+                <td align="center"></td>
+            </tr>
+        </table>
+    }
+
+
+
+    @*<div>
+            <table>
+                <thead>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Billing Name
+                </th>
+                <th>
+                    Billing Address
+                </th>
+                <th>
+                    Billing Suburb
+                </th>
+                <th>
+                    Billing State
+                </th>
+                <th>
+                    Billing PostCode
+                </th>
+                <th>
+                    CreditCardNumber
+                </th>
+                <th>
+                    Expiry
+                </th>
+                <th>
+                    CVV
+                </th>
+                </thead>
+                <tbody>
+                    @foreach (var payment in Model)
+                    {
+                        <tr>
+                            <td>
+                                @payment.Id
+                            </td>
+                            <td>
+                                @payment.BillingName
+                            </td>
+                            <td>
+                                @payment.BillingAddress
+                            </td>
+                            <td>
+                                @payment.BillingSuburb
+                            </td>
+                            <td>
+                                @payment.BillingState
+                            </td>
+                            <td>
+                                @payment.BillingPostCode
+                            </td>
+                            <td>
+                                @payment.CreditCardNumber
+                            </td>
+                            <td>
+                                @payment.CreditCardExpiry
+                            </td>
+                            <td>
+                                @payment.CVV
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>*@
+</body>
+
+</html>

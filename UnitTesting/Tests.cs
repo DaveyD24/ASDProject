@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,6 +33,22 @@ namespace UnitTesting
                 Name = "Test",
             };
             Assert.AreEqual("Test", p.Name);
+        }   
+
+        [Test]
+        public void FetchRequestedPaymentHistory(string email)
+        {
+            Payment p = new Payment
+            {
+                BillingName = "James", BillingEmail = "james@uts.com", BillingStreetNum = "5",
+                BillingStreet = "A Street", BillingSuburb = "Bankstown", BillingState = "NSW", 
+                BillingPostCode = "2200", CreditCardName = "James", CreditCardNumber = "1234123412341234",
+            };
+
+            int count = 1;
+
+
+            Assert.AreEqual("James", p.CreditCardName);
         }
     }
 }
