@@ -61,6 +61,16 @@ namespace UnitTesting
 
         }
 
+        [Test]
+        public void TestStringConverter()
+        {
+            SampleRestaurant sr = new SampleRestaurant();
+            string testString = "I Want The Whitespace Removed From This";
+            testString = sr.RemoveWhitespace(testString);
+
+            Assert.AreEqual("IWantTheWhitespaceRemovedFromThis", testString);
+        }
+
         //David
         //F106 - Detailed Product Description
         //Also check that no restaurant id displays error page

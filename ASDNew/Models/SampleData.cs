@@ -13,6 +13,71 @@ namespace ASDNew.Models
     {
         //Id, Name, Description, Email, Password
         public List<Restaurant> AllRestaurants = new List<Restaurant>();
+        public List<string> RestaurantNames = new List<string>();
+
+        public SampleRestaurant()
+        {
+            RestaurantNames.Add("McDonalds");
+            RestaurantNames.Add("Hungry Jacks");
+            RestaurantNames.Add("KFC");
+            RestaurantNames.Add("Char Grilled");
+            RestaurantNames.Add("Sammy's Chicken");
+            RestaurantNames.Add("Big Fat Steak House");
+            RestaurantNames.Add("Outback Steakhouse");
+            RestaurantNames.Add("Yum Factory");
+            RestaurantNames.Add("Candy Store");
+            RestaurantNames.Add("Pork Land");
+            RestaurantNames.Add("Kanakawa");
+            RestaurantNames.Add("Choc Deli");
+            RestaurantNames.Add("Le Cafe");
+            RestaurantNames.Add("Little Italy");
+            RestaurantNames.Add("Joey's Downtown Pizzaria");
+            RestaurantNames.Add("Westside Burgers");
+            RestaurantNames.Add("Subway");
+            RestaurantNames.Add("Oporto");
+            RestaurantNames.Add("BP Convenience Store");
+            RestaurantNames.Add("Red Rooster");
+
+            foreach (string s in RestaurantNames)
+            {
+                string trimmed = RemoveWhitespace(s).ToLower();
+                AllRestaurants.Add(new Restaurant
+                {
+                    Name = s,
+                    Description = GetLorem(),
+                    Email = trimmed + "@" + trimmed + ".com",
+                    Password = RandomString(12)
+                });
+            }
+        }
+
+        public string GetLorem()
+        {
+            return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                "Nam in rhoncus ipsum, quis auctor arcu. Cras id arcu scelerisque, " +
+                "luctus justo sed, vulputate ante. Integer vitae nibh velit. Praesent " +
+                "eu lorem lorem. Aliquam vestibulum turpis sed tellus laoreet finibus. " +
+                "Aliquam erat volutpat. Suspendisse nec sapien nec eros egestas tincidunt. " +
+                "Maecenas ornare sit amet nunc eu tempor.";
+        }
+
+        public string RemoveWhitespace(string input)
+        {
+            //return new string(input
+            //    .Where(c => !Char.IsWhiteSpace(c))
+            //    .ToArray());
+
+            string newString = input.Replace(" ", string.Empty);
+            return newString;
+        }
+
+        public string RandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_!@#$%^&*";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
     }
 
     public class SampleProduct
@@ -61,6 +126,13 @@ namespace ASDNew.Models
                     Description = GetLorem()
                 });
             }
+        }
+
+        public Product GetRandomProduct()
+        {
+            Random random = new Random();
+            int rand = random.Next(0, AllProducts.Count);
+            return (AllProducts.ElementAt(rand));
         }
 
         public ProductCategory GetProductCategory(string name)
