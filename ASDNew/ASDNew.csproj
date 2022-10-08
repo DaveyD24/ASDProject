@@ -131,7 +131,6 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -139,39 +138,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202210060617462_InitialCreate.cs" />
-    <Compile Include="Migrations\202210060617462_InitialCreate.designer.cs">
-      <DependentUpon>202210060617462_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202210061039354_BillingName.cs" />
-    <Compile Include="Migrations\202210061039354_BillingName.designer.cs">
-      <DependentUpon>202210061039354_BillingName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202210061351177_Date.cs" />
-    <Compile Include="Migrations\202210061351177_Date.designer.cs">
-      <DependentUpon>202210061351177_Date.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202210061640169_Payment.cs" />
-    <Compile Include="Migrations\202210061640169_Payment.designer.cs">
-      <DependentUpon>202210061640169_Payment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202210061910100_Payment1.cs" />
-    <Compile Include="Migrations\202210061910100_Payment1.designer.cs">
-      <DependentUpon>202210061910100_Payment1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202210070353471_Payment2.cs" />
-    <Compile Include="Migrations\202210070353471_Payment2.designer.cs">
-      <DependentUpon>202210070353471_Payment2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202210081307526_Cart.cs" />
-    <Compile Include="Migrations\202210081307526_Cart.designer.cs">
-      <DependentUpon>202210081307526_Cart.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202210081324391_Cart1.cs" />
-    <Compile Include="Migrations\202210081324391_Cart1.designer.cs">
-      <DependentUpon>202210081324391_Cart1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASDContext.cs" />
     <Compile Include="Models\ASDContext2.cs" />
     <Compile Include="Models\ASDContext3.cs" />
@@ -232,13 +198,12 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
-    <Content Include="Views\Payment\PaymentHistory.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Restaurant\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Product\AddProduct.cshtml" />
-    <Content Include="Views\Payment\PaymentPage.cshtml" />
-    <Content Include="Views\Payment\PaymentSuccess.cshtml" />
-    <Content Include="Views\Cart\CartPage.cshtml" />
+    <Content Include="Views\Product\EditProduct.cshtml" />
+    <Content Include="Views\Product\DeleteProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -257,32 +222,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202210060617462_InitialCreate.resx">
-      <DependentUpon>202210060617462_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210061039354_BillingName.resx">
-      <DependentUpon>202210061039354_BillingName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210061351177_Date.resx">
-      <DependentUpon>202210061351177_Date.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210061640169_Payment.resx">
-      <DependentUpon>202210061640169_Payment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210061910100_Payment1.resx">
-      <DependentUpon>202210061910100_Payment1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210070353471_Payment2.resx">
-      <DependentUpon>202210070353471_Payment2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210081307526_Cart.resx">
-      <DependentUpon>202210081307526_Cart.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210081324391_Cart1.resx">
-      <DependentUpon>202210081324391_Cart1.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

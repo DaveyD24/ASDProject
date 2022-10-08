@@ -85,7 +85,7 @@ namespace ASDNew.Models
         //Id, Restaurant, Category, Name, Price, Description
 
         List<Tuple<string, ProductCategory>> PossiblePairs = new List<Tuple<string, ProductCategory>>();
-        List<Product> AllProducts = new List<Product>();
+        public List<Product> AllProducts = new List<Product>();
 
         public SampleProduct()
         {
@@ -137,8 +137,11 @@ namespace ASDNew.Models
 
         public ProductCategory GetProductCategory(string name)
         {
-            SampleProductCategory SPC = new SampleProductCategory();
-            foreach (ProductCategory pc in SPC.SampleCategories)
+
+            ASDContext3 db = new ASDContext3();
+
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            foreach (ProductCategory pc in AllCategories)
             {
                 if (pc.Name.Equals(name))
                 {
@@ -146,6 +149,16 @@ namespace ASDNew.Models
                 }
             }
             return null;
+
+            //SampleProductCategory SPC = new SampleProductCategory();
+            //foreach (ProductCategory pc in SPC.SampleCategories)
+            //{
+            //    if (pc.Name.Equals(name))
+            //    {
+            //        return pc;
+            //    }
+            //}
+            //return null;
         }
 
         public double GenerateRandomPrice()

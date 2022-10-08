@@ -13,6 +13,7 @@ namespace ASDNew.Controllers
     public class ProductController : Controller
     {
         private ASDContext3 db = new ASDContext3();
+        public static int TestCount = 4;
 
         public ActionResult Index(int? RestaurantID)
         {
@@ -100,6 +101,11 @@ namespace ASDNew.Controllers
             return null;
         }
 
+        public static List<ProductCategory> GetProductCategories(ASDContext3 db)
+        {
+            return db.ProductCategories.ToList();
+        }
+
         public void AddToCart(string test)
         {
             System.Diagnostics.Debug.WriteLine(test);
@@ -117,25 +123,45 @@ namespace ASDNew.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult AddProduct()
+        public ActionResult AddProduct(int restaurantId)
         {
             List<ProductCategory> categories = db.ProductCategories.ToList();
+            ViewData["AllCategories"] = GetProductCategories(db);
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, restaurantId);
+            ViewData["Restaurant"] = Restaurant;
             return View(categories);
         }
 
+        public ActionResult EditProduct(int prodId, int restaurantId)
+        {
+            Product product = db.Products.Find(prodId);
+            ViewData["AllCategories"] = GetProductCategories(db);
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)restaurantId);
+            ViewData["Restaurant"] = Restaurant;
+            return View(product);
+        }
+
+        public ActionResult DeleteProduct(int prodId, int restaurantId)
+        {
+            Product product = db.Products.Find(prodId);
+            ViewData["AllCategories"] = GetProductCategories(db);
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)restaurantId);
+            ViewData["Restaurant"] = Restaurant;
+            return View(product);
+        }
+
         [HttpPost]
-        public ActionResult Create(Restaurant restaurant, string prodCategory, string prodName, double prodPrice, string prodDesc)
+        public ActionResult Create(int restaurantId, int prodCategory, string prodName, double prodPrice, string prodDesc)
         {
             var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
             Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
 
             
-
             List<ProductCategory> Cats = db.ProductCategories.ToList();
             ProductCategory Cat = null;
             foreach(var c in Cats)
             {
-                if (c.Name.Equals(prodCategory))
+                if (c.Id.Equals(prodCategory))
                 {
                     Cat = c;
                 }
@@ -143,7 +169,7 @@ namespace ASDNew.Controllers
 
             Product product = new Product
             {
-                Restaurant = RestaurantController.GetRestaurant(db, 5),
+                Restaurant = RestaurantController.GetRestaurantForDBOperation(db, restaurantId),
                 Category = Cat,
                 Name = prodName,
                 Price = prodPrice,
@@ -151,18 +177,74 @@ namespace ASDNew.Controllers
             };
             db.Products.Add(product);
             db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
         }
 
-        //public ActionResult Edit()
-        //{
+        [HttpPost]
+        public ActionResult Edit(int prodId, int restaurantId, int prodCategory, string prodName, double prodPrice, string prodDesc)
+        {
+            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
+            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
 
-        //}
+            List<ProductCategory> Cats = db.ProductCategories.ToList();
+            ProductCategory Cat = null;
+            foreach (var c in Cats)
+            {
+                if (c.Id.Equals(prodCategory))
+                {
+                    Cat = c;
+                }
+            }
 
-        //public ActionResult Delete()
-        //{
+            Product product = new Product
+            {
+                Restaurant = RestaurantController.GetRestaurantForDBOperation(db, restaurantId),
+                Category = Cat,
+                Name = prodName,
+                Price = prodPrice,
+                Description = prodDesc
+            };
 
-        //}
+            var entity = db.Products.FirstOrDefault(item => item.Id == prodId);
+
+            if (entity != null)
+            {
+                entity.Category = Cat;
+                entity.Name = prodName;
+                entity.Price = prodPrice;
+                entity.Description = prodDesc;
+
+                // Save changes to database
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                    return View("Error");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("EditProduct entity is null");
+                return View("Error");
+            }
+
+            
+        }
+
+        public ActionResult Delete(int prodId, int restaurantId, int prodCategory, string prodName, double prodPrice, string prodDesc)
+        {
+            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
+            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
+
+            // TODO: Complete implementation, Set deleted flag = true
+
+            return View("Error");
+        }
 
     }
 }
