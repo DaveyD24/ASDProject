@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Web;
 using System.Web.Mvc;
 using ASDNew.Models;
@@ -23,9 +24,13 @@ namespace ASDNew.Controllers
             return View(restaurants);
         }
 
-        public ActionResult ProductPage()
+        public ActionResult EditUserDetails(int userId)
         {
-            return View();
+            if (Session["Username"] != null)
+            {
+                var user = db.Customers.Find(userId); 
+            }
+            return View("EditUserDetails", "Customer", new {Id = userId});
         }
 
         public ActionResult Create(Customer customer)
@@ -35,10 +40,15 @@ namespace ASDNew.Controllers
             return RedirectToAction("Index");
         }
 
-        //public ActionResult Edit()
-        //{
+        public ActionResult Edit(int userId, string FirstName, string LastName, string Email, string Password)
+        {
+            if (Session["Username"] != null)
+            {
 
-        //}
+                return RedirectToAction("ShowUpdatedDetails");
+            }
+            return View();
+        }
 
         //public ActionResult Delete()
         //{
