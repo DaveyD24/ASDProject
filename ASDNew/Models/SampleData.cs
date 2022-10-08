@@ -167,7 +167,7 @@ namespace ASDNew.Models
             double max = 9.99;
 
             Random random = new Random();
-            return random.NextDouble() * (max - min) + min;
+            return Math.Round((random.NextDouble() * (max - min) + min), 2);
         }
 
         public string GetLorem()
