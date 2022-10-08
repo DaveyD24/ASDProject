@@ -71,6 +71,14 @@ namespace UnitTesting
             Assert.AreEqual("IWantTheWhitespaceRemovedFromThis", testString);
         }
 
+        [Test]
+        public void TestErrorPage()
+        {
+            ProductController PC = new ProductController();
+            ViewResult PageReturn = (ViewResult)PC.Index(null);
+            Assert.AreEqual("~/Views/Error/Index.cshtml", PageReturn.ViewName);
+        }
+
         //David
         //F106 - Detailed Product Description
         //Also check that no restaurant id displays error page

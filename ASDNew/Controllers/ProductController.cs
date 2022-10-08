@@ -19,8 +19,7 @@ namespace ASDNew.Controllers
         {
             if (RestaurantID == null)
             {
-                System.Diagnostics.Debug.WriteLine("xdddddddddd");
-                //Display Error Page
+                return View("~/Views/Error/Index.cshtml");
             }
 
             
