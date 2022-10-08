@@ -52,16 +52,28 @@ namespace ASDNew.Controllers
 
             foreach (var r in AllRestaurantsInDb)
             {
-                for (int i = 0; i < productCount; i++)
-                {
-                    //choose a random product
-                    Product product = sp.GetRandomProduct();
-                    //change its restaurantId to r
-                    product.Restaurant = r;
+                Random random = new Random();
+                List<Product> AllProducts = sp.AllProducts;
+                var Indices = Enumerable.Range(0, productCount).OrderBy(g => random.Next()).ToList();
 
+                for (int i = 0; i < Indices.Count; i++)
+                {
+                    Product product = AllProducts[i];
+                    product.Restaurant = r;
                     db.Products.Add(product);
                     db.SaveChanges();
                 }
+
+                //for (int i = 0; i < productCount; i++)
+                //{
+                //    //choose a random product
+                //    Product product = sp.GetRandomProduct();
+                //    //change its restaurantId to r
+                //    product.Restaurant = r;
+
+                //    db.Products.Add(product);
+                //    db.SaveChanges();
+                //}
             }
 
             return RedirectToAction("Index");

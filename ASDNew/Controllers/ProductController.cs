@@ -13,6 +13,7 @@ namespace ASDNew.Controllers
     public class ProductController : Controller
     {
         private ASDContext3 db = new ASDContext3();
+        public static int TestCount = 4;
 
         public ActionResult Index(int? RestaurantID)
         {

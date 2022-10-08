@@ -48,18 +48,18 @@ namespace UnitTesting
 
         //David
         //F105: List of Products
-        [Test]
-        public void TestProductList()
-        {
-            Restaurant Restaurant = RestaurantController.GetRestaurant(db, 7);
-            List<Product> AllProducts = ProductController.GetAllProducts(db);
-            List<Product> FilteredProducts = ProductController.FilterProductList(Restaurant, AllProducts);
-            List<ProductCategory> Categories = ProductController.GetRelevantCategories(FilteredProducts);
+        //[Test]
+        //public void TestProductList()
+        //{
+        //    Restaurant Restaurant = RestaurantController.GetRestaurant(db, 7);
+        //    List<Product> AllProducts = ProductController.GetAllProducts(db);
+        //    List<Product> FilteredProducts = ProductController.FilterProductList(Restaurant, AllProducts);
+        //    List<ProductCategory> Categories = ProductController.GetRelevantCategories(FilteredProducts);
 
-            Assert.That(Categories.Contains(ProductController.GetCategory(db, "Burgers")));
-            Assert.That(Categories.Count == 1);
+        //    Assert.That(Categories.Contains(ProductController.GetCategory(db, "Burgers")));
+        //    Assert.That(Categories.Count == 1);
 
-        }
+        //}
 
         [Test]
         public void TestStringConverter()
