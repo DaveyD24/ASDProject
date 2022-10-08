@@ -84,43 +84,43 @@ namespace ASDNew.Models
     {
         //Id, Restaurant, Category, Name, Price, Description
 
-        List<Tuple<string, ProductCategory>> PossiblePairs = new List<Tuple<string, ProductCategory>>();
+        List<Tuple<string, string>> PossiblePairs = new List<Tuple<string, string>>();
         public List<Product> AllProducts = new List<Product>();
 
         public SampleProduct()
         {
 
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Cheese Burger", GetProductCategory("Burgers")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Double Cheese Burger", GetProductCategory("Burgers")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Zinger Burger", GetProductCategory("Burgers")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Small Chips", GetProductCategory("Chips")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Large Chips", GetProductCategory("Chips")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Fanta 375ml", GetProductCategory("Drinks")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Coca Cola 375mL", GetProductCategory("Drinks")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Chocolate Shake", GetProductCategory("Shakes")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Vanilla Shake", GetProductCategory("Shakes")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Oreo IceCream", GetProductCategory("Ice Cream")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Vanilla IceCream", GetProductCategory("Ice Cream")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Sizzling Steak", GetProductCategory("Beef")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Beef & Veggies", GetProductCategory("Beef")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Pork & Veggies", GetProductCategory("Pork")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Sweet & Sour Pork", GetProductCategory("Pork")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Chicken Wrap", GetProductCategory("Chicken")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Smoked Salmon", GetProductCategory("Fish")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Cookie Pack", GetProductCategory("Snacks")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Smiths Chips - Salt & Vinegar", GetProductCategory("Snacks")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Smiths Chips - Original", GetProductCategory("Snacks")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Zinger Combo Box", GetProductCategory("Combos")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("3 Piece Combo Meal", GetProductCategory("Combos")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("4 Piece Combo Meal", GetProductCategory("Combos")));
-            PossiblePairs.Add(new Tuple<string, ProductCategory>("Ultime Combo Deal", GetProductCategory("Combos")));
+            PossiblePairs.Add(new Tuple<string, string>("Cheese Burger", GetProductCategory("Burgers").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Double Cheese Burger", GetProductCategory("Burgers").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Zinger Burger", GetProductCategory("Burgers").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Small Chips", GetProductCategory("Chips").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Large Chips", GetProductCategory("Chips").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Fanta 375ml", GetProductCategory("Drinks").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Coca Cola 375mL", GetProductCategory("Drinks").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Chocolate Shake", GetProductCategory("Shakes").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Vanilla Shake", GetProductCategory("Shakes").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Oreo IceCream", GetProductCategory("Ice Cream").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Vanilla IceCream", GetProductCategory("Ice Cream").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Sizzling Steak", GetProductCategory("Beef").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Beef & Veggies", GetProductCategory("Beef").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Pork & Veggies", GetProductCategory("Pork").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Sweet & Sour Pork", GetProductCategory("Pork").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Chicken Wrap", GetProductCategory("Chicken").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Smoked Salmon", GetProductCategory("Fish").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Cookie Pack", GetProductCategory("Snacks").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Smiths Chips - Salt & Vinegar", GetProductCategory("Snacks").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Smiths Chips - Original", GetProductCategory("Snacks").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Zinger Combo Box", GetProductCategory("Combos").Name));
+            PossiblePairs.Add(new Tuple<string, string>("3 Piece Combo Meal", GetProductCategory("Combos").Name));
+            PossiblePairs.Add(new Tuple<string, string>("4 Piece Combo Meal", GetProductCategory("Combos").Name));
+            PossiblePairs.Add(new Tuple<string, string>("Ultime Combo Deal", GetProductCategory("Combos").Name));
 
-            foreach (Tuple<string, ProductCategory> t in PossiblePairs)
+            foreach (Tuple<string, string> t in PossiblePairs)
             {
                 AllProducts.Add(new Product
                 {
                     Restaurant = null,
-                    Category = t.Item2,
+                    Category = GetProductCategory(t.Item2),
                     Name = t.Item1,
                     Price = GenerateRandomPrice(),
                     Description = GetLorem()

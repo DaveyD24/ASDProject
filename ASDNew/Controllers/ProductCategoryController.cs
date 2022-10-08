@@ -20,9 +20,25 @@ namespace ASDNew.Controllers
 
         public ActionResult Create(ProductCategory category)
         {
-            db.ProductCategories.Add(category);
-            db.SaveChanges();
+            if (!ContainsCategory(category))
+            {
+                db.ProductCategories.Add(category);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
+        }
+
+        public bool ContainsCategory(ProductCategory Category)
+        {
+            List<ProductCategory> xd = db.ProductCategories.ToList();
+            foreach (ProductCategory pc in xd)
+            {
+                if (pc.Name.Equals(Category.Name))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
