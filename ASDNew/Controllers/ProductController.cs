@@ -23,7 +23,7 @@ namespace ASDNew.Controllers
                 //Display Error Page
             }
 
-            
+
             var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
             Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
 
@@ -106,16 +106,16 @@ namespace ASDNew.Controllers
             return db.ProductCategories.ToList();
         }
 
-        public void AddToCart(string test)
-        {
-            System.Diagnostics.Debug.WriteLine(test);
-        }
+        //public void AddToCart(string test)
+        //{
+        //    System.Diagnostics.Debug.WriteLine(test);
+        //}
 
         public ActionResult ProductPage()
         {
             return View();
         }
-        
+
         public ActionResult Create(Product product)
         {
             db.Products.Add(product);
@@ -156,10 +156,10 @@ namespace ASDNew.Controllers
             var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
             Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
 
-            
+
             List<ProductCategory> Cats = db.ProductCategories.ToList();
             ProductCategory Cat = null;
-            foreach(var c in Cats)
+            foreach (var c in Cats)
             {
                 if (c.Id.Equals(prodCategory))
                 {
@@ -233,7 +233,7 @@ namespace ASDNew.Controllers
                 return View("Error");
             }
 
-            
+
         }
 
         public ActionResult Delete(int prodId, int restaurantId, int prodCategory, string prodName, double prodPrice, string prodDesc)
@@ -246,5 +246,80 @@ namespace ASDNew.Controllers
             return View("Error");
         }
 
+        // CART STUFF
+        public ActionResult AddToCart(int prodId, int restaurantId)
+        {
+            double totalprice;
+            if (Session["cart"] == null)
+            {
+                List<Product> cart = new List<Product>();
+                var product = db.Products.Find(prodId);
+                cart.Add(new Product()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    Price = product.Price,
+                });
+                Session["cart"] = cart;
+                totalprice = 0;
+                totalprice += db.Products.Find(prodId).Price;
+                Session["totalamount"] = totalprice;
+            }
+            else
+            {
+                List<Product> cart = (List<Product>)Session["cart"];
+                var product = db.Products.Find(prodId);
+                cart.Add(new Product()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    Price = product.Price,
+                });
+                Session["cart"] = cart;
+                double temp = Double.Parse(Session["totalamount"].ToString());
+                totalprice = db.Products.Find(prodId).Price;
+                Session["totalamount"] = totalprice + temp;
+            }
+
+
+            return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
+        }
+
+        public ActionResult RemoveAllFromCart(int restaurantId)
+        {
+            if (Session["cart"] != null)
+            {
+                List<Product> cart = new List<Product>();
+                Session["cart"] = cart;
+                Session["totalamount"] = 0;
+            }
+            return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
+        }
+
+        public ActionResult RemoveFromCart(int prodId, int restaurantId)
+        {
+            if (Session["cart"] != null)
+            {
+                List<Product> cart = (List<Product>)Session["cart"];
+                Session["cart"] = cart.Where(m => m.Id != prodId).ToList();
+                double totalprice = db.Products.Find(prodId).Price;
+                Session["totalamount"] = Double.Parse(Session["totalamount"].ToString()) - totalprice;
+                if (Double.Parse(Session["totalamount"].ToString()) <= 0.5)
+                {
+                    Session["totalamount"] = 0;
+                }
+            }
+
+            return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
+        }
+
+        public ActionResult ContinuetoCheckout ()
+        {
+            
+
+            return RedirectToAction("PaymentPage", "Payment");
+        }
     }
 }
