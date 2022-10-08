@@ -23,6 +23,14 @@ namespace ASDNew.Controllers
             return View(restaurants);
         }
 
+        public ActionResult ListOfRestaurants()
+        {
+            var restaurants = from r in db.Restaurants
+                              orderby r.Id
+                              select r;
+            return View(restaurants);
+        }
+
         public ActionResult ProductPage()
         {
             return View();
