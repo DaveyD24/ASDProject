@@ -3,10 +3,10 @@
 @model IEnumerable<ASDNew.Models.Restaurant>
 
 @{
-    bool headingWritten = false;
-    int[] productCounts = (int[])ViewData["productCounts"];
-    ASDNew.Models.ProductCategory[] mostCategory = (ASDNew.Models.ProductCategory[])ViewData["mostCategory"];
-    ASDNew.Models.Restaurant[] restaurants = Model.ToArray();
+    bool HeadingWritten = false;
+    int[] ProductCounts = (int[])ViewData["ProductCounts"];
+    ASDNew.Models.ProductCategory[] MostCategory = (ASDNew.Models.ProductCategory[])ViewData["MostCategory"];
+    ASDNew.Models.Restaurant[] Restaurants = Model.ToArray();
 }
 
 <style>
@@ -55,9 +55,9 @@
         <br>
         <h1 style="text-align: center">Restaurants Nearby</h1>
         <br>
-        @for (int i = 0; i < restaurants.Count(); i++)
+        @for (int i = 0; i < Restaurants.Count(); i++)
         {
-            if (!headingWritten)
+            if (!HeadingWritten)
             {
                 <table class="rounded-corners">
                     <thead>
@@ -81,22 +81,22 @@
                         <tr style="padding-bottom: 5em">
                             <td><img src="~/Images/plate.png" / style="height: 150px; padding: 25px"></td>
                             <td style="width:17%; text-align: center">
-                                @Html.ActionLink(restaurants[i].Name, "Index", "Product", new { RestaurantID = restaurants[i].Id }, null)
+                                @Html.ActionLink(Restaurants[i].Name, "Index", "Product", new { RestaurantID = Restaurants[i].Id }, null)
                             </td>
                             <td style="padding: 5px; text-align: center">
-                                @mostCategory[i].Name
+                                @MostCategory[i].Name
                             </td>
                             <td style="padding: 5px; text-align: center">
-                                @productCounts[i]
+                                @ProductCounts[i]
                             </td>
                             <td style="padding: 15px; text-align: center">
-                                @restaurants[i].Description
+                                @Restaurants[i].Description
                             </td>
                         </tr>
 
                     </tbody>
                 </table><br>
-                headingWritten = true;
+                HeadingWritten = true;
             }
             else
             {
@@ -106,16 +106,16 @@
                     <tr style="padding-bottom: 5em">
                         <td><img src="~/Images/plate.png" / style="height: 150px; padding: 25px"></td>
                         <td style="width:17%; text-align: center">
-                            @Html.ActionLink(restaurants[i].Name, "Index", "Product", new { RestaurantID = restaurants[i].Id }, null)
+                            @Html.ActionLink(Restaurants[i].Name, "Index", "Product", new { RestaurantID = Restaurants[i].Id }, null)
                         </td>
                         <td style="padding: 5px; text-align: center">
-                            @mostCategory[i].Name
+                            @MostCategory[i].Name
                         </td>
                         <td style="padding: 5px; text-align: center">
-                            @productCounts[i]
+                            @ProductCounts[i]
                         </td>
                         <td style="padding: 15px; text-align: center">
-                            @restaurants[i].Description
+                            @Restaurants[i].Description
                         </td>
                     </tr>
 

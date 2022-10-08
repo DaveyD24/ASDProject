@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<ASDNew.Models.Product>
 @using ASDNew.Models;
 @{ 
-    Restaurant restaurant = (Restaurant) ViewData["Restaurant"];
-    List<ProductCategory> categories = (List<ProductCategory>)ViewData["Categories"];
+    Restaurant Restaurant = (Restaurant) ViewData["Restaurant"];
+    List<ProductCategory> Categories = (List<ProductCategory>)ViewData["Categories"];
     List<Product> Cart = new List<Product>();
 }
 
@@ -415,30 +415,30 @@
 </head>
 <body>
 
-    <h2>@restaurant.Name</h2>
+    <h2>@Restaurant.Name</h2>
     <img src="~/Images/RestaurantBanners/test.png" alt="Banner" />
     <p style="padding: 10px">
-        @restaurant.Description
+        @Restaurant.Description
     </p>
-    <input type="button" class="add" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { restaurantId = restaurant.Id })'"/>
+    <input type="button" class="add" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { restaurantId = Restaurant.Id })'"/>
 
     <div class="row">
         <div class="column left">
 
-            @foreach (var c in categories)
+            @foreach (var Category in Categories)
             {
-                <h3>@c.Name.ToUpper()</h3>
+                <h3>@Category.Name.ToUpper()</h3>
                 foreach (var p in @Model)
                 {
-                    if (p.Category == c)
+                    if (p.Category == Category)
                     {
                         <button class="collapsible">@p.Name</button>
                         <div class="content">
                             <button class="description">@p.Description</button><br>
 
                             <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new {test = "xd" })"'>Add To Cart ($@p.Price)</button>
-                            <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {prodId = p.Id, restaurantId = restaurant.Id })"'>Edit Product</button>
-                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {prodId = p.Id, restaurantId = restaurant.Id })"'>Delete Product</button>
+                            <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {prodId = p.Id, restaurantId = Restaurant.Id })"'>Edit Product</button>
+                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {prodId = p.Id, restaurantId = Restaurant.Id })"'>Delete Product</button>
                         </div>
                     }
                 }

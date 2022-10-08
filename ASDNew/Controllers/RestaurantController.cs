@@ -12,141 +12,169 @@ namespace ASDNew.Controllers
 
     public class RestaurantController : Controller
     {
+        //Database Instance
         private ASDContext3 db = new ASDContext3();
 
-        // GET: Product
+        /// <summary>
+        /// Load Restaurant List 
+        /// </summary>
+        /// <returns>Restaurant/Index View</returns>
         public ActionResult Index()
         {
-            List<Restaurant> restaurants = db.Restaurants.ToList();
+            //Get all Restaurants in the database
+            List<Restaurant> Restaurants = db.Restaurants.ToList();
 
-            int[] productCounts = GetProductCounts(restaurants);
-            ViewData["productCounts"] = productCounts;
+            //Get ProductCount of restaurants and pass to View
+            int[] ProductCounts = GetProductCounts(Restaurants);
+            ViewData["ProductCounts"] = ProductCounts;
 
-            ProductCategory[] mostCategories = new ProductCategory[restaurants.Count];
-
-            for (int i = 0; i < restaurants.Count; i++)
+            //Get Most Common ProductCategories and pass to View
+            ProductCategory[] MostCategories = new ProductCategory[Restaurants.Count];
+            for (int i = 0; i < Restaurants.Count; i++)
             {
-                mostCategories[i] = GetMostSoldCategory(restaurants[i]);
+                MostCategories[i] = GetMostSoldCategory(Restaurants[i]);
             }
-            ViewData["mostCategory"] = mostCategories;
+            ViewData["MostCategory"] = MostCategories;
 
-            Restaurant[] RestaurantArray = restaurants.ToArray();
+            //Convert Restaurant List to Array
+            Restaurant[] RestaurantArray = Restaurants.ToArray();
 
             return View(RestaurantArray);
         }
 
-        public ActionResult ProductPage()
+        /// <summary>
+        ///  Add new Restaurant to database
+        /// </summary>
+        /// <param name="Restaurant">Restaurant to add</param>
+        /// <returns>Restaurant/Index View</returns>
+        public ActionResult Create(Restaurant Restaurant)
         {
-            return View();
-        }
-
-        public ActionResult Create(Restaurant restaurant)
-        {
-            db.Restaurants.Add(restaurant);
+            db.Restaurants.Add(Restaurant);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        public static Restaurant GetRestaurant(ASDContext3 db, int Id)
+        /// <summary>
+        /// Get Restaurant from Id
+        /// </summary>
+        /// <param name="db">Database Instance</param>
+        /// <param name="RestaurantId">Restaurant Id</param>
+        /// <returns></returns>
+        public static Restaurant GetRestaurant(ASDContext3 db, int RestaurantId)
         {
             var restaurant = db.Restaurants
                .AsNoTracking()
-               .Where(d => d.Id == Id)
+               .Where(d => d.Id == RestaurantId)
                .FirstOrDefault();
+            
             return restaurant;
-
         }
 
+        /// <summary>
+        /// Get the most sold ProductCategory for a Restaurant
+        /// </summary>
+        /// <param name="Restaurant">Restaurant to check</param>
+        /// <returns>Most sold ProductCategory</returns>
         public ProductCategory GetMostSoldCategory(Restaurant Restaurant)
         {
             List<Product> Products = new List<Product>();
-            foreach (Product p in db.Products.ToList())
+            foreach (Product Product in db.Products.ToList())
             {
-                if (p.Restaurant == Restaurant)
+                if (Product.Restaurant == Restaurant)
                 {
-                    Products.Add(p);
+                    Products.Add(Product);
                 }
             }
 
             ProductCategory MostSold = null;
-            int biggestCount = 0;
+            int BiggestCount = 0;
 
-            foreach (ProductCategory pc in db.ProductCategories.ToList())
+            foreach (ProductCategory Category in db.ProductCategories.ToList())
             {
-                int count = 0;
-                foreach (Product p in Products)
+                int Count = 0;
+                foreach (Product Product in Products)
                 {
-                    if (p.Category == pc)
+                    if (Product.Category == Category)
                     {
-                        count++;
+                        Count++;
                     }
                 }
-                if (count > biggestCount)
+                if (Count > BiggestCount)
                 {
-                    biggestCount = count;
-                    MostSold = pc;
+                    BiggestCount = Count;
+                    MostSold = Category;
                 }
             }
 
             return MostSold;
         }
 
-        public int[] GetProductCounts(List<Restaurant> restaurants)
+        /// <summary>
+        /// Get the total product count for all restaurants
+        /// </summary>
+        /// <param name="Restaurants">List of Restaurants</param>
+        /// <returns>Array of ProductCounts for each Restaurant</returns>
+        public int[] GetProductCounts(List<Restaurant> Restaurants)
         {
-            List<Product> AllProduct = db.Products.ToList();
-            int[] ProductCounts = new int[restaurants.Count];
-            for (int j = 0; j < restaurants.Count; j++)
+            List<Product> AllProducts = db.Products.ToList();
+            int[] ProductCounts = new int[Restaurants.Count];
+            for (int j = 0; j < Restaurants.Count; j++)
             {
-                int count = 0;
-                for (int i = 0; i < AllProduct.Count; i++)
+                int Count = 0;
+                for (int i = 0; i < AllProducts.Count; i++)
                 {
-                    if (AllProduct[i].Restaurant == restaurants[j])
+                    if (AllProducts[i].Restaurant == Restaurants[j])
                     {
-                        count++;
+                        Count++;
                     }
                 }
-                ProductCounts[j] = count;
+                ProductCounts[j] = Count;
             }
             return ProductCounts;
         }
 
+        /// <summary>
+        /// Get Restaurant entry from Database
+        /// </summary>
+        /// <param name="db">Database Instance</param>
+        /// <param name="RestaurantId">Restaurant Id</param>
+        /// <returns>Restaurant object</returns>
         // This is a copy of the GetRestaurant(ASDContext3 db, int Id) method with change tracking
-        public static Restaurant GetRestaurantForDBOperation(ASDContext3 db, int Id)
+        public static Restaurant GetRestaurantForDBOperation(ASDContext3 db, int RestaurantId)
         {
             var restaurant = db.Restaurants
-               .Where(d => d.Id == Id)
+               .Where(d => d.Id == RestaurantId)
                .FirstOrDefault();
             return restaurant;
         }
 
-        public static Restaurant GetRestaurant(ASDContext3 db, string Name)
+        /// <summary>
+        /// Get Restaurant entry from database by name
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="RestaurantName"></param>
+        /// <returns>Restaurant object</returns>
+        public static Restaurant GetRestaurant(ASDContext3 db, string RestaurantName)
         {
-            var restaurants = from r in db.Restaurants
+            var Restaurants = from r in db.Restaurants
                               select r;
-            foreach (var r in restaurants)
+            foreach (var Restaurant in Restaurants)
             {
-                if (r.Name.Equals(Name))
+                if (Restaurant.Name.Equals(RestaurantName))
                 {
-                    return r;
+                    return Restaurant;
                 }
             }
             return null;
         }
-
+        
+        /// <summary>
+        /// Get Database instance
+        /// </summary>
+        /// <returns>Instance of database</returns>
         public static ASDContext3 GetDatabase()
         {
             return new ASDContext3();
         }
-
-        //public ActionResult Edit()
-        //{
-
-        //}
-
-        //public ActionResult Delete()
-        //{
-
-        //}
-
     }
 }
