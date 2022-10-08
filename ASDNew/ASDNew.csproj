@@ -164,6 +164,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\apple.png" />
     <Content Include="Images\grapes.png" />
+    <Content Include="Images\plate.png" />
     <Content Include="Images\RestaurantBanners\test.png" />
     <Content Include="Images\veg.png" />
     <Content Include="Scripts\bootstrap.js" />
