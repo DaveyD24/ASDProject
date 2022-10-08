@@ -5,6 +5,7 @@
 @{
     bool headingWritten = false;
     int[] productCounts = (int[])ViewData["productCounts"];
+    ASDNew.Models.ProductCategory[] mostCategory = (ASDNew.Models.ProductCategory[])ViewData["mostCategory"];
     ASDNew.Models.Restaurant[] restaurants = Model.ToArray();
 }
 
@@ -83,7 +84,7 @@
                                 @Html.ActionLink(restaurants[i].Name, "Index", "Product", new { RestaurantID = restaurants[i].Id }, null)
                             </td>
                             <td style="padding: 5px; text-align: center">
-                                Borgor
+                                @mostCategory[i].Name
                             </td>
                             <td style="padding: 5px; text-align: center">
                                 @productCounts[i]
@@ -108,7 +109,7 @@
                             @Html.ActionLink(restaurants[i].Name, "Index", "Product", new { RestaurantID = restaurants[i].Id }, null)
                         </td>
                         <td style="padding: 5px; text-align: center">
-                            Borgor
+                            @mostCategory[i].Name
                         </td>
                         <td style="padding: 5px; text-align: center">
                             @productCounts[i]

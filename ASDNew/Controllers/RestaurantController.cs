@@ -21,6 +21,15 @@ namespace ASDNew.Controllers
 
             int[] productCounts = GetProductCounts(restaurants);
             ViewData["productCounts"] = productCounts;
+
+            ProductCategory[] mostCategories = new ProductCategory[restaurants.Count];
+
+            for (int i = 0; i < restaurants.Count; i++)
+            {
+                mostCategories[i] = GetMostSoldCategory(restaurants[i]);
+            }
+            ViewData["mostCategory"] = mostCategories;
+
             Restaurant[] RestaurantArray = restaurants.ToArray();
 
             return View(RestaurantArray);
@@ -62,22 +71,23 @@ namespace ASDNew.Controllers
             ProductCategory MostSold = null;
             int biggestCount = 0;
 
-            foreach (Product p in Products)
+            foreach (ProductCategory pc in db.ProductCategories.ToList())
             {
-                foreach (ProductCategory pc in db.ProductCategories.ToList())
+                int count = 0;
+                foreach (Product p in Products)
                 {
-                    int counter = 0;
                     if (p.Category == pc)
                     {
-                        counter++;
-                    }
-                    if (counter > biggestCount)
-                    {
-                        biggestCount = counter;
-                        MostSold = pc;
+                        count++;
                     }
                 }
+                if (count > biggestCount)
+                {
+                    biggestCount = count;
+                    MostSold = pc;
+                }
             }
+
             return MostSold;
         }
 
