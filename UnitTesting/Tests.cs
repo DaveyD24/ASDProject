@@ -1,4 +1,5 @@
-﻿using ASDNew.Models;
+﻿using ASDNew.Controllers;
+using ASDNew.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,12 +7,21 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Web;
+using System.Web.Mvc;
+using ASDNew.Migrations;
+using Payment = ASDNew.Models.Payment;
 
 namespace UnitTesting
 {
+
     [TestFixture]
     public class Tests
     {
+
+        ASDContext3 db = new ASDContext3();
+
         [Test]
         public void TestMethod()
         {
@@ -35,20 +45,51 @@ namespace UnitTesting
             Assert.AreEqual("Test", p.Name);
         }   
 
+        //Brendan
+        //F112: Show payment history
         [Test]
-        public void FetchRequestedPaymentHistory(string email)
+        public void ShowPaymentHistory()
         {
-            Payment p = new Payment
+            //Arrange new payment
+            Payment newPayment = new Payment
             {
-                BillingName = "James", BillingEmail = "james@uts.com", BillingStreetNum = "5",
-                BillingStreet = "A Street", BillingSuburb = "Bankstown", BillingState = "NSW", 
-                BillingPostCode = "2200", CreditCardName = "James", CreditCardNumber = "1234123412341234",
+                BillingName = "James", BillingEmail = "james@uts.com",
             };
 
-            int count = 1;
+            //Act - add to database and if there are records with same email, store them in payments
+            Payment payments = PaymentController.PaymentHistory(db, newPayment.BillingEmail);
 
-
-            Assert.AreEqual("James", p.CreditCardName);
+            //Assert that payments is not null and that there are payment records in the payment database
+            Assert.NotNull(payments);
         }
+
+        //David
+        //F105: List of Products
+        [Test]
+        public void TestProductList()
+        {
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, 7);
+            List<Product> AllProducts = ProductController.GetAllProducts(db);
+            List<Product> FilteredProducts = ProductController.FilterProductList(Restaurant, AllProducts);
+            List<ProductCategory> Categories = ProductController.GetRelevantCategories(FilteredProducts);
+
+            Assert.That(Categories.Contains(ProductController.GetCategory(db, "Burgers")));
+            Assert.That(Categories.Count == 1);
+
+        }
+
+        [Test]
+        public void TestStringConverter()
+        {
+            SampleRestaurant sr = new SampleRestaurant();
+            string testString = "I Want The Whitespace Removed From This";
+            testString = sr.RemoveWhitespace(testString);
+
+            Assert.AreEqual("IWantTheWhitespaceRemovedFromThis", testString);
+        }
+
+        //David
+        //F106 - Detailed Product Description
+        //Also check that no restaurant id displays error page
     }
 }

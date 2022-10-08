@@ -34,7 +34,7 @@
             <p>Your payment ID is @Html.DisplayFor(modelItem => item.Id) and a copy of the receipt will be sent to your email address at 
         @Html.DisplayFor(modelItem => item.BillingEmail).
        </p>
-            <p>Click <a onclick="location.href='@Url.Action("PaymentHistory","Payment")'">here</a> to view your payment history.</p>
+            <p>Click @Html.ActionLink("History","PaymentHistory", "Payment", new {email = item.BillingEmail}) to view your payment history.</p>
         }
     </div>
 

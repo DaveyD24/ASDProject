@@ -133,6 +133,7 @@
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RestaurantController.cs" />
     <Compile Include="Global.asax.cs">
@@ -158,13 +159,17 @@
     <Compile Include="Migrations\202210061910100_Payment1.designer.cs">
       <DependentUpon>202210061910100_Payment1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202210062038204_Cart.cs" />
-    <Compile Include="Migrations\202210062038204_Cart.designer.cs">
-      <DependentUpon>202210062038204_Cart.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202210070353471_Payment2.cs" />
     <Compile Include="Migrations\202210070353471_Payment2.designer.cs">
       <DependentUpon>202210070353471_Payment2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210081307526_Cart.cs" />
+    <Compile Include="Migrations\202210081307526_Cart.designer.cs">
+      <DependentUpon>202210081307526_Cart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210081324391_Cart1.cs" />
+    <Compile Include="Migrations\202210081324391_Cart1.designer.cs">
+      <DependentUpon>202210081324391_Cart1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASDContext.cs" />
@@ -178,6 +183,7 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\Restaurant.cs" />
+    <Compile Include="Models\SampleData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +195,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\apple.png" />
+    <Content Include="Images\grapes.png" />
+    <Content Include="Images\RestaurantBanners\test.png" />
+    <Content Include="Images\veg.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="application.db" />
@@ -233,6 +243,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Login\" />
+    <Folder Include="Views\ProductCategory\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -263,11 +274,14 @@
     <EmbeddedResource Include="Migrations\202210061910100_Payment1.resx">
       <DependentUpon>202210061910100_Payment1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210062038204_Cart.resx">
-      <DependentUpon>202210062038204_Cart.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210070353471_Payment2.resx">
       <DependentUpon>202210070353471_Payment2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210081307526_Cart.resx">
+      <DependentUpon>202210081307526_Cart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210081324391_Cart1.resx">
+      <DependentUpon>202210081324391_Cart1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

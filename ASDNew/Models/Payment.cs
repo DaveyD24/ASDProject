@@ -17,8 +17,8 @@ namespace ASDNew.Models
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Field cannot be empty")]
-        [RegularExpression(@"^([^0-9]*)$", ErrorMessage = "Cannot contain numbers")]
+        [Required(ErrorMessage = "field cannot be empty")]
+        [RegularExpression(@"^([^0-9]*)$", ErrorMessage = "cannot contain numbers")]
         public string BillingName { get; set; }
 
         [Required(ErrorMessage = "Field cannot be empty")]

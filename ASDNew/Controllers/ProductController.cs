@@ -14,36 +14,95 @@ namespace ASDNew.Controllers
     {
         private ASDContext3 db = new ASDContext3();
 
-        // GET: Product
         public ActionResult Index(int? RestaurantID)
         {
             if (RestaurantID == null)
             {
                 System.Diagnostics.Debug.WriteLine("xdddddddddd");
+                //Display Error Page
             }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine(RestaurantID);
-            }
-            ViewData["RestaurantID"] = RestaurantID;
-            //var products = from p in db.Products
-            //               orderby p.Id
-            //               select p;
-            var products = db.Products
+
+            
+            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
+            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
+
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantID);
+            ViewData["Restaurant"] = Restaurant;
+
+            List<Product> AllProducts = GetAllProducts(db);
+            List<Product> FilteredProducts = FilterProductList(Restaurant, AllProducts);
+            List<ProductCategory> RelevantCategories = GetRelevantCategories(FilteredProducts);
+
+            ViewData["Categories"] = RelevantCategories;
+
+            return View(FilteredProducts);
+        }
+
+        public static List<Product> GetAllProducts(ASDContext3 db)
+        {
+            List<Product> AllProducts = new List<Product>();
+            AllProducts = db.Products
                 .Include(a => a.Category)
                 .Include(a => a.Restaurant)
                 .ToList();
+            return AllProducts;
+        }
 
-            List<Product> newList = new List<Product>();
-            foreach (var p in products)
+        public static List<Product> FilterProductList(Restaurant Restaurant, List<Product> Products)
+        {
+            List<Product> FilteredProducts = new List<Product>();
+            foreach (var p in Products)
             {
-                if (p.Restaurant.Id == RestaurantID)
+                if (p.Restaurant.Id == Restaurant.Id)
                 {
-                    newList.Add(p);
+                    FilteredProducts.Add(p);
                 }
             }
+            return FilteredProducts;
+        }
 
-            return View(newList);
+        public static List<ProductCategory> GetRelevantCategories(List<Product> Products)
+        {
+            List<ProductCategory> RelevantCategories = new List<ProductCategory>();
+            foreach (var p in Products)
+            {
+                if (!RelevantCategories.Contains(p.Category))
+                {
+                    RelevantCategories.Add(p.Category);
+                }
+            }
+            return RelevantCategories;
+        }
+
+        public static ProductCategory GetCategory(ASDContext3 db, string ProductCategoryName)
+        {
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            foreach (ProductCategory Category in AllCategories)
+            {
+                if (Category.Name.Equals(ProductCategoryName))
+                {
+                    return Category;
+                }
+            }
+            return null;
+        }
+
+        public static ProductCategory GetCategory(ASDContext3 db, int? ProductCategoryID)
+        {
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            foreach (ProductCategory Category in AllCategories)
+            {
+                if (Category.Id == (int)ProductCategoryID)
+                {
+                    return Category;
+                }
+            }
+            return null;
+        }
+
+        public void AddToCart(string test)
+        {
+            System.Diagnostics.Debug.WriteLine(test);
         }
 
         public ActionResult ProductPage()
@@ -84,7 +143,7 @@ namespace ASDNew.Controllers
 
             Product product = new Product
             {
-                Restaurant = Rcontroller.GetRestaurant(5),
+                Restaurant = RestaurantController.GetRestaurant(db, 5),
                 Category = Cat,
                 Name = prodName,
                 Price = prodPrice,

@@ -4,7 +4,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ASDNew.Migrations;
 using ASDNew.Models;
+using Payment = ASDNew.Models.Payment;
 //using static ASDNew.Models.Restaurant;
 
 namespace ASDNew.Controllers
@@ -15,7 +17,21 @@ namespace ASDNew.Controllers
         private ASDContext3 db = new ASDContext3();
 
         // GET: Product
-        public ActionResult PaymentHistory()
+
+        public static Payment PaymentHistory(ASDContext3 db, string email)
+        {
+            List<Payment> paymentHistory = db.Payments.ToList();
+            foreach (var item in paymentHistory)
+            {
+                if (item.BillingEmail.Equals(email))
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        public ActionResult PaymentHistory(Payment payment)
         {
             return View(db.Payments.ToList());
         }

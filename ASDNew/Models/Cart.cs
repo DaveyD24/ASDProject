@@ -18,6 +18,7 @@ namespace ASDNew.Models
         public Restaurant Restaurant { get; set; }
         public int TotalCost { get; set; }
         public Product Product { get; set; }
+
         public int Quantity { get; set; }
 
         public class CartDBContext : DbContext
