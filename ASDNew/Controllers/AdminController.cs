@@ -22,8 +22,11 @@ namespace ASDNew.Controllers
             SampleProductCategory spc = new SampleProductCategory();
             foreach (ProductCategory pc in spc.SampleCategories)
             {
-                db.ProductCategories.Add(pc);
-                db.SaveChanges();
+                if (!ContainsCategory(pc))
+                {
+                    db.ProductCategories.Add(pc);
+                    db.SaveChanges();
+                }
             }
             return RedirectToAction("Index");
         }
@@ -41,6 +44,19 @@ namespace ASDNew.Controllers
 
             return RedirectToAction("Index");
             
+        }
+
+        public bool ContainsCategory(ProductCategory Category)
+        {
+            List<ProductCategory> xd = db.ProductCategories.ToList();
+            foreach (ProductCategory pc in xd)
+            {
+                if (pc.Name.Equals(Category.Name))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public ActionResult AddProducts()

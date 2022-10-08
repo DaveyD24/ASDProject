@@ -154,11 +154,26 @@
         padding: 10px;
         width: 90%;
         border: none;
-        text-align: left;
+        text-align: center;
         outline: solid;
         outline-width: 1px;
         outline-color: lightgray;
         font-size: 15px;
+    }
+
+    .description {
+        background-color: whitesmoke;
+        color: black;
+        align-items: center;
+        padding: 10px;
+        width: 90%;
+        border: none;
+        text-align: center;
+        outline: solid;
+        outline-width: 1px;
+        outline-color: lightgray;
+        font-size 15px;
+        cursor: text;
     }
 
 
@@ -169,7 +184,7 @@
         padding: 10px;
         width: 90%;
         border: none;
-        text-align: left;
+        text-align: center;
         outline: none;
         font-size: 15px;
         font-weight: bold;
@@ -371,6 +386,8 @@
         color: #202020;
     }
 
+
+
 </style>
 
 
@@ -404,15 +421,9 @@
                     {
                         <button class="collapsible">@p.Name</button>
                         <div class="content">
-                            <button class="option">No Cheese</button><br>
-                            <button class="option">No Pickles</button><br>
-                            <button class="option">Addon: Extra cheese</button><br>
-                            <button class="option">Addon: Double meat</button><br>
-                            <button class="option">Sauce: Barbeque</button><br>
-                            <button class="option">Sauce: Spicy</button><br>
-                            <button class="option">Sauce: Tomato</button><br>
-                            <button class="option">Sauce: Sweet and Sour</button><br>
-                            <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new {test = "xd" })"'>Add To Cart</button>
+                            <button class="description">@p.Description</button><br>
+
+                            <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new {test = "xd" })"'>Add To Cart ($@p.Price)</button>
                             <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {prodId = p.Id, restaurantId = restaurant.Id })"'>Edit Product</button>
                             <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {prodId = p.Id, restaurantId = restaurant.Id })"'>Delete Product</button>
                         </div>
