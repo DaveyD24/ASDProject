@@ -20,6 +20,7 @@ namespace ASDNew.Controllers
             var restaurants = from r in db.Restaurants
                            orderby r.Id
                            select r;
+
             return View(restaurants);
         }
 
@@ -37,23 +38,45 @@ namespace ASDNew.Controllers
 
         public static Restaurant GetRestaurant(ASDContext3 db, int Id)
         {
-            //var restaurants = from r in db.Restaurants
-            //                  select r;
-            //foreach (var r in restaurants)
-            //{
-            //    if (r.Id == Id)
-            //    {
-            //        return r;
-            //    }
-            //}
-            //return null;
-
             var restaurant = db.Restaurants
                .AsNoTracking()
                .Where(d => d.Id == Id)
                .FirstOrDefault();
             return restaurant;
 
+        }
+
+        public ProductCategory GetMostSoldCategory(Restaurant Restaurant)
+        {
+            List<Product> Products = new List<Product>();
+            foreach (Product p in db.Products.ToList())
+            {
+                if (p.Restaurant == Restaurant)
+                {
+                    Products.Add(p);
+                }
+            }
+
+            ProductCategory MostSold = null;
+            int biggestCount = 0;
+
+            foreach (Product p in Products)
+            {
+                foreach (ProductCategory pc in db.ProductCategories.ToList())
+                {
+                    int counter = 0;
+                    if (p.Category == pc)
+                    {
+                        counter++;
+                    }
+                    if (counter > biggestCount)
+                    {
+                        biggestCount = counter;
+                        MostSold = pc;
+                    }
+                }
+            }
+            return MostSold;
         }
 
         // This is a copy of the GetRestaurant(ASDContext3 db, int Id) method with change tracking

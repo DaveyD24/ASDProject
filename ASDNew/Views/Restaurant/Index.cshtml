@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ASDNew.Models.Restaurant>
+﻿
+@model IEnumerable<ASDNew.Models.Restaurant>
 
 <!DOCTYPE html>
 
@@ -12,26 +13,46 @@
         <table>
             <thead>
             <th>
+
+            </th>
+            <th>
                 Name
+            </th>
+            <th>
+                Cuisine
+            </th>
+            <th>
+                Catalogue
             </th>
             <th>
                 Description
             </th>
             </thead>
-            <tbody>
-                @foreach (var restaurant in Model)
-                {
+            </table>
+            @foreach (var restaurant in Model)
+            {
+                <table>
+            <tbody style="background-color:whitesmoke; border-radius: 25%">
+
                     <tr style="padding-bottom: 5em">
-                        <td style="width:25%">
+                        <td><img src="~/Images/apple.png"/ style="height: 100px; padding: 25px"></td>
+                        <td style="width:17%">
                             @Html.ActionLink(restaurant.Name, "Index", "Product", new { RestaurantID = restaurant.Id }, null)
                         </td>
-                        <td>
+                        <td style="padding: 5px">
+                            Borgor
+                        </td>
+                        <td style="padding: 5px">
+                            Product Count
+                        </td>
+                        <td style="padding: 15px">
                             @restaurant.Description
                         </td>
                     </tr>
-                }
+                
             </tbody>
-        </table>
+            </table><br>
+            }
     </div>
 </body>
 </html>
