@@ -8,7 +8,11 @@ namespace ASDNew.Controllers
 {
     public class ErrorController : Controller
     {
-        // GET: Error
+
+        /// <summary>
+        /// Display Error Page
+        /// </summary>
+        /// <returns>Error/Index</returns>
         public ActionResult Index()
         {
             return View();

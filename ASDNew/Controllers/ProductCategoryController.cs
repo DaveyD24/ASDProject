@@ -10,30 +10,44 @@ namespace ASDNew.Controllers
     public class ProductCategoryController : Controller
     {
 
+        //Database instance
         ASDContext3 db = new ASDContext3();
 
-        // GET: ProductCategory
+        /// <summary>
+        /// Default Index
+        /// </summary>
+        /// <returns>ProductCategory/Index</returns>
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Create(ProductCategory category)
+        /// <summary>
+        /// Create a new ProductCategory in the database
+        /// </summary>
+        /// <param name="Category">Category to add</param>
+        /// <returns>Redirect to ProductCategory/Index</returns>
+        public ActionResult Create(ProductCategory Category)
         {
-            if (!ContainsCategory(category))
+            if (!ContainsCategory(Category))
             {
-                db.ProductCategories.Add(category);
+                db.ProductCategories.Add(Category);
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Checks if Category already exists in the database
+        /// </summary>
+        /// <param name="Category">Category to check</param>
+        /// <returns>Whether database already contains this category</returns>
         public bool ContainsCategory(ProductCategory Category)
         {
-            List<ProductCategory> xd = db.ProductCategories.ToList();
-            foreach (ProductCategory pc in xd)
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            foreach (ProductCategory ProductCategory in AllCategories)
             {
-                if (pc.Name.Equals(Category.Name))
+                if (ProductCategory.Name.Equals(Category.Name))
                 {
                     return true;
                 }
