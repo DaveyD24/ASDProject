@@ -46,22 +46,7 @@ namespace UnitTesting
             Assert.AreEqual("Test", p.Name);
         }
 
-        //David
-        //F105: List of Products
-        //[Test]
-        //public void TestProductList()
-        //{
-        //    Restaurant Restaurant = RestaurantController.GetRestaurant(db, 7);
-        //    List<Product> AllProducts = ProductController.GetAllProducts(db);
-        //    List<Product> FilteredProducts = ProductController.FilterProductList(Restaurant, AllProducts);
-        //    List<ProductCategory> Categories = ProductController.GetRelevantCategories(FilteredProducts);
-
-        //    Assert.That(Categories.Contains(ProductController.GetCategory(db, "Burgers")));
-        //    Assert.That(Categories.Count == 1);
-
-        //}
-
-        [Test]
+        [Test] //David
         public void TestStringConverter()
         {
             SampleRestaurant sr = new SampleRestaurant();
@@ -71,7 +56,7 @@ namespace UnitTesting
             Assert.AreEqual("IWantTheWhitespaceRemovedFromThis", testString);
         }
 
-        [Test]
+        [Test] //David
         public void TestErrorPage()
         {
             ProductController PC = new ProductController();
@@ -79,8 +64,5 @@ namespace UnitTesting
             Assert.AreEqual("~/Views/Error/Index.cshtml", PageReturn.ViewName);
         }
 
-        //David
-        //F106 - Detailed Product Description
-        //Also check that no restaurant id displays error page
     }
 }
