@@ -17,11 +17,13 @@ namespace ASDNew.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            var restaurants = from r in db.Restaurants
-                           orderby r.Id
-                           select r;
+            List<Restaurant> restaurants = db.Restaurants.ToList();
 
-            return View(restaurants);
+            int[] productCounts = GetProductCounts(restaurants);
+            ViewData["productCounts"] = productCounts;
+            Restaurant[] RestaurantArray = restaurants.ToArray();
+
+            return View(RestaurantArray);
         }
 
         public ActionResult ProductPage()
@@ -77,6 +79,25 @@ namespace ASDNew.Controllers
                 }
             }
             return MostSold;
+        }
+
+        public int[] GetProductCounts(List<Restaurant> restaurants)
+        {
+            List<Product> AllProduct = db.Products.ToList();
+            int[] ProductCounts = new int[restaurants.Count];
+            for (int j = 0; j < restaurants.Count; j++)
+            {
+                int count = 0;
+                for (int i = 0; i < AllProduct.Count; i++)
+                {
+                    if (AllProduct[i].Restaurant == restaurants[j])
+                    {
+                        count++;
+                    }
+                }
+                ProductCounts[j] = count;
+            }
+            return ProductCounts;
         }
 
         // This is a copy of the GetRestaurant(ASDContext3 db, int Id) method with change tracking

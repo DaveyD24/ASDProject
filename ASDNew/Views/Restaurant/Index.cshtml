@@ -1,8 +1,11 @@
 ﻿
+@*@model IEnumerable<ASDNew.Models.Restaurant>*@
 @model IEnumerable<ASDNew.Models.Restaurant>
 
 @{
     bool headingWritten = false;
+    int[] productCounts = (int[])ViewData["productCounts"];
+    ASDNew.Models.Restaurant[] restaurants = Model.ToArray();
 }
 
 <style>
@@ -51,7 +54,7 @@
         <br>
         <h1 style="text-align: center">Restaurants Nearby</h1>
         <br>
-        @foreach (var restaurant in Model)
+        @for (int i = 0; i < restaurants.Count(); i++)
         {
             if (!headingWritten)
             {
@@ -77,16 +80,16 @@
                         <tr style="padding-bottom: 5em">
                             <td><img src="~/Images/apple.png" / style="height: 100px; padding: 25px"></td>
                             <td style="width:17%; text-align: center">
-                                @Html.ActionLink(restaurant.Name, "Index", "Product", new { RestaurantID = restaurant.Id }, null)
+                                @Html.ActionLink(restaurants[i].Name, "Index", "Product", new { RestaurantID = restaurants[i].Id }, null)
                             </td>
                             <td style="padding: 5px; text-align: center">
                                 Borgor
                             </td>
                             <td style="padding: 5px; text-align: center">
-                                Product Count
+                                @productCounts[i]
                             </td>
                             <td style="padding: 15px; text-align: center">
-                                @restaurant.Description
+                                @restaurants[i].Description
                             </td>
                         </tr>
 
@@ -102,16 +105,16 @@
                     <tr style="padding-bottom: 5em">
                         <td><img src="~/Images/apple.png" / style="height: 100px; padding: 25px"></td>
                         <td style="width:17%; text-align: center">
-                            @Html.ActionLink(restaurant.Name, "Index", "Product", new { RestaurantID = restaurant.Id }, null)
+                            @Html.ActionLink(restaurants[i].Name, "Index", "Product", new { RestaurantID = restaurants[i].Id }, null)
                         </td>
                         <td style="padding: 5px; text-align: center">
                             Borgor
                         </td>
                         <td style="padding: 5px; text-align: center">
-                            Product Count
+                            @productCounts[i]
                         </td>
                         <td style="padding: 15px; text-align: center">
-                            @restaurant.Description
+                            @restaurants[i].Description
                         </td>
                     </tr>
 
