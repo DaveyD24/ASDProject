@@ -12,39 +12,21 @@
         <table>
             <thead>
             <th>
-                ID
-            </th>
-            <th>
                 Name
             </th>
             <th>
                 Description
             </th>
-            <th>
-                Email
-            </th>
-            <th>
-                Password
-            </th>
             </thead>
             <tbody>
                 @foreach (var restaurant in Model)
                 {
-                    <tr>
-                        <td>
-                            @restaurant.Id
-                        </td>
-                        <td>
-                            @Html.ActionLink(restaurant.Name ,"Index", "Product", new { RestaurantID = restaurant.Id }, null)
+                    <tr style="padding-bottom: 5em">
+                        <td style="width:25%">
+                            @Html.ActionLink(restaurant.Name, "Index", "Product", new { RestaurantID = restaurant.Id }, null)
                         </td>
                         <td>
                             @restaurant.Description
-                        </td>
-                        <td>
-                            @restaurant.Email
-                        </td>
-                        <td>
-                            @restaurant.Password
                         </td>
                     </tr>
                 }
