@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ASDNew.Models;
+using Payment = ASDNew.Models.Payment;
 //using static ASDNew.Models.Restaurant;
 
 namespace ASDNew.Controllers
@@ -12,38 +13,62 @@ namespace ASDNew.Controllers
 
     public class PaymentController : Controller
     {
-        private ASDContext3 db = new ASDContext3();
+        //Instance of Database
+        private ASDContext5 db = new ASDContext5();
 
-        // GET: Product
-        public ActionResult Index()
+        /// <summary>
+        /// Get Payment from database for user
+        /// </summary>
+        /// <param name="db">Database instance</param>
+        /// <param name="Email">Email of user</param>
+        /// <returns>Payment object for user</returns>
+        public static Payment PaymentHistory(ASDContext5 db, string Email)
         {
-            var payments = from r in db.Payments
-                         orderby r.Id
-                         select r;
-            return View(payments);
+            List<Payment> PaymentHistory = db.Payments.ToList();
+            foreach (Payment Payment in PaymentHistory)
+            {
+                if (Payment.BillingEmail.Equals(Email))
+                {
+                    return Payment;
+                }
+            }
+            return null;
         }
 
-        public ActionResult ProductPage()
+        /// <summary>
+        /// Displays Payment History page for user
+        /// </summary>
+        /// <param name="Payment">Payment object</param>
+        /// <returns>Payment/PaymentHistory View</returns>
+        public ActionResult PaymentHistory(Payment Payment)
+        {
+            return View(db.Payments.ToList());
+        }
+        
+        /// <summary>
+        /// Displays Payment Page
+        /// </summary>
+        /// <returns>Payment/PaymentPage View</returns>
+        public ActionResult PaymentPage()
         {
             return View();
         }
 
-        public ActionResult Create(Payment payment)
+        /// <summary>
+        /// Adds successful payment to the database
+        /// </summary>
+        /// <param name="Payment">Payment to add</param>
+        /// <returns>Payment list or redirect to PaymentPage with existing payment</returns>
+        public ActionResult PaymentSuccess(Payment Payment)
         {
-            db.Payments.Add(payment);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                Payment.Date = DateTime.Now;
+                db.Payments.Add(Payment);
+                db.SaveChanges();
+                return View(db.Payments.ToList());
+            }
+            return View("PaymentPage", Payment);
         }
-
-        //public ActionResult Edit()
-        //{
-
-        //}
-
-        //public ActionResult Delete()
-        //{
-
-        //}
-
     }
 }

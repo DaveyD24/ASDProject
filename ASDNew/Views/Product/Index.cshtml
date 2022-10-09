@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<ASDNew.Models.Product>
 @using ASDNew.Models;
 @{ 
-    Restaurant restaurant = (Restaurant) ViewData["Restaurant"];
-    List<ProductCategory> categories = (List<ProductCategory>)ViewData["Categories"];
+    Restaurant Restaurant = (Restaurant) ViewData["Restaurant"];
+    List<ProductCategory> Categories = (List<ProductCategory>)ViewData["Categories"];
     List<Product> Cart = new List<Product>();
 }
 
@@ -187,6 +187,19 @@
         text-align: center;
         outline: none;
         font-size: 15px;
+        font-weight: bold;
+    }
+
+    .add {
+        background-color: darkslategrey;
+        color: white;
+        cursor: grab;
+        padding: 10px;
+        width: 90%;
+        border: none;
+        text-align: center;
+        outline: none;
+        font-size 15px;
         font-weight: bold;
     }
 
@@ -402,93 +415,77 @@
 </head>
 <body>
 
-    <h2>@restaurant.Name</h2>
+    <h2>@Restaurant.Name</h2>
     <img src="~/Images/RestaurantBanners/test.png" alt="Banner" />
     <p style="padding: 10px">
-        @restaurant.Description
+        @Restaurant.Description
     </p>
-    <input type="button" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { restaurantId = restaurant.Id })'"/>
+    <input type="button" class="add" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { RestaurantId = Restaurant.Id })'"/>
 
     <div class="row">
         <div class="column left">
 
-            @foreach (var c in categories)
+            @foreach (var Category in Categories)
             {
-                <h3>@c.Name.ToUpper()</h3>
-                foreach (var p in @Model)
+                <h3>@Category.Name.ToUpper()</h3>
+                foreach (var Product in @Model)
                 {
-                    if (p.Category == c)
+                    if (Product.Category == Category)
                     {
-                        <button class="collapsible">@p.Name</button>
+                        <button class="collapsible">@Product.Name</button>
                         <div class="content">
-                            <button class="description">@p.Description</button><br>
+                            <button class="description">@Product.Description</button><br>
 
-                            <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new {test = "xd" })"'>Add To Cart ($@p.Price)</button>
-                            <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {prodId = p.Id, restaurantId = restaurant.Id })"'>Edit Product</button>
-                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {prodId = p.Id, restaurantId = restaurant.Id })"'>Delete Product</button>
+                            <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new { ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Add To Cart ($@Product.Price)</button>
+                            <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Edit Product</button>
+                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Delete Product</button>
                         </div>
                     }
                 }
             }
 
-            <input type="button" value="Tes" onclick="location.href='@Url.Action("TestMethod", "Product")'" />
         </div>
         <div class="column right">
             <div class="CartContainer">
                 <div class="Header">
                     <h3 class="Heading">Shopping Cart</h3>
-                    <h5 class="Action">Remove all</h5>
+                    <h5 class="Action" onclick='location.href="@Url.Action("RemoveAllFromCart", "Product", new { RestaurantId = Restaurant.Id} )"'>Remove all</h5>
                 </div>
 
-                <div class="Cart-Items">
-                    <div class="image-box">
-                        <img src="/Images/apple.png" style={{ height="70px" }} />
-                    </div>
-                    <div class="about">
-                        <h1 class="title">Apple Juice</h1>
-                        <h3 class="subtitle">250ml</h3>
-                    </div>
-                    <div class="counter">
-                        <div class="btn">+</div>
-                        <div class="count">2</div>
-                        <div class="btn">-</div>
-                    </div>
-                    <div class="prices">
-                        <div class="amount">$2.99</div>
-                        <div class="save"><u>Save for later</u></div>
-                        <div class="remove"><u>Remove</u></div>
-                    </div>
-                </div>
+                @if (Session["Cart"] != null)
+                {
+                    foreach (Product Product in (List<Product>)Session["Cart"])
+                    {
+                        <div class="Cart-Items">
+                            <div class="image-box">
 
-                <div class="Cart-Items pad">
-                    <div class="image-box">
-                        <img src="/Images/grapes.png" style={{ height="70px" }} />
-                    </div>
-                    <div class="about">
-                        <h1 class="title">Grapes Juice</h1>
-                        <h3 class="subtitle">250ml</h3>
-                    </div>
-                    <div class="counter">
-                        <div class="btn">+</div>
-                        <div class="count">1</div>
-                        <div class="btn">-</div>
-                    </div>
-                    <div class="prices">
-                        <div class="amount">$3.19</div>
-                        <div class="save"><u>Save for later</u></div>
-                        <div class="remove"><u>Remove</u></div>
-                    </div>
-                </div>
+                            </div>
+                            <div class="about">
+                                <b>@Product.Name</b>
+                                <p>@Product.Description</p>
+                            </div>
+                            <div>
+
+                            </div>
+                            <div class="prices">
+                                <div class="amount">$@Product.Price</div>
+                                <div class="remove">
+                                    <p onclick='location.href="@Url.Action("RemoveFromCart", "Product", new {ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Remove</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
                 <hr>
                 <div class="checkout">
                     <div class="total">
                         <div>
-                            <div class="Subtotal">Sub-Total</div>
-                            <div class="items">2 items</div>
+                            <div class="">Sub-Total</div>
+                            <div class="items"></div>
                         </div>
-                        <div class="total-amount">$6.18</div>
+                        <div class="">$@HttpContext.Current.Session["TotalAmount"]</div>
                     </div>
-                    <button class="button">Checkout</button>
+                    <input type="button" value="Go To Payment" onclick="location.href = '@Url.Action("PaymentPage", "Payment")'" />
                 </div>
             </div>
         </div>

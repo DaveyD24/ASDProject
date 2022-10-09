@@ -129,6 +129,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -141,6 +142,8 @@
     <Compile Include="Models\ASDContext.cs" />
     <Compile Include="Models\ASDContext2.cs" />
     <Compile Include="Models\ASDContext3.cs" />
+    <Compile Include="Models\ASDContext4.cs" />
+    <Compile Include="Models\ASDContext5.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />
@@ -163,11 +166,13 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\apple.png" />
     <Content Include="Images\grapes.png" />
+    <Content Include="Images\plate.png" />
     <Content Include="Images\RestaurantBanners\test.png" />
     <Content Include="Images\veg.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="application.db" />
+    <Content Include="Views\Error\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -204,6 +209,9 @@
     <Content Include="Views\Product\AddProduct.cshtml" />
     <Content Include="Views\Product\EditProduct.cshtml" />
     <Content Include="Views\Product\DeleteProduct.cshtml" />
+    <Content Include="Views\Payment\PaymentHistory.cshtml" />
+    <Content Include="Views\Payment\PaymentPage.cshtml" />
+    <Content Include="Views\Payment\PaymentSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

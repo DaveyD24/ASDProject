@@ -1,4 +1,47 @@
-﻿@model IEnumerable<ASDNew.Models.Restaurant>
+﻿
+@*@model IEnumerable<ASDNew.Models.Restaurant>*@
+@model IEnumerable<ASDNew.Models.Restaurant>
+
+@{
+    bool HeadingWritten = false;
+    int[] ProductCounts = (int[])ViewData["ProductCounts"];
+    ASDNew.Models.ProductCategory[] MostCategory = (ASDNew.Models.ProductCategory[])ViewData["MostCategory"];
+    ASDNew.Models.Restaurant[] Restaurants = Model.ToArray();
+}
+
+<style>
+    table.rounded-corners {
+        /* Change these properties */
+
+        border-radius: 15px;
+        /* Don't change these properties */
+        border-spacing: 0;
+        border-collapse: separate;
+        border: var(--border);
+        overflow: hidden;
+    }
+
+        /* Apply a border to the right of all but the last column */
+        table.rounded-corners th:not(:last-child),
+        table.rounded-corners td:not(:last-child) {
+            border-right: var(--border);
+        }
+
+        /* Apply a border to the bottom of all but the last row */
+        table.rounded-corners > thead > tr:not(:last-child) > th,
+        table.rounded-corners > thead > tr:not(:last-child) > td,
+        table.rounded-corners > tbody > tr:not(:last-child) > th,
+        table.rounded-corners > tbody > tr:not(:last-child) > td,
+        table.rounded-corners > tfoot > tr:not(:last-child) > th,
+        table.rounded-corners > tfoot > tr:not(:last-child) > td,
+        table.rounded-corners > tr:not(:last-child) > td,
+        table.rounded-corners > tr:not(:last-child) > th,
+        table.rounded-corners > thead:not(:last-child),
+        table.rounded-corners > tbody:not(:last-child),
+        table.rounded-corners > tfoot:not(:last-child) {
+            border-bottom: var(--border);
+        }
+</style>
 
 <!DOCTYPE html>
 
@@ -9,29 +52,77 @@
 </head>
 <body>
     <div>
-        <table>
-            <thead>
-            <th>
-                Name
-            </th>
-            <th>
-                Description
-            </th>
-            </thead>
-            <tbody>
-                @foreach (var restaurant in Model)
-                {
+        <br>
+        <h1 style="text-align: center">Restaurants Nearby</h1>
+        <br>
+        @for (int i = 0; i < Restaurants.Count(); i++)
+        {
+            if (!HeadingWritten)
+            {
+                <table class="rounded-corners">
+                    <thead>
+                    <th>
+                    </th>
+                    <th style="text-align: center">
+                        Name
+                    </th>
+                    <th style="text-align: center">
+                        Cuisine
+                    </th>
+                    <th style="text-align: center">
+                        Catalogue
+                    </th>
+                    <th style="text-align: center">
+                        Description
+                    </th>
+                    </thead>
+                    <tbody style="background-color:whitesmoke; border-radius: 25%">
+
+                        <tr style="padding-bottom: 5em">
+                            <td><img src="~/Images/plate.png" / style="height: 150px; padding: 25px"></td>
+                            <td style="width:17%; text-align: center">
+                                @Html.ActionLink(Restaurants[i].Name, "Index", "Product", new { RestaurantID = Restaurants[i].Id }, null)
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                @MostCategory[i].Name
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                @ProductCounts[i]
+                            </td>
+                            <td style="padding: 15px; text-align: center">
+                                @Restaurants[i].Description
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table><br>
+                HeadingWritten = true;
+            }
+            else
+            {
+            <table class="rounded-corners">
+                <tbody style="background-color:whitesmoke; border-radius: 25%">
+
                     <tr style="padding-bottom: 5em">
-                        <td style="width:25%">
-                            @Html.ActionLink(restaurant.Name, "Index", "Product", new { RestaurantID = restaurant.Id }, null)
+                        <td><img src="~/Images/plate.png" / style="height: 150px; padding: 25px"></td>
+                        <td style="width:17%; text-align: center">
+                            @Html.ActionLink(Restaurants[i].Name, "Index", "Product", new { RestaurantID = Restaurants[i].Id }, null)
                         </td>
-                        <td>
-                            @restaurant.Description
+                        <td style="padding: 5px; text-align: center">
+                            @MostCategory[i].Name
+                        </td>
+                        <td style="padding: 5px; text-align: center">
+                            @ProductCounts[i]
+                        </td>
+                        <td style="padding: 15px; text-align: center">
+                            @Restaurants[i].Description
                         </td>
                     </tr>
-                }
-            </tbody>
-        </table>
+
+                </tbody>
+            </table><br>
+            }
+        }
     </div>
 </body>
 </html>

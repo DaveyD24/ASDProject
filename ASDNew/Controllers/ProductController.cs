@@ -12,34 +12,45 @@ namespace ASDNew.Controllers
 
     public class ProductController : Controller
     {
-        private ASDContext3 db = new ASDContext3();
-        public static int TestCount = 4;
+        private ASDContext5 db = new ASDContext5();
 
+        /// <summary>
+        /// View the Restaurant menu
+        /// </summary>
+        /// <param name="RestaurantID">Restaurant to filter products by</param>
+        /// <returns>Product Index for given Restaurant</returns>
         public ActionResult Index(int? RestaurantID)
         {
             if (RestaurantID == null)
             {
-                System.Diagnostics.Debug.WriteLine("xdddddddddd");
-                //Display Error Page
+                return View("~/Views/Error/Index.cshtml");
             }
-
             
+            //Get current instance of Restaurant Controller
             var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
             Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
 
+            //Pass this Restaurant into View
             Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantID);
             ViewData["Restaurant"] = Restaurant;
 
+            //Get all products sold by this restaurant
             List<Product> AllProducts = GetAllProducts(db);
             List<Product> FilteredProducts = FilterProductList(Restaurant, AllProducts);
+            
+            //Get all categories that this restaurant sells products in
             List<ProductCategory> RelevantCategories = GetRelevantCategories(FilteredProducts);
-
             ViewData["Categories"] = RelevantCategories;
 
             return View(FilteredProducts);
         }
 
-        public static List<Product> GetAllProducts(ASDContext3 db)
+        /// <summary>
+        /// Get all products in the Products table
+        /// </summary>
+        /// <param name="db">Database instance</param>
+        /// <returns>All products in Products table</returns>
+        public static List<Product> GetAllProducts(ASDContext5 db)
         {
             List<Product> AllProducts = new List<Product>();
             AllProducts = db.Products
@@ -49,33 +60,50 @@ namespace ASDNew.Controllers
             return AllProducts;
         }
 
+        /// <summary>
+        /// Filters a list of products by restaurant
+        /// </summary>
+        /// <param name="Restaurant">Restaurant to filter by</param>
+        /// <param name="Products">Initial Product list before filtering</param>
+        /// <returns>Filter product list</returns>
         public static List<Product> FilterProductList(Restaurant Restaurant, List<Product> Products)
         {
             List<Product> FilteredProducts = new List<Product>();
-            foreach (var p in Products)
+            foreach (Product Product in Products)
             {
-                if (p.Restaurant.Id == Restaurant.Id)
+                if (Product.Restaurant.Id == Restaurant.Id)
                 {
-                    FilteredProducts.Add(p);
+                    FilteredProducts.Add(Product);
                 }
             }
             return FilteredProducts;
         }
 
+        /// <summary>
+        /// Get all ProductCategories contained in a list of products
+        /// </summary>
+        /// <param name="Products">List of Products</param>
+        /// <returns>All ProductCategories contained in the list</returns>
         public static List<ProductCategory> GetRelevantCategories(List<Product> Products)
         {
             List<ProductCategory> RelevantCategories = new List<ProductCategory>();
-            foreach (var p in Products)
+            foreach (Product Product in Products)
             {
-                if (!RelevantCategories.Contains(p.Category))
+                if (!RelevantCategories.Contains(Product.Category))
                 {
-                    RelevantCategories.Add(p.Category);
+                    RelevantCategories.Add(Product.Category);
                 }
             }
             return RelevantCategories;
         }
 
-        public static ProductCategory GetCategory(ASDContext3 db, string ProductCategoryName)
+        /// <summary>
+        /// Gets the first instance of this ProductCategory in the database
+        /// </summary>
+        /// <param name="db">Database instance</param>
+        /// <param name="ProductCategoryName">Name of ProductCategory</param>
+        /// <returns>ProductCategory object</returns>
+        public static ProductCategory GetCategory(ASDContext5 db, string ProductCategoryName)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             foreach (ProductCategory Category in AllCategories)
@@ -88,7 +116,13 @@ namespace ASDNew.Controllers
             return null;
         }
 
-        public static ProductCategory GetCategory(ASDContext3 db, int? ProductCategoryID)
+        /// <summary>
+        /// Gets the first instance of this ProductCategory in the database
+        /// </summary>
+        /// <param name="db">Database instance</param>
+        /// <param name="ProductCategoryID">Id of ProductCategory</param>
+        /// <returns>ProductCategory object</returns>
+        public static ProductCategory GetCategory(ASDContext5 db, int? ProductCategoryID)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             foreach (ProductCategory Category in AllCategories)
@@ -101,21 +135,21 @@ namespace ASDNew.Controllers
             return null;
         }
 
-        public static List<ProductCategory> GetProductCategories(ASDContext3 db)
+        /// <summary>
+        /// Get all ProductCategories in the database
+        /// </summary>
+        /// <param name="db">Database Instance</param>
+        /// <returns>List of ProductCategories</returns>
+        public static List<ProductCategory> GetProductCategories(ASDContext5 db)
         {
             return db.ProductCategories.ToList();
         }
 
-        public void AddToCart(string test)
-        {
-            System.Diagnostics.Debug.WriteLine(test);
-        }
-
-        public ActionResult ProductPage()
-        {
-            return View();
-        }
-        
+        /// <summary>
+        /// Adds product to database
+        /// </summary>
+        /// <param name="product">Product object to add</param>
+        /// <returns>Redirect to Product/Index</returns>
         public ActionResult Create(Product product)
         {
             db.Products.Add(product);
@@ -123,107 +157,183 @@ namespace ASDNew.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult AddProduct(int restaurantId)
+        /// <summary>
+        /// Load AddProduct page
+        /// </summary>
+        /// <param name="RestaurantId">Restaurant to add product to</param>
+        /// <returns>AddProduct Page</returns>
+        public ActionResult AddProduct(int? RestaurantId)
         {
-            List<ProductCategory> categories = db.ProductCategories.ToList();
-            ViewData["AllCategories"] = GetProductCategories(db);
-            Restaurant Restaurant = RestaurantController.GetRestaurant(db, restaurantId);
-            ViewData["Restaurant"] = Restaurant;
-            return View(categories);
-        }
-
-        public ActionResult EditProduct(int prodId, int restaurantId)
-        {
-            Product product = db.Products.Find(prodId);
-            ViewData["AllCategories"] = GetProductCategories(db);
-            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)restaurantId);
-            ViewData["Restaurant"] = Restaurant;
-            return View(product);
-        }
-
-        public ActionResult DeleteProduct(int prodId, int restaurantId)
-        {
-            Product product = db.Products.Find(prodId);
-            ViewData["AllCategories"] = GetProductCategories(db);
-            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)restaurantId);
-            ViewData["Restaurant"] = Restaurant;
-            return View(product);
-        }
-
-        [HttpPost]
-        public ActionResult Create(int restaurantId, int prodCategory, string prodName, double prodPrice, string prodDesc)
-        {
-            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
-            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
-
-            
-            List<ProductCategory> Cats = db.ProductCategories.ToList();
-            ProductCategory Cat = null;
-            foreach(var c in Cats)
+            if (RestaurantId == null)
             {
-                if (c.Id.Equals(prodCategory))
+                System.Diagnostics.Debug.WriteLine("restaurantId parameter is null");
+                return View("Error");
+            }
+
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            ViewData["AllCategories"] = GetProductCategories(db);
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
+            ViewData["Restaurant"] = Restaurant;
+
+            if (Restaurant == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Restaurant is null or could not be found");
+                return View("Error");
+            }
+
+            return View(AllCategories);
+        }
+
+        /// <summary>
+        /// Edits existing product entry in the database
+        /// </summary>
+        /// <param name="ProductId">Id of Product</param>
+        /// <param name="RestaurantId">Id of Restaurant</param>
+        /// <returns>EditProduct Page</returns>
+        public ActionResult EditProduct(int? ProductId, int? RestaurantId)
+        {
+            if (ProductId == null || RestaurantId == null)
+            {
+                System.Diagnostics.Debug.WriteLine("One or more parameters is null");
+                return View("Error");
+            }
+
+            Product Product = db.Products.Find(ProductId);
+            ViewData["AllCategories"] = GetProductCategories(db);
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
+            ViewData["Restaurant"] = Restaurant;
+
+            if (Restaurant == null || Product == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Restaurant and/or product is null or could not be found");
+                return View("Error");
+            }
+
+            return View(Product);
+        }
+
+        /// <summary>
+        /// Deletes existing product entry from the database
+        /// </summary>
+        /// <param name="ProductId">Id of Product</param>
+        /// <param name="RestaurantId">Id of Restaurant</param>
+        /// <returns>DeleteProduct Page</returns>
+        public ActionResult DeleteProduct(int? ProductId, int? RestaurantId)
+        {
+            if (ProductId == null || RestaurantId == null)
+            {
+                System.Diagnostics.Debug.WriteLine("One or more parameters is null");
+                return View("Error");
+            }
+
+            Product Product = db.Products.Find(ProductId);
+            ViewData["AllCategories"] = GetProductCategories(db);
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
+            ViewData["Restaurant"] = Restaurant;
+
+            if (Restaurant == null || Product == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Restaurant and/or product is null or could not be found");
+                return View("Error");
+            }
+
+            return View(Product);
+        }
+
+        /// <summary>
+        /// Posts information from CreateProduct form
+        /// </summary>
+        /// <param name="RestaurantId">Id of Restaurant entered on form</param>
+        /// <param name="ProductCategory">Id of ProductCategory entered on form</param>
+        /// <param name="ProductName">Name of Product entered on form</param>
+        /// <param name="ProductPrice">Price of Product entered on form</param>
+        /// <param name="ProductDescription">Description of Product entered on form</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Create(int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
+        {
+            //var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
+            //Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
+
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            ProductCategory NewCategory = null;
+            foreach(ProductCategory Category in AllCategories)
+            {
+                if (Category.Id.Equals(ProductCategory))
                 {
-                    Cat = c;
+                    NewCategory = Category;
                 }
             }
 
-            Product product = new Product
+            Product Product = new Product
             {
-                Restaurant = RestaurantController.GetRestaurantForDBOperation(db, restaurantId),
-                Category = Cat,
-                Name = prodName,
-                Price = prodPrice,
-                Description = prodDesc
+                Restaurant = RestaurantController.GetRestaurantForDBOperation(db, RestaurantId),
+                Category = NewCategory,
+                Name = ProductName,
+                Price = ProductPrice,
+                Description = ProductDescription
             };
-            db.Products.Add(product);
+
+            db.Products.Add(Product);
             db.SaveChanges();
-            return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
+
+            return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
         }
 
+        /// <summary>
+        /// Posts form data to edit an existing Product in the database
+        /// </summary>
+        /// <param name="ProductID">Id of product entered on form</param>
+        /// <param name="RestaurantId">Id of restaurant entered on form</param>
+        /// <param name="ProductCategory">Id of ProductCategory entered on form</param>
+        /// <param name="ProductName">Name of product entered on form</param>
+        /// <param name="ProductPrice">Price of product entered on form</param>
+        /// <param name="ProductDescription">Description of product entered on form</param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult Edit(int prodId, int restaurantId, int prodCategory, string prodName, double prodPrice, string prodDesc)
+        public ActionResult Edit(int ProductId, int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
         {
             var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
             Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
 
-            List<ProductCategory> Cats = db.ProductCategories.ToList();
-            ProductCategory Cat = null;
-            foreach (var c in Cats)
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            ProductCategory NewProductCategory = null;
+            foreach (ProductCategory Category in AllCategories)
             {
-                if (c.Id.Equals(prodCategory))
+                if (Category.Id.Equals(ProductCategory))
                 {
-                    Cat = c;
+                    NewProductCategory = Category;
                 }
             }
 
-            Product product = new Product
+            Product Product = new Product
             {
-                Restaurant = RestaurantController.GetRestaurantForDBOperation(db, restaurantId),
-                Category = Cat,
-                Name = prodName,
-                Price = prodPrice,
-                Description = prodDesc
+                Restaurant = RestaurantController.GetRestaurantForDBOperation(db, RestaurantId),
+                Category = NewProductCategory,
+                Name = ProductName,
+                Price = ProductPrice,
+                Description = ProductDescription
             };
 
-            var entity = db.Products.FirstOrDefault(item => item.Id == prodId);
+            Product Entity = db.Products.FirstOrDefault(item => item.Id == ProductId);
 
-            if (entity != null)
+            if (Entity != null)
             {
-                entity.Category = Cat;
-                entity.Name = prodName;
-                entity.Price = prodPrice;
-                entity.Description = prodDesc;
+                Entity.Category = NewProductCategory;
+                Entity.Name = ProductName;
+                Entity.Price = ProductPrice;
+                Entity.Description = ProductDescription;
 
                 // Save changes to database
                 try
                 {
                     db.SaveChanges();
-                    return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
+                    return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
                 }
-                catch (Exception e)
+                catch (Exception E)
                 {
-                    System.Diagnostics.Debug.WriteLine(e.Message);
-                    System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                    System.Diagnostics.Debug.WriteLine(E.Message);
+                    System.Diagnostics.Debug.WriteLine(E.StackTrace);
                     return View("Error");
                 }
             }
@@ -232,19 +342,136 @@ namespace ASDNew.Controllers
                 System.Diagnostics.Debug.WriteLine("EditProduct entity is null");
                 return View("Error");
             }
-
-            
         }
 
-        public ActionResult Delete(int prodId, int restaurantId, int prodCategory, string prodName, double prodPrice, string prodDesc)
+        /// <summary>
+        /// Posts form data to remove an existing Product from the database
+        /// </summary>
+        /// <param name="ProductId">Id of product entered on form</param>
+        /// <param name="RestaurantId">Id of restaurant entered on form</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Delete(int ProductId, int RestaurantId)
         {
             var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
             Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
 
-            // TODO: Complete implementation, Set deleted flag = true
+            // Fetch product ID from database
+            Product Entity = db.Products.FirstOrDefault(item => item.Id == ProductId);
 
-            return View("Error");
+            if (Entity != null)
+            {
+                try
+                {
+                    // Remove product record from database
+                    db.Products.Remove(Entity);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
+                }
+                catch (Exception E)
+                {
+                    System.Diagnostics.Debug.WriteLine(E.Message);
+                    System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                    return View("Error");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("DeleteProduct entity is null");
+                return View("Error");
+            }
         }
 
+        /// <summary>
+        /// Adds product to cart
+        /// </summary>
+        /// <param name="ProductId">Product to Add</param>
+        /// <param name="RestaurantId">Restaurant product is sold at</param>
+        /// <returns></returns>
+        public ActionResult AddToCart(int ProductId, int RestaurantId)
+        {
+            double TotalPrice;
+            if (Session["Cart"] == null)
+            {
+                List<Product> Cart = new List<Product>();
+                var Product = db.Products.Find(ProductId);
+                Cart.Add(new Product()
+                {
+                    Id = Product.Id,
+                    Name = Product.Name,
+                    Description = Product.Description,
+                    Price = Product.Price,
+                });
+                Session["Cart"] = Cart;
+                TotalPrice = 0;
+                TotalPrice += db.Products.Find(ProductId).Price;
+                Session["TotalAmount"] = TotalPrice;
+            }
+            else
+            {
+                List<Product> Cart = (List<Product>)Session["Cart"];
+                var Product = db.Products.Find(ProductId);
+                Cart.Add(new Product()
+                {
+                    Id = Product.Id,
+                    Name = Product.Name,
+                    Description = Product.Description,
+                    Price = Product.Price,
+                });
+                Session["Cart"] = Cart;
+                double Temp = Double.Parse(Session["TotalAmount"].ToString());
+                TotalPrice = db.Products.Find(ProductId).Price;
+                Session["TotalAmount"] = TotalPrice + Temp;
+            }
+
+            return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
+        }
+
+        /// <summary>
+        /// Remove every Product from the Cart
+        /// </summary>
+        /// <param name="RestaurantId">Restaurant page to return to</param>
+        /// <returns>Product/Index View for specific Restaurant</returns>
+        public ActionResult RemoveAllFromCart(int RestaurantId)
+        {
+            if (Session["Cart"] != null)
+            {
+                List<Product> Cart = new List<Product>();
+                Session["Cart"] = Cart;
+                Session["TotalAmount"] = 0;
+            }
+            return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
+        }
+
+        /// <summary>
+        /// Removes an item from the Cart
+        /// </summary>
+        /// <param name="ProductId"></param>
+        /// <param name="RestaurantId"></param>
+        /// <returns>Product/Index View for specific Resraurant</returns>
+        public ActionResult RemoveFromCart(int ProductId, int RestaurantId)
+        {
+            if (Session["Cart"] != null)
+            {
+                List<Product> Cart = (List<Product>)Session["Cart"];
+                Session["Cart"] = Cart.Where(m => m.Id != ProductId).ToList();
+                double TotalPrice = db.Products.Find(ProductId).Price;
+                Session["TotalAmount"] = Double.Parse(Session["TotalAmount"].ToString()) - TotalPrice;
+                if (Double.Parse(Session["TotalAmount"].ToString()) <= 0.5)
+                {
+                    Session["TotalAmount"] = 0;
+                }
+            }
+            return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
+        }
+
+        /// <summary>
+        /// Jumps to payment page
+        /// </summary>
+        /// <returns>Payment/PaymentPage View</returns>
+        public ActionResult ContinuetoCheckout()
+        {
+            return RedirectToAction("PaymentPage", "Payment");
+        }
     }
 }
