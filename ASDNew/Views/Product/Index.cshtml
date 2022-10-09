@@ -437,8 +437,8 @@
                             <button class="description">@p.Description</button><br>
 
                             <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new { prodId = p.Id, restaurantId = Restaurant.Id })"'>Add To Cart ($@p.Price)</button>
-                            <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {prodId = p.Id, restaurantId = Restaurant.Id })"'>Edit Product</button>
-                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {prodId = p.Id, restaurantId = Restaurant.Id })"'>Delete Product</button>
+                            <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {ProductId = p.Id, RestaurantId = Restaurant.Id })"'>Edit Product</button>
+                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {ProductId = p.Id, RestaurantId = Restaurant.Id })"'>Delete Product</button>
                         </div>
                     }
                 }
