@@ -252,8 +252,8 @@ namespace ASDNew.Controllers
         [HttpPost]
         public ActionResult Create(int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
         {
-            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
-            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
+            //var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
+            //Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
 
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             ProductCategory NewCategory = null;

@@ -9,10 +9,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Web;
 using System.Web.Mvc;
-
-
-
-
+using System.Data.Entity.Infrastructure;
 
 namespace UnitTesting
 {
@@ -34,16 +31,35 @@ namespace UnitTesting
         //Patrick.E
         //F109: Adding products to restaurant
         [Test]
-        public void TestProduct()
+        public void TestAddProduct()
         {
-            //Product p = new Product();
-            //Assert.That(p.Add(5, 3), Is.EqualTo(8), "Sum of the two numbers does not match expected answer");
+            // Get product count from database before adding the new product
+            int prodCountBefore = db.Products.Count();
 
-            Product p = new Product
-            {
-                Name = "Test",
-            };
-            Assert.AreEqual("Test", p.Name);
+            // Create a new product to test
+            int restaurantId = db.Restaurants.First().Id;
+            int prodCategory = db.ProductCategories.First().Id;
+            string prodName = "UNIT TEST Delicious Cheeseburger";
+            double prodPrice = 5.95;
+            string prodDescription = "This is a tasty cheeseburger. Some more sample text!";
+
+            ProductController controller = new ProductController();
+
+            // Trigger the function in the Controller class
+            ActionResult actionResult = controller.Create(restaurantId, prodCategory, prodName, prodPrice, prodDescription);
+
+            // Query the database after adding the new product
+            Product retrievedProduct = db.Products.OrderByDescending(p => p.Id).FirstOrDefault();
+            int prodCountAfter = db.Products.Count();
+
+            // Assert statements
+            Assert.NotNull(retrievedProduct);
+            Assert.IsTrue(prodCountAfter == (prodCountBefore + 1), "Number of product records was expected to increase by 1 after adding new product");
+            Assert.AreEqual(restaurantId, retrievedProduct.Restaurant.Id);
+            Assert.AreEqual(prodCategory, retrievedProduct.Category.Id);
+            Assert.AreEqual(prodName, retrievedProduct.Name);
+            Assert.AreEqual(prodPrice, retrievedProduct.Price);
+            Assert.AreEqual(prodDescription, retrievedProduct.Description);
         }
 
         [Test] //David
