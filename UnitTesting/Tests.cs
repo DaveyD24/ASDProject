@@ -33,6 +33,11 @@ namespace UnitTesting
         [Test]
         public void TestAddProduct()
         {
+            AdminController AdminController = new AdminController();
+            AdminController.AddProductCategories();
+            AdminController.AddRestaurants();
+            AdminController.AddProducts();
+
             // Get product count from database before adding the new product
             int prodCountBefore = db.Products.Count();
 
