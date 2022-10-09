@@ -35,16 +35,16 @@ namespace ASDNew.Controllers
         //POST: Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(User _user)
+        public ActionResult Register(Customer _customer)
         {
             if (ModelState.IsValid)
             {
-                var check = _db.Customers.FirstOrDefault(s => s.Email == _user.Email);
+                var check = _db.Customers.FirstOrDefault(s => s.Email == _customer.Email);
                 if (check == null)
                 {
-                    _user.Password = GetMD5(_user.Password);
+                    _customer.Password = GetMD5(_customer.Password);
                     _db.Configuration.ValidateOnSaveEnabled = false;
-                    _db.Customers.Add(_user);
+                    _db.Customers.Add(_customer);
                     _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -70,14 +70,14 @@ namespace ASDNew.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(UserLogin _userlogin)
+        public ActionResult Login(CustomerLogin _customerlogin)
         {
             if (ModelState.IsValid)
             {
 
 
-                var f_password = GetMD5(_userlogin.Password);
-                var data = _db.Customers.Where(s => s.Email.Equals(_userlogin.Email) && s.Password.Equals(f_password)).ToList();
+                var f_password = GetMD5(_customerlogin.Password);
+                var data = _db.Customers.Where(s => s.Email.Equals(_customerlogin.Email) && s.Password.Equals(f_password)).ToList();
                 if (data.Count() > 0)
                 {
                     //add session

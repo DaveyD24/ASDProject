@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ASDNew.Models
 {
-    public class UserLogin
+    public class CustomerLogin
     {
         [Required]
         public string Email { get; set; }
