@@ -306,6 +306,44 @@ namespace ASDNew.Controllers
         }
 
         /// <summary>
+        /// Posts form data to remove an existing Product from the database
+        /// </summary>
+        /// <param name="ProductId">Id of product entered on form</param>
+        /// <param name="RestaurantId">Id of restaurant entered on form</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Delete(int ProductId, int RestaurantId)
+        {
+            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
+            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
+
+            // Fetch product ID from database
+            Product Entity = db.Products.FirstOrDefault(item => item.Id == ProductId);
+
+            if (Entity != null)
+            {
+                try
+                {
+                    // Remove product record from database
+                    db.Products.Remove(Entity);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
+                }
+                catch (Exception E)
+                {
+                    System.Diagnostics.Debug.WriteLine(E.Message);
+                    System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                    return View("Error");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("DeleteProduct entity is null");
+                return View("Error");
+            }
+        }
+
+        /// <summary>
         /// Adds product to cart
         /// </summary>
         /// <param name="ProductId">Product to Add</param>
