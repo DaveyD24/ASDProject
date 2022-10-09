@@ -9,7 +9,7 @@ namespace ASDNew.Controllers
 {
     public class AdminController : Controller
     {
-        ASDContext3 db = new ASDContext3();
+        ASDContext5 db = new ASDContext5();
 
         // GET: Admin
         public ActionResult Index()

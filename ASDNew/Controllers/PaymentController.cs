@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ASDNew.Models;
+using Payment = ASDNew.Models.Payment;
 //using static ASDNew.Models.Restaurant;
 
 namespace ASDNew.Controllers
@@ -15,24 +16,40 @@ namespace ASDNew.Controllers
         private ASDContext3 db = new ASDContext3();
 
         // GET: Product
-        public ActionResult Index()
+
+        public static Payment PaymentHistory(ASDContext3 db, string email)
         {
-            var payments = from r in db.Payments
-                         orderby r.Id
-                         select r;
-            return View(payments);
+            List<Payment> paymentHistory = db.Payments.ToList();
+            foreach (var item in paymentHistory)
+            {
+                if (item.BillingEmail.Equals(email))
+                {
+                    return item;
+                }
+            }
+            return null;
         }
 
-        public ActionResult ProductPage()
+        public ActionResult PaymentHistory(Payment payment)
+        {
+            return View(db.Payments.ToList());
+        }
+
+        public ActionResult PaymentPage()
         {
             return View();
         }
 
-        public ActionResult Create(Payment payment)
+        public ActionResult PaymentSuccess(Payment payment)
         {
-            db.Payments.Add(payment);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                payment.Date = DateTime.Now;
+                db.Payments.Add(payment);
+                db.SaveChanges();
+                return View(db.Payments.ToList());
+            }
+            return View("PaymentPage", payment);
         }
 
         //public ActionResult Edit()

@@ -138,7 +138,7 @@ namespace ASDNew.Models
         public ProductCategory GetProductCategory(string name)
         {
 
-            ASDContext3 db = new ASDContext3();
+            ASDContext5 db = new ASDContext5();
 
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             foreach (ProductCategory pc in AllCategories)

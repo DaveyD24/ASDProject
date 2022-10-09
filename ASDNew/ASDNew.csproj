@@ -142,6 +142,8 @@
     <Compile Include="Models\ASDContext.cs" />
     <Compile Include="Models\ASDContext2.cs" />
     <Compile Include="Models\ASDContext3.cs" />
+    <Compile Include="Models\ASDContext4.cs" />
+    <Compile Include="Models\ASDContext5.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />
@@ -207,6 +209,9 @@
     <Content Include="Views\Product\AddProduct.cshtml" />
     <Content Include="Views\Product\EditProduct.cshtml" />
     <Content Include="Views\Product\DeleteProduct.cshtml" />
+    <Content Include="Views\Payment\PaymentHistory.cshtml" />
+    <Content Include="Views\Payment\PaymentPage.cshtml" />
+    <Content Include="Views\Payment\PaymentSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
