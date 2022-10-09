@@ -11,47 +11,59 @@ namespace ASDNew.Controllers
     {
         ASDContext5 db = new ASDContext5();
 
-        // GET: Admin
+        /// <summary>
+        /// Load Admin Control Panel
+        /// </summary>
+        /// <returns>Admin/Index View</returns>
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Adds ProductCategories from SampleData to the database
+        /// </summary>
+        /// <returns>Redirect to Admin Control Panel</returns>
         public ActionResult AddProductCategories()
         {
-            SampleProductCategory spc = new SampleProductCategory();
-            foreach (ProductCategory pc in spc.SampleCategories)
+            SampleProductCategory SampleProductCategories = new SampleProductCategory();
+            foreach (ProductCategory Category in SampleProductCategories.SampleCategories)
             {
-                if (!ContainsCategory(pc))
+                if (!ContainsCategory(Category))
                 {
-                    db.ProductCategories.Add(pc);
+                    db.ProductCategories.Add(Category);
                     db.SaveChanges();
                 }
             }
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Adds Restaurants from SampleData to the database
+        /// </summary>
+        /// <returns>Redirect to Admin Control Panel</returns>
         public ActionResult AddRestaurants()
         {
-
-            SampleRestaurant sr = new SampleRestaurant();
-
-            foreach (Restaurant r in sr.AllRestaurants)
+            SampleRestaurant SampleRestaurants = new SampleRestaurant();
+            foreach (Restaurant Restaurant in SampleRestaurants.AllRestaurants)
             {
-                db.Restaurants.Add(r);
+                db.Restaurants.Add(Restaurant);
                 db.SaveChanges();
             }
-
             return RedirectToAction("Index");
-            
         }
 
+        /// <summary>
+        /// Check if a category has already been added to the database
+        /// </summary>
+        /// <param name="Category">Category to check</param>
+        /// <returns>whether Category exists in database</returns>
         public bool ContainsCategory(ProductCategory Category)
         {
-            List<ProductCategory> xd = db.ProductCategories.ToList();
-            foreach (ProductCategory pc in xd)
+            List<ProductCategory> ProductCategories = db.ProductCategories.ToList();
+            foreach (ProductCategory ProductCategory in ProductCategories)
             {
-                if (pc.Name.Equals(Category.Name))
+                if (ProductCategory.Name.Equals(Category.Name))
                 {
                     return true;
                 }
@@ -59,88 +71,32 @@ namespace ASDNew.Controllers
             return false;
         }
 
+        /// <summary>
+        /// Add Products from SampleData to the database
+        /// </summary>
+        /// <returns>Redirect to Admin Control Panel</returns>
         public ActionResult AddProducts()
         {
-            SampleProduct sp = new SampleProduct();
-            var AllRestaurantsInDb = db.Restaurants.ToList();
+            SampleProduct SampleProducts = new SampleProduct();
+            List<Restaurant> AllRestaurantsInDb = db.Restaurants.ToList();
 
-            int productCount = 12;
+            int ProductCount = 12;
 
-            foreach (var r in AllRestaurantsInDb)
+            foreach (Restaurant Restaurant in AllRestaurantsInDb)
             {
-                Random random = new Random();
-                List<Product> AllProducts = sp.AllProducts;
-                var Indices = Enumerable.Range(0, productCount).OrderBy(g => random.Next()).ToList();
+                Random Random = new Random();
+                List<Product> AllProducts = SampleProducts.AllProducts;
+                var Indices = Enumerable.Range(0, ProductCount).OrderBy(g => Random.Next()).ToList();
 
                 for (int i = 0; i < Indices.Count; i++)
                 {
-                    Product product = AllProducts[i];
-                    product.Restaurant = r;
-                    db.Products.Add(product);
+                    Product Product = AllProducts[i];
+                    Product.Restaurant = Restaurant;
+                    db.Products.Add(Product);
                     db.SaveChanges();
                 }
-
-                //for (int i = 0; i < productCount; i++)
-                //{
-                //    //choose a random product
-                //    Product product = sp.GetRandomProduct();
-                //    //change its restaurantId to r
-                //    product.Restaurant = r;
-
-                //    db.Products.Add(product);
-                //    db.SaveChanges();
-                //}
             }
-
             return RedirectToAction("Index");
-
-
-            //var controller = DependencyResolver.Current.GetService<ProductController>();
-            //controller.ControllerContext = new ControllerContext(this.Request.RequestContext, controller);
-
-            //var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
-            //Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
-
-            //if (Rcontroller == null)
-            //    System.Diagnostics.Debug.WriteLine("xd");
-            //else
-            //    System.Diagnostics.Debug.WriteLine("she'll be right");
-
-            //List<Product> ExampleProducts = new List<Product>();
-            //Product Product1 = new Product
-            //{
-            //    Name = "Whopper Value Meal",
-            //    Restaurant = RestaurantController.GetRestaurant(db, "Hungry Jacks"),
-            //    Category = new ProductCategory
-            //    {
-            //        Name = "Burgers"
-            //    },
-            //    Price = 11.65,
-            //    Description = "Comes with 1 whopper burger, large fries and a large Coke. Yum Yum"
-            //};
-            //System.Diagnostics.Debug.WriteLine(Product1.Restaurant.Description + "here");
-            //Product Product2 = new Product
-            //{
-            //    Name = "Oreo McFlurry",
-            //    Restaurant = RestaurantController.GetRestaurant(db, "McDonalds"),
-            //    Category = new ProductCategory
-            //    {
-            //        Name = "Ice Cream"
-            //    },
-            //    Price = 4.50,
-            //    Description = "Very yum!!!!"
-            //};
-
-            //ExampleProducts.Add(Product1);
-            //ExampleProducts.Add(Product2);
-
-            //foreach(Product p in ExampleProducts)
-            //{
-            //    controller.Create(p);
-            //}
-            
-
-            //return RedirectToAction("Index");
         }
 
         public ActionResult AddCustomers()
