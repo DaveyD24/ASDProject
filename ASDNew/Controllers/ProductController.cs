@@ -252,9 +252,6 @@ namespace ASDNew.Controllers
         [HttpPost]
         public ActionResult Create(int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
         {
-            //var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
-            //Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
-
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             ProductCategory NewCategory = null;
             foreach(ProductCategory Category in AllCategories)
@@ -293,9 +290,6 @@ namespace ASDNew.Controllers
         [HttpPost]
         public ActionResult Edit(int ProductId, int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
         {
-            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
-            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
-
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             ProductCategory NewProductCategory = null;
             foreach (ProductCategory Category in AllCategories)
@@ -353,9 +347,6 @@ namespace ASDNew.Controllers
         [HttpPost]
         public ActionResult Delete(int ProductId, int RestaurantId)
         {
-            var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();
-            Rcontroller.ControllerContext = new ControllerContext(this.Request.RequestContext, Rcontroller);
-
             // Fetch product ID from database
             Product Entity = db.Products.FirstOrDefault(item => item.Id == ProductId);
 

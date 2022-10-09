@@ -3,6 +3,7 @@ using ASDNew.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,9 @@ namespace UnitTesting
         [Test]
         public void TestAddProduct()
         {
+            Random r = new Random();
+
+            // Initialise database
             AdminController AdminController = new AdminController();
             AdminController.AddProductCategories();
             AdminController.AddRestaurants();
@@ -45,19 +49,19 @@ namespace UnitTesting
             int restaurantId = db.Restaurants.First().Id;
             int prodCategory = db.ProductCategories.First().Id;
             string prodName = "UNIT TEST Delicious Cheeseburger";
-            double prodPrice = 5.95;
+            double prodPrice = Math.Round(r.NextDouble() * 10, 2);
             string prodDescription = "This is a tasty cheeseburger. Some more sample text!";
 
-            ProductController controller = new ProductController();
-
             // Trigger the function in the Controller class
-            ActionResult actionResult = controller.Create(restaurantId, prodCategory, prodName, prodPrice, prodDescription);
+            ProductController controller = new ProductController();
+            controller.Create(restaurantId, prodCategory, prodName, prodPrice, prodDescription);
 
             // Query the database after adding the new product
-            Product retrievedProduct = db.Products.OrderByDescending(p => p.Id).FirstOrDefault();
-            int prodCountAfter = db.Products.Count();
+            ASDContext5 dbReplica = new ASDContext5();
+            Product retrievedProduct = dbReplica.Products.OrderByDescending(p => p.Id).Include(x => x.Category).Include(y => y.Restaurant).FirstOrDefault();
+            int prodCountAfter = dbReplica.Products.Count();
 
-            // Assert statements
+            // Perform checks
             Assert.NotNull(retrievedProduct);
             Assert.IsTrue(prodCountAfter == (prodCountBefore + 1), "Number of product records was expected to increase by 1 after adding new product");
             Assert.AreEqual(restaurantId, retrievedProduct.Restaurant.Id);
@@ -65,6 +69,87 @@ namespace UnitTesting
             Assert.AreEqual(prodName, retrievedProduct.Name);
             Assert.AreEqual(prodPrice, retrievedProduct.Price);
             Assert.AreEqual(prodDescription, retrievedProduct.Description);
+        }
+
+        //Patrick.E
+        //F110: Edit/delete products in restaurant
+        [Test]
+        public void TestEditProduct()
+        {
+            Random r = new Random();
+
+            // Initialise database
+            AdminController AdminController = new AdminController();
+            AdminController.AddProductCategories();
+            AdminController.AddRestaurants();
+            AdminController.AddProducts();
+
+            // Get random product record to update
+            int total = db.Products.Count();
+            int offset = r.Next(0, total);
+            Product productToUpdate = db.Products.OrderBy(p => p.Id).Include(x => x.Category).Include(y => y.Restaurant).Skip(offset).FirstOrDefault();
+
+            // Get random category
+            int categoryTotal = db.ProductCategories.Count();
+            int categoryOffset = r.Next(0, categoryTotal);
+            ProductCategory randomCategory = db.ProductCategories.OrderBy(c => c.Id).Skip(categoryOffset).FirstOrDefault();
+
+            // Set new properties
+            int newCategory = randomCategory.Id;
+            string newName = "UNIT TEST Name update";
+            double newPrice = Math.Round(r.NextDouble() * 10, 2);
+            string newDescription = "Testing the description...";
+
+            // Trigger the edit function
+            ProductController controller = new ProductController();
+            controller.Edit(productToUpdate.Id, productToUpdate.Restaurant.Id, newCategory, newName, newPrice, newDescription);
+
+            // Retrieve from database after editing the product
+            Product retrievedProduct = db.Products.Find(productToUpdate.Id);
+            db.Entry(retrievedProduct).Reload();
+
+            // Perform checks
+            Assert.NotNull(retrievedProduct);
+            Assert.AreEqual(productToUpdate.Restaurant.Id, retrievedProduct.Restaurant.Id);
+            Assert.AreEqual(newCategory, retrievedProduct.Category.Id);
+            Assert.AreEqual(newName, retrievedProduct.Name);
+            Assert.AreEqual(newPrice, retrievedProduct.Price);
+            Assert.AreEqual(newDescription, retrievedProduct.Description);
+        }
+
+        //Patrick.E
+        //F110: Edit/delete products in restaurant
+        [Test]
+        public void TestDeleteProduct()
+        {
+            Random r = new Random();
+
+            // Initialise database
+            AdminController AdminController = new AdminController();
+            AdminController.AddProductCategories();
+            AdminController.AddRestaurants();
+            AdminController.AddProducts();
+
+            // Get product count from database before deleting the product
+            int prodCountBefore = db.Products.Count();
+
+            // Get random product record to update
+            int total = db.Products.Count();
+            int offset = r.Next(0, total);
+            Product productToUpdate = db.Products.OrderBy(p => p.Id).Include(x => x.Category).Include(y => y.Restaurant).Skip(offset).FirstOrDefault();
+
+            // Trigger the delete function
+            ProductController controller = new ProductController();
+            controller.Delete(productToUpdate.Id, productToUpdate.Restaurant.Id);
+
+            // Try to retrieve from database after deleting the product
+            ASDContext5 dbReplica = new ASDContext5();
+            Product retrievedProduct = dbReplica.Products.Find(productToUpdate.Id);
+            int prodCountAfter = dbReplica.Products.Count();
+
+            // Perform checks
+            Assert.Null(retrievedProduct, "Retrieved product was expected to be null");
+            Assert.IsTrue(prodCountAfter == (prodCountBefore - 1), "Number of product records was expected to decrease by 1 after deleting the product");
         }
 
         [Test] //David
