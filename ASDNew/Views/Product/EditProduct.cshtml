@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <label for="ProductName" class="control-label col-sm-2">Product Name</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="ProductName" id="ProductName" required value="@Model.Name">
+                        <input type="text" class="form-control" name="ProductName" id="ProductName" required value="@Model.Name" placeholder="Product Name">
                     </div>
                 </div>
 
@@ -53,14 +53,14 @@
                 <div class="form-group">
                     <label for="ProductPrice" class="control-label col-sm-2">Price $</label>
                     <div class="col-sm-10">
-                        <input type="number" name="ProductPrice" id="ProductPrice" min="0" step="0.01" required class="form-control" value="@Model.Price">
+                        <input type="number" name="ProductPrice" id="ProductPrice" min="0" step="0.01" required class="form-control" value="@Model.Price" placeholder="0.00">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="ProductDescription" class="control-label col-sm-2">Description (Optional)</label>
+                    <label for="ProductDescription" class="control-label col-sm-2">Description</label>
                     <div class="col-sm-10">
-                        <textarea name="ProductDescription" id="ProductDescription" rows="4" class="form-control">@Model.Description</textarea>
+                        <textarea name="ProductDescription" id="ProductDescription" rows="4" class="form-control" placeholder="Optional">@Model.Description</textarea>
                     </div>
                 </div>
 
