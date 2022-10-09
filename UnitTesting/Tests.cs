@@ -83,5 +83,28 @@ namespace UnitTesting
             Assert.NotNull(payments);
         }
 
+        [Test]
+        public void TestProductCount()
+        {
+            AdminController AdminController = new AdminController();
+            AdminController.AddProductCategories();
+            AdminController.AddRestaurants();
+            AdminController.AddProducts();
+
+            foreach (Restaurant Restaurant in db.Restaurants.ToList())
+            {
+                int ProductCount = 0;
+                foreach (Product Product in db.Products.ToList())
+                {
+                    if (Product.Restaurant == Restaurant)
+                    {
+                        ProductCount++;
+                    }
+                }
+                Assert.That(ProductCount >= 8);
+                Assert.That(ProductCount <= 16);
+            }
+        }
+
     }
 }

@@ -81,13 +81,14 @@ namespace ASDNew.Controllers
             SampleProduct SampleProducts = new SampleProduct();
             List<Restaurant> AllRestaurantsInDb = db.Restaurants.ToList();
 
-            int ProductCount = 12;
+            Random Rand = new Random();
+            int RandomProductCount = Rand.Next(8, 16);
 
             foreach (Restaurant Restaurant in AllRestaurantsInDb)
             {
                 Random Random = new Random();
                 List<Product> AllProducts = SampleProducts.AllProducts;
-                var Indices = Enumerable.Range(0, ProductCount).OrderBy(g => Random.Next()).ToList();
+                var Indices = Enumerable.Range(0, RandomProductCount).OrderBy(g => Random.Next()).ToList();
 
                 for (int i = 0; i < Indices.Count; i++)
                 {
