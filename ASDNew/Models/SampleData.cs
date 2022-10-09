@@ -87,9 +87,11 @@ namespace ASDNew.Models
         //List<Tuple<string, string>> PossiblePairs = new List<Tuple<string, string>>();
         public List<Product> PossiblePairs = new List<Product>();
         ASDContext5 db;
+        Random random;
         public SampleProduct()
         {
             db = new ASDContext5();
+            random = new Random();
             //PossiblePairs.Add(new Tuple<string, string>("Cheese Burger", GetProductCategory("Burgers").Name));
             PossiblePairs.Add(new Product
             {
@@ -322,7 +324,6 @@ namespace ASDNew.Models
 
         public Product GetRandomProduct()
         {
-            Random random = new Random();
             int rand = random.Next(0, PossiblePairs.Count);
             return (PossiblePairs.ElementAt(rand));
         }
@@ -358,7 +359,7 @@ namespace ASDNew.Models
             double min = 1.00;
             double max = 9.99;
 
-            Random random = new Random();
+            
             return Math.Round((random.NextDouble() * (max - min) + min), 2);
         }
 

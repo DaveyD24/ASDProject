@@ -11,6 +11,7 @@ namespace ASDNew.Controllers
     {
         //Instance of Database
         ASDContext5 db = new ASDContext5();
+        Random Rand = new Random();
 
         /// <summary>
         /// Load Admin Control Panel
@@ -81,7 +82,7 @@ namespace ASDNew.Controllers
             SampleProduct SampleProducts = new SampleProduct();
             List<Restaurant> AllRestaurantsInDb = db.Restaurants.ToList();
 
-            Random Rand = new Random();
+
             int RandomProductCount = Rand.Next(8, 16);
 
             foreach (Restaurant Restaurant in AllRestaurantsInDb)
@@ -92,7 +93,7 @@ namespace ASDNew.Controllers
 
                 for (int i = 0; i < Indices.Count; i++)
                 {
-                    Product Product = AllProducts[i];
+                    Product Product = AllProducts[Indices[i]];
                     Product.Restaurant = Restaurant;
                     db.Products.Add(Product);
                     db.SaveChanges();

@@ -106,5 +106,16 @@ namespace UnitTesting
             }
         }
 
+        [Test]
+        public void TestCategoryDuplication()
+        {
+            AdminController AdminController = new AdminController();
+            AdminController.AddProductCategories();
+            AdminController.AddRestaurants();
+            AdminController.AddProducts();
+
+            Assert.AreEqual(db.ProductCategories.ToList().Count, db.ProductCategories.Distinct().ToList().Count);
+        }
+
     }
 }
