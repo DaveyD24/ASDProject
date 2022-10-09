@@ -13,11 +13,11 @@ namespace ASDNew.Controllers
 
     public class PaymentController : Controller
     {
-        private ASDContext3 db = new ASDContext3();
+        private ASDContext5 db = new ASDContext5();
 
         // GET: Product
 
-        public static Payment PaymentHistory(ASDContext3 db, string email)
+        public static Payment PaymentHistory(ASDContext5 db, string email)
         {
             List<Payment> paymentHistory = db.Payments.ToList();
             foreach (var item in paymentHistory)

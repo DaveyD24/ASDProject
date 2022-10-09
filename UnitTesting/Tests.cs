@@ -64,5 +64,24 @@ namespace UnitTesting
             Assert.AreEqual("~/Views/Error/Index.cshtml", PageReturn.ViewName);
         }
 
+        //Brendan
+        //F112: Show payment history
+        [Test]
+        public void ShowPaymentHistory()
+        {
+            //Arrange new payment
+            Payment newPayment = new Payment
+            {
+                BillingName = "James",
+                BillingEmail = "james@uts.com",
+            };
+
+            //Act - add to database and if there are records with same email, store them in payments
+            Payment payments = PaymentController.PaymentHistory(db, newPayment.BillingEmail);
+
+            //Assert that payments is not null and that there are payment records in the payment database
+            Assert.NotNull(payments);
+        }
+
     }
 }
