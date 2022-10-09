@@ -1,0 +1,111 @@
+﻿@model IEnumerable<ASDNew.Models.Payment>
+
+
+
+<style>
+    a:hover {
+        cursor: pointer;
+    }
+</style>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Add Product to Restaurant</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="divider">
+        <h3>Payment Success</h3>
+    </div>
+    <div class="divider">
+        @foreach (var item in Model.Reverse().Take(1))
+        {
+            <p>
+                Your order has been successfully paid for at @Html.DisplayFor(modelItem => item.Date) and will be delivered to your address at
+                @Html.DisplayFor(modelItem => item.BillingStreetNum) @Html.DisplayFor(modelItem => item.BillingStreet), @Html.DisplayFor(modelItem => item.BillingSuburb), @Html.DisplayFor(modelItem => item.BillingState).
+            </p>
+            <p>
+                Your payment ID is @Html.DisplayFor(modelItem => item.Id) and a copy of the receipt will be sent to your email address at
+                @Html.DisplayFor(modelItem => item.BillingEmail).
+            </p>
+            <p>Click @Html.ActionLink("History", "PaymentHistory", "Payment", new { email = item.BillingEmail }) to view your payment history.</p>
+        }
+    </div>
+
+    @*<div>
+            <table>
+                <thead>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Billing Name
+                </th>
+                <th>
+                    Billing Address
+                </th>
+                <th>
+                    Billing Suburb
+                </th>
+                <th>
+                    Billing State
+                </th>
+                <th>
+                    Billing PostCode
+                </th>
+                <th>
+                    CreditCardNumber
+                </th>
+                <th>
+                    Expiry
+                </th>
+                <th>
+                    CVV
+                </th>
+                </thead>
+                <tbody>
+                    @foreach (var payment in Model)
+                    {
+                        <tr>
+                            <td>
+                                @payment.Id
+                            </td>
+                            <td>
+                                @payment.BillingName
+                            </td>
+                            <td>
+                                @payment.BillingAddress
+                            </td>
+                            <td>
+                                @payment.BillingSuburb
+                            </td>
+                            <td>
+                                @payment.BillingState
+                            </td>
+                            <td>
+                                @payment.BillingPostCode
+                            </td>
+                            <td>
+                                @payment.CreditCardNumber
+                            </td>
+                            <td>
+                                @payment.CreditCardExpiry
+                            </td>
+                            <td>
+                                @payment.CVV
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>*@
+</body>
+
+</html>
