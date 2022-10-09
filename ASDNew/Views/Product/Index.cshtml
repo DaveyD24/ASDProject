@@ -420,7 +420,7 @@
     <p style="padding: 10px">
         @Restaurant.Description
     </p>
-    <input type="button" class="add" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { restaurantId = Restaurant.Id })'"/>
+    <input type="button" class="add" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { RestaurantId = Restaurant.Id })'"/>
 
     <div class="row">
         <div class="column left">
@@ -428,17 +428,17 @@
             @foreach (var Category in Categories)
             {
                 <h3>@Category.Name.ToUpper()</h3>
-                foreach (var p in @Model)
+                foreach (var Product in @Model)
                 {
-                    if (p.Category == Category)
+                    if (Product.Category == Category)
                     {
-                        <button class="collapsible">@p.Name</button>
+                        <button class="collapsible">@Product.Name</button>
                         <div class="content">
-                            <button class="description">@p.Description</button><br>
+                            <button class="description">@Product.Description</button><br>
 
-                            <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new { prodId = p.Id, restaurantId = Restaurant.Id })"'>Add To Cart ($@p.Price)</button>
-                            <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {ProductId = p.Id, RestaurantId = Restaurant.Id })"'>Edit Product</button>
-                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {ProductId = p.Id, RestaurantId = Restaurant.Id })"'>Delete Product</button>
+                            <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new { ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Add To Cart ($@Product.Price)</button>
+                            <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Edit Product</button>
+                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Delete Product</button>
                         </div>
                     }
                 }
@@ -449,28 +449,28 @@
             <div class="CartContainer">
                 <div class="Header">
                     <h3 class="Heading">Shopping Cart</h3>
-                    <h5 class="Action" onclick='location.href="@Url.Action("RemoveAllFromCart", "Product", new { restaurantId = Restaurant.Id} )"'>Remove all</h5>
+                    <h5 class="Action" onclick='location.href="@Url.Action("RemoveAllFromCart", "Product", new { RestaurantId = Restaurant.Id} )"'>Remove all</h5>
                 </div>
 
-                @if (Session["cart"] != null)
+                @if (Session["Cart"] != null)
                 {
-                    foreach (Product product in (List<Product>)Session["cart"])
+                    foreach (Product Product in (List<Product>)Session["Cart"])
                     {
                         <div class="Cart-Items">
                             <div class="image-box">
 
                             </div>
                             <div class="about">
-                                <b>@product.Name</b>
-                                <p>@product.Description</p>
+                                <b>@Product.Name</b>
+                                <p>@Product.Description</p>
                             </div>
                             <div>
 
                             </div>
                             <div class="prices">
-                                <div class="amount">$@product.Price</div>
+                                <div class="amount">$@Product.Price</div>
                                 <div class="remove">
-                                    <p onclick='location.href="@Url.Action("RemoveFromCart", "Product", new {prodId = product.Id, restaurantId = Restaurant.Id })"'>Remove</p>
+                                    <p onclick='location.href="@Url.Action("RemoveFromCart", "Product", new {ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Remove</p>
                                 </div>
                             </div>
                         </div>
@@ -483,7 +483,7 @@
                             <div class="">Sub-Total</div>
                             <div class="items"></div>
                         </div>
-                        <div class="">$@HttpContext.Current.Session["totalamount"]</div>
+                        <div class="">$@HttpContext.Current.Session["TotalAmount"]</div>
                     </div>
                     <input type="button" value="Go To Payment" onclick="location.href = '@Url.Action("PaymentPage", "Payment")'" />
                 </div>

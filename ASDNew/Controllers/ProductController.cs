@@ -305,89 +305,96 @@ namespace ASDNew.Controllers
             }
         }
 
-        // CART STUFF
-        public ActionResult AddToCart(int prodId, int restaurantId)
+        /// <summary>
+        /// Adds product to cart
+        /// </summary>
+        /// <param name="ProductId">Product to Add</param>
+        /// <param name="RestaurantId">Restaurant product is sold at</param>
+        /// <returns></returns>
+        public ActionResult AddToCart(int ProductId, int RestaurantId)
         {
-            double totalprice;
-            if (Session["cart"] == null)
+            double TotalPrice;
+            if (Session["Cart"] == null)
             {
-                List<Product> cart = new List<Product>();
-                var product = db.Products.Find(prodId);
-                cart.Add(new Product()
+                List<Product> Cart = new List<Product>();
+                var Product = db.Products.Find(ProductId);
+                Cart.Add(new Product()
                 {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
+                    Id = Product.Id,
+                    Name = Product.Name,
+                    Description = Product.Description,
+                    Price = Product.Price,
                 });
-                Session["cart"] = cart;
-                totalprice = 0;
-                totalprice += db.Products.Find(prodId).Price;
-                Session["totalamount"] = totalprice;
+                Session["Cart"] = Cart;
+                TotalPrice = 0;
+                TotalPrice += db.Products.Find(ProductId).Price;
+                Session["TotalAmount"] = TotalPrice;
             }
             else
             {
-                List<Product> cart = (List<Product>)Session["cart"];
-                var product = db.Products.Find(prodId);
-                cart.Add(new Product()
+                List<Product> Cart = (List<Product>)Session["Cart"];
+                var Product = db.Products.Find(ProductId);
+                Cart.Add(new Product()
                 {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
+                    Id = Product.Id,
+                    Name = Product.Name,
+                    Description = Product.Description,
+                    Price = Product.Price,
                 });
-                Session["cart"] = cart;
-                double temp = Double.Parse(Session["totalamount"].ToString());
-                totalprice = db.Products.Find(prodId).Price;
-                Session["totalamount"] = totalprice + temp;
+                Session["Cart"] = Cart;
+                double Temp = Double.Parse(Session["TotalAmount"].ToString());
+                TotalPrice = db.Products.Find(ProductId).Price;
+                Session["TotalAmount"] = TotalPrice + Temp;
             }
 
-
-            return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
+            return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
         }
 
-        public ActionResult RemoveAllFromCart(int restaurantId)
+        /// <summary>
+        /// Remove every Product from the Cart
+        /// </summary>
+        /// <param name="RestaurantId">Restaurant page to return to</param>
+        /// <returns>Product/Index View for specific Restaurant</returns>
+        public ActionResult RemoveAllFromCart(int RestaurantId)
         {
-            if (Session["cart"] != null)
+            if (Session["Cart"] != null)
             {
-                List<Product> cart = new List<Product>();
-                Session["cart"] = cart;
-                Session["totalamount"] = 0;
+                List<Product> Cart = new List<Product>();
+                Session["Cart"] = Cart;
+                Session["TotalAmount"] = 0;
             }
-            return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
+            return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
         }
 
-        public ActionResult RemoveFromCart(int prodId, int restaurantId)
+        /// <summary>
+        /// Removes an item from the Cart
+        /// </summary>
+        /// <param name="ProductId"></param>
+        /// <param name="RestaurantId"></param>
+        /// <returns>Product/Index View for specific Resraurant</returns>
+        public ActionResult RemoveFromCart(int ProductId, int RestaurantId)
         {
-            if (Session["cart"] != null)
+            if (Session["Cart"] != null)
             {
-                List<Product> cart = (List<Product>)Session["cart"];
-                Session["cart"] = cart.Where(m => m.Id != prodId).ToList();
-                double totalprice = db.Products.Find(prodId).Price;
-                Session["totalamount"] = Double.Parse(Session["totalamount"].ToString()) - totalprice;
-                if (Double.Parse(Session["totalamount"].ToString()) <= 0.5)
+                List<Product> Cart = (List<Product>)Session["Cart"];
+                Session["Cart"] = Cart.Where(m => m.Id != ProductId).ToList();
+                double TotalPrice = db.Products.Find(ProductId).Price;
+                Session["TotalAmount"] = Double.Parse(Session["TotalAmount"].ToString()) - TotalPrice;
+                if (Double.Parse(Session["TotalAmount"].ToString()) <= 0.5)
                 {
-                    Session["totalamount"] = 0;
+                    Session["TotalAmount"] = 0;
                 }
             }
-
-            return RedirectToAction("Index", "Product", new { RestaurantID = restaurantId });
+            return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
         }
 
+        /// <summary>
+        /// Jumps to payment page
+        /// </summary>
+        /// <returns>Payment/PaymentPage View</returns>
         public ActionResult ContinuetoCheckout()
         {
-
-
             return RedirectToAction("PaymentPage", "Payment");
         }
-
-
-
-
-
-
-
-
-
     }
 }

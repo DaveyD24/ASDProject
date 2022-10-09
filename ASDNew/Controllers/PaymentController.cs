@@ -13,54 +13,62 @@ namespace ASDNew.Controllers
 
     public class PaymentController : Controller
     {
+        //Instance of Database
         private ASDContext5 db = new ASDContext5();
 
-        // GET: Product
-
-        public static Payment PaymentHistory(ASDContext5 db, string email)
+        /// <summary>
+        /// Get Payment from database for user
+        /// </summary>
+        /// <param name="db">Database instance</param>
+        /// <param name="Email">Email of user</param>
+        /// <returns>Payment object for user</returns>
+        public static Payment PaymentHistory(ASDContext5 db, string Email)
         {
-            List<Payment> paymentHistory = db.Payments.ToList();
-            foreach (var item in paymentHistory)
+            List<Payment> PaymentHistory = db.Payments.ToList();
+            foreach (Payment Payment in PaymentHistory)
             {
-                if (item.BillingEmail.Equals(email))
+                if (Payment.BillingEmail.Equals(Email))
                 {
-                    return item;
+                    return Payment;
                 }
             }
             return null;
         }
 
-        public ActionResult PaymentHistory(Payment payment)
+        /// <summary>
+        /// Displays Payment History page for user
+        /// </summary>
+        /// <param name="Payment">Payment object</param>
+        /// <returns>Payment/PaymentHistory View</returns>
+        public ActionResult PaymentHistory(Payment Payment)
         {
             return View(db.Payments.ToList());
         }
-
+        
+        /// <summary>
+        /// Displays Payment Page
+        /// </summary>
+        /// <returns>Payment/PaymentPage View</returns>
         public ActionResult PaymentPage()
         {
             return View();
         }
 
-        public ActionResult PaymentSuccess(Payment payment)
+        /// <summary>
+        /// Adds successful payment to the database
+        /// </summary>
+        /// <param name="Payment">Payment to add</param>
+        /// <returns>Payment list or redirect to PaymentPage with existing payment</returns>
+        public ActionResult PaymentSuccess(Payment Payment)
         {
             if (ModelState.IsValid)
             {
-                payment.Date = DateTime.Now;
-                db.Payments.Add(payment);
+                Payment.Date = DateTime.Now;
+                db.Payments.Add(Payment);
                 db.SaveChanges();
                 return View(db.Payments.ToList());
             }
-            return View("PaymentPage", payment);
+            return View("PaymentPage", Payment);
         }
-
-        //public ActionResult Edit()
-        //{
-
-        //}
-
-        //public ActionResult Delete()
-        //{
-
-        //}
-
     }
 }

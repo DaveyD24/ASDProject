@@ -9,6 +9,7 @@ namespace ASDNew.Controllers
 {
     public class AdminController : Controller
     {
+        //Instance of Database
         ASDContext5 db = new ASDContext5();
 
         /// <summary>
