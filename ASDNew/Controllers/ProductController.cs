@@ -164,17 +164,20 @@ namespace ASDNew.Controllers
         /// <returns>AddProduct Page</returns>
         public ActionResult AddProduct(int? RestaurantId)
         {
+            // Show error page if parameter is null
             if (RestaurantId == null)
             {
                 System.Diagnostics.Debug.WriteLine("restaurantId parameter is null");
                 return View("Error");
             }
 
+            // Store data to be used by the View
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             ViewData["AllCategories"] = GetProductCategories(db);
             Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
             ViewData["Restaurant"] = Restaurant;
 
+            // Show error page if restaurant ID does not exist
             if (Restaurant == null)
             {
                 System.Diagnostics.Debug.WriteLine("Restaurant is null or could not be found");
@@ -192,17 +195,20 @@ namespace ASDNew.Controllers
         /// <returns>EditProduct Page</returns>
         public ActionResult EditProduct(int? ProductId, int? RestaurantId)
         {
+            // Show error page if parameters are null
             if (ProductId == null || RestaurantId == null)
             {
                 System.Diagnostics.Debug.WriteLine("One or more parameters is null");
                 return View("Error");
             }
 
+            // Store data to be used by the View
             Product Product = db.Products.Find(ProductId);
             ViewData["AllCategories"] = GetProductCategories(db);
             Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
             ViewData["Restaurant"] = Restaurant;
 
+            // Show error page if restaurant ID does not exist
             if (Restaurant == null || Product == null)
             {
                 System.Diagnostics.Debug.WriteLine("Restaurant and/or product is null or could not be found");
@@ -220,17 +226,20 @@ namespace ASDNew.Controllers
         /// <returns>DeleteProduct Page</returns>
         public ActionResult DeleteProduct(int? ProductId, int? RestaurantId)
         {
+            // Show error page if parameters are null
             if (ProductId == null || RestaurantId == null)
             {
                 System.Diagnostics.Debug.WriteLine("One or more parameters is null");
                 return View("Error");
             }
 
+            // Store data to be used by the View
             Product Product = db.Products.Find(ProductId);
             ViewData["AllCategories"] = GetProductCategories(db);
             Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
             ViewData["Restaurant"] = Restaurant;
 
+            // Show error page if restaurant ID does not exist
             if (Restaurant == null || Product == null)
             {
                 System.Diagnostics.Debug.WriteLine("Restaurant and/or product is null or could not be found");
@@ -253,6 +262,8 @@ namespace ASDNew.Controllers
         public ActionResult Create(int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+
+            // Get the matching product category
             ProductCategory NewCategory = null;
             foreach(ProductCategory Category in AllCategories)
             {
@@ -262,6 +273,7 @@ namespace ASDNew.Controllers
                 }
             }
 
+            // Create the new product using provided parameters
             Product Product = new Product
             {
                 Restaurant = RestaurantController.GetRestaurantForDBOperation(db, RestaurantId),
@@ -271,9 +283,20 @@ namespace ASDNew.Controllers
                 Description = ProductDescription
             };
 
-            db.Products.Add(Product);
-            db.SaveChanges();
+            // Save the new product to database
+            try
+            {
+                db.Products.Add(Product);
+                db.SaveChanges();
+            }
+            catch (Exception E)
+            {
+                System.Diagnostics.Debug.WriteLine(E.Message);
+                System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                return View("Error");
+            }
 
+            // Redirect user to restaurant product page
             return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
         }
 
@@ -291,6 +314,8 @@ namespace ASDNew.Controllers
         public ActionResult Edit(int ProductId, int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+
+            // Get the matching product category
             ProductCategory NewProductCategory = null;
             foreach (ProductCategory Category in AllCategories)
             {
@@ -300,28 +325,24 @@ namespace ASDNew.Controllers
                 }
             }
 
-            Product Product = new Product
-            {
-                Restaurant = RestaurantController.GetRestaurantForDBOperation(db, RestaurantId),
-                Category = NewProductCategory,
-                Name = ProductName,
-                Price = ProductPrice,
-                Description = ProductDescription
-            };
-
+            // Retrieve existing product from database
             Product Entity = db.Products.FirstOrDefault(item => item.Id == ProductId);
 
+            // Check product ID exists
             if (Entity != null)
             {
+                // Update product with new details
                 Entity.Category = NewProductCategory;
                 Entity.Name = ProductName;
                 Entity.Price = ProductPrice;
                 Entity.Description = ProductDescription;
 
-                // Save changes to database
                 try
                 {
+                    // Save changes to database
                     db.SaveChanges();
+
+                    // Redirect user to restaurant product page
                     return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
                 }
                 catch (Exception E)
@@ -350,6 +371,7 @@ namespace ASDNew.Controllers
             // Fetch product ID from database
             Product Entity = db.Products.FirstOrDefault(item => item.Id == ProductId);
 
+            // Check product ID exists
             if (Entity != null)
             {
                 try
