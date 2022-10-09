@@ -15,7 +15,7 @@
                 {
                     <p>Name: @Session["FullName"].ToString()</p>
                     <p>Email: @Session["Email"].ToString()</p>
-                    <a href="@Url.Action("EditUserDetails", "Customer")" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("EditUserDetails","Login")" class="btn btn-warning">Edit</a>
                     <a href="@Url.Action("Logout","Login")" class="btn btn-warning">Logout</a>
                 }
             </div>

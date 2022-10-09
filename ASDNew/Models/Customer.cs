@@ -25,7 +25,6 @@ namespace ASDNew.Models
 
         [Required]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$")]
-
         public string Password { get; set; }
 
         [NotMapped]

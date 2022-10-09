@@ -1,5 +1,10 @@
 ﻿@model ASDNew.Models.Customer
 
+@{
+    ViewBag.Title = "EditUserDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -29,7 +34,7 @@
         <h1>Edit your account details</h1>
     </div>
     <!-- Form -->
-    @using (Html.BeginForm("Edit", "Customer", FormMethod.Post))
+    @using (Html.BeginForm("Edit", "Login", FormMethod.Post))
     {
         //@Html.ValidationSummary()
         @Html.AntiForgeryToken()
