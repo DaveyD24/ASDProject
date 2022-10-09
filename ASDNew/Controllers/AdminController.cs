@@ -142,11 +142,17 @@ namespace ASDNew.Controllers
 
             //return RedirectToAction("Index");
         }
-
         public ActionResult AddCustomers()
         {
+            SampleCustomer sc = new SampleCustomer();
+
+            foreach (Customer c in sc.AllCustomers)
+            {
+                db.Customers.Add(c);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
-
     }
+
 }

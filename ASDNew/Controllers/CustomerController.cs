@@ -24,13 +24,19 @@ namespace ASDNew.Controllers
             return View(restaurants);
         }
 
-        public ActionResult EditUserDetails(int userId)
+        public ActionResult Login()
+        {
+
+            return View();
+        }
+
+        public ActionResult EditUserDetails(int Id)
         {
             if (Session["Username"] != null)
             {
-                var user = db.Customers.Find(userId); 
+                var user = db.Customers.Find(Id); 
             }
-            return View("EditUserDetails", "Customer", new {Id = userId});
+            return View("EditUserDetails", "Customer", new {UserId = Id});
         }
 
         public ActionResult Create(Customer customer)
@@ -38,6 +44,22 @@ namespace ASDNew.Controllers
             db.Customers.Add(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Login(Customer customer)
+        {
+            var usr = db.Customers.Single(c => c.Email == customer.Email && c.Password == customer.Password);
+            if (usr != null)
+            {
+                Session["UserID"] = usr.Id.ToString();
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            return View() ;
         }
 
         public ActionResult Edit(int userId, string FirstName, string LastName, string Email, string Password)

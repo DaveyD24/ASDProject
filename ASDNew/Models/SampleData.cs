@@ -185,7 +185,7 @@ namespace ASDNew.Models
     {
         //Id, Name
         public List<ProductCategory> SampleCategories = new List<ProductCategory>();
-        
+
         public SampleProductCategory()
         {
             List<string> samples = new List<string>();
@@ -200,14 +200,53 @@ namespace ASDNew.Models
             samples.Add("Snacks");
             samples.Add("Shakes");
             samples.Add("Combos");
-            
-            foreach(string sample in samples)
+
+            foreach (string sample in samples)
             {
                 SampleCategories.Add(new ProductCategory
                 {
                     Name = sample
                 });
             }
+        }
+    }
+    public class SampleCustomer
+    {
+        //Id, Name, Description, Email, Password
+        public List<Customer> AllCustomers = new List<Customer>();
+        public List<string> CustomersFN = new List<string>();
+
+        public SampleCustomer()
+        {
+            CustomersFN.Add("Patrick");
+            foreach (string s in CustomersFN)
+            {
+                string trimmed = RemoveWhitespace(s).ToLower();
+                AllCustomers.Add(new Customer
+                {
+                    FirstName = s,
+                    LastName = s,
+                    Email = trimmed + "@" + trimmed + ".com",
+                    Password = RandomString(12)
+                });
+            }
+        }
+        public string RemoveWhitespace(string input)
+        {
+            //return new string(input
+            //    .Where(c => !Char.IsWhiteSpace(c))
+            //    .ToArray());
+
+            string newString = input.Replace(" ", string.Empty);
+            return newString;
+        }
+
+        public string RandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_!@#$%^&*";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
