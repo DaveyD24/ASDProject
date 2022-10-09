@@ -86,11 +86,11 @@ namespace ASDNew.Models
 
         //List<Tuple<string, string>> PossiblePairs = new List<Tuple<string, string>>();
         public List<Product> PossiblePairs = new List<Product>();
-        ASDContext5 db;
+        ASDContext8 db;
         Random random;
         public SampleProduct()
         {
-            db = new ASDContext5();
+            db = new ASDContext8();
             random = new Random();
             //PossiblePairs.Add(new Tuple<string, string>("Cheese Burger", GetProductCategory("Burgers").Name));
             PossiblePairs.Add(new Product
@@ -331,7 +331,7 @@ namespace ASDNew.Models
         public ProductCategory GetProductCategory(string name)
         {
 
-            //ASDContext5 db = new ASDContext5();
+            //ASDContext8 db = new ASDContext8();
 
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             foreach (ProductCategory pc in AllCategories)

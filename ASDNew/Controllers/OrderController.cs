@@ -12,7 +12,7 @@ namespace ASDNew.Controllers
 
     public class OrderController : Controller
     {
-        private ASDContext5 db = new ASDContext5();
+        private ASDContext8 db = new ASDContext8();
 
         // GET: Product
         public ActionResult Index()

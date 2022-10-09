@@ -12,7 +12,7 @@ namespace ASDNew.Controllers
 
     public class CustomerController : Controller
     {
-        private ASDContext5 db = new ASDContext5();
+        private ASDContext3 db = new ASDContext3();
 
         // GET: Product
         public ActionResult Index()
@@ -23,9 +23,16 @@ namespace ASDNew.Controllers
             return View(restaurants);
         }
 
-        public ActionResult ProductPage()
+        public ActionResult EditUserDetails()
         {
-            return View();
+            if (Session["Id"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
         }
 
         public ActionResult Create(Customer customer)
@@ -34,16 +41,5 @@ namespace ASDNew.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        //public ActionResult Edit()
-        //{
-
-        //}
-
-        //public ActionResult Delete()
-        //{
-
-        //}
-
     }
 }

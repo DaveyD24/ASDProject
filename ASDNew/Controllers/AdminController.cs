@@ -10,7 +10,7 @@ namespace ASDNew.Controllers
     public class AdminController : Controller
     {
         //Instance of Database
-        ASDContext5 db = new ASDContext5();
+        ASDContext8 db = new ASDContext8();
         Random Rand = new Random();
 
         /// <summary>

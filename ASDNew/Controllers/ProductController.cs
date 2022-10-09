@@ -12,7 +12,7 @@ namespace ASDNew.Controllers
 
     public class ProductController : Controller
     {
-        private ASDContext5 db = new ASDContext5();
+        private ASDContext8 db = new ASDContext8();
 
         /// <summary>
         /// View the Restaurant menu
@@ -50,7 +50,7 @@ namespace ASDNew.Controllers
         /// </summary>
         /// <param name="db">Database instance</param>
         /// <returns>All products in Products table</returns>
-        public static List<Product> GetAllProducts(ASDContext5 db)
+        public static List<Product> GetAllProducts(ASDContext8 db)
         {
             List<Product> AllProducts = new List<Product>();
             AllProducts = db.Products
@@ -103,7 +103,7 @@ namespace ASDNew.Controllers
         /// <param name="db">Database instance</param>
         /// <param name="ProductCategoryName">Name of ProductCategory</param>
         /// <returns>ProductCategory object</returns>
-        public static ProductCategory GetCategory(ASDContext5 db, string ProductCategoryName)
+        public static ProductCategory GetCategory(ASDContext8 db, string ProductCategoryName)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             foreach (ProductCategory Category in AllCategories)
@@ -122,7 +122,7 @@ namespace ASDNew.Controllers
         /// <param name="db">Database instance</param>
         /// <param name="ProductCategoryID">Id of ProductCategory</param>
         /// <returns>ProductCategory object</returns>
-        public static ProductCategory GetCategory(ASDContext5 db, int? ProductCategoryID)
+        public static ProductCategory GetCategory(ASDContext8 db, int? ProductCategoryID)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             foreach (ProductCategory Category in AllCategories)
@@ -140,7 +140,7 @@ namespace ASDNew.Controllers
         /// </summary>
         /// <param name="db">Database Instance</param>
         /// <returns>List of ProductCategories</returns>
-        public static List<ProductCategory> GetProductCategories(ASDContext5 db)
+        public static List<ProductCategory> GetProductCategories(ASDContext8 db)
         {
             return db.ProductCategories.ToList();
         }
