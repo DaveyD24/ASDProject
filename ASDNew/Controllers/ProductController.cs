@@ -162,12 +162,25 @@ namespace ASDNew.Controllers
         /// </summary>
         /// <param name="RestaurantId">Restaurant to add product to</param>
         /// <returns>AddProduct Page</returns>
-        public ActionResult AddProduct(int RestaurantId)
+        public ActionResult AddProduct(int? RestaurantId)
         {
+            if (RestaurantId == null)
+            {
+                System.Diagnostics.Debug.WriteLine("restaurantId parameter is null");
+                return View("Error");
+            }
+
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             ViewData["AllCategories"] = GetProductCategories(db);
-            Restaurant Restaurant = RestaurantController.GetRestaurant(db, RestaurantId);
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
             ViewData["Restaurant"] = Restaurant;
+
+            if (Restaurant == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Restaurant is null or could not be found");
+                return View("Error");
+            }
+
             return View(AllCategories);
         }
 
@@ -177,12 +190,25 @@ namespace ASDNew.Controllers
         /// <param name="ProductId">Id of Product</param>
         /// <param name="RestaurantId">Id of Restaurant</param>
         /// <returns>EditProduct Page</returns>
-        public ActionResult EditProduct(int ProductId, int RestaurantId)
+        public ActionResult EditProduct(int? ProductId, int? RestaurantId)
         {
+            if (ProductId == null || RestaurantId == null)
+            {
+                System.Diagnostics.Debug.WriteLine("One or more parameters is null");
+                return View("Error");
+            }
+
             Product Product = db.Products.Find(ProductId);
             ViewData["AllCategories"] = GetProductCategories(db);
             Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
             ViewData["Restaurant"] = Restaurant;
+
+            if (Restaurant == null || Product == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Restaurant and/or product is null or could not be found");
+                return View("Error");
+            }
+
             return View(Product);
         }
 
@@ -192,12 +218,25 @@ namespace ASDNew.Controllers
         /// <param name="ProductId">Id of Product</param>
         /// <param name="RestaurantId">Id of Restaurant</param>
         /// <returns>DeleteProduct Page</returns>
-        public ActionResult DeleteProduct(int ProductId, int RestaurantId)
+        public ActionResult DeleteProduct(int? ProductId, int? RestaurantId)
         {
+            if (ProductId == null || RestaurantId == null)
+            {
+                System.Diagnostics.Debug.WriteLine("One or more parameters is null");
+                return View("Error");
+            }
+
             Product Product = db.Products.Find(ProductId);
             ViewData["AllCategories"] = GetProductCategories(db);
             Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
             ViewData["Restaurant"] = Restaurant;
+
+            if (Restaurant == null || Product == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Restaurant and/or product is null or could not be found");
+                return View("Error");
+            }
+
             return View(Product);
         }
 
