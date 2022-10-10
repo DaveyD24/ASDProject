@@ -186,7 +186,7 @@ namespace UnitTesting
             Payment payments = PaymentController.PaymentHistory(db, newPayment.BillingEmail);
 
             //Assert that payments is not null and that there are payment records in the payment database
-            //Assert.NotNull(payments);
+            Assert.NotNull(payments);
         }
 
         [Test]
