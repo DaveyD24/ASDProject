@@ -3,6 +3,8 @@
 @{
     Restaurant restaurant = (Restaurant)ViewData["Restaurant"];
     List<ProductCategory> categories = (List<ProductCategory>)ViewData["AllCategories"];
+
+    ViewBag.Title = "Edit Product";
 }
 
 <!DOCTYPE html>
@@ -53,7 +55,7 @@
                 <div class="form-group">
                     <label for="ProductPrice" class="control-label col-sm-2">Price $</label>
                     <div class="col-sm-10">
-                        <input type="number" name="ProductPrice" id="ProductPrice" min="0" step="0.01" required class="form-control" value="@Model.Price" placeholder="0.00">
+                        <input type="number" name="ProductPrice" id="ProductPrice" min="0" step="0.01" required class="form-control" value="@Model.Price.ToString("F2")" placeholder="0.00">
                     </div>
                 </div>
 
