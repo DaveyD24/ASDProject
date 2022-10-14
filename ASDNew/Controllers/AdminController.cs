@@ -107,5 +107,35 @@ namespace ASDNew.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult RemoveProducts()
+        {
+            List<Product> AllProducts = db.Products.ToList();
+            foreach (Product P in AllProducts)
+            {
+                db.Products.Remove(P);
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult RemoveProductCategories()
+        {
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            foreach (ProductCategory C in AllCategories)
+            {
+                db.ProductCategories.Remove(C);
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult RemoveRestaurants()
+        {
+            List<Restaurant> AllRestaurants = db.Restaurants.ToList();
+            foreach (Restaurant R in AllRestaurants)
+            {
+                db.Restaurants.Remove(R);
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

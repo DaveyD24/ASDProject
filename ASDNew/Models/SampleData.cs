@@ -331,17 +331,33 @@ namespace ASDNew.Models
         public ProductCategory GetProductCategory(string name)
         {
 
+            ProductCategory Category = db.ProductCategories.FirstOrDefault(item => item.Name == name);
+            return Category;
+            //SampleProductCategory SPC = new SampleProductCategory();
+            //List<ProductCategory> Categories = SPC.SampleCategories;
+            //ProductCategory productCategory = null;
+            //foreach (var category in Categories)
+            //{
+            //    if (category.Name.Equals(name))
+            //    {
+            //        productCategory = category;
+            //    }
+            //}
+
+            //ProductCategory Category = db.ProductCategories.Find(productCategory.Id);
+            //return Category;
+
             //ASDContext8 db = new ASDContext8();
 
-            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
-            foreach (ProductCategory pc in AllCategories)
-            {
-                if (pc.Name.Equals(name))
-                {
-                    return pc;
-                }
-            }
-            return null;
+            //List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            //foreach (ProductCategory pc in AllCategories)
+            //{
+            //    if (pc.Name.Equals(name))
+            //    {
+            //        return pc;
+            //    }
+            //}
+            //return null;
 
             //SampleProductCategory SPC = new SampleProductCategory();
             //foreach (ProductCategory pc in SPC.SampleCategories)
