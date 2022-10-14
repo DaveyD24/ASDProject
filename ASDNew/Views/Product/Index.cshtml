@@ -420,7 +420,14 @@
     <p style="padding: 10px">
         @Restaurant.Description
     </p>
-    <input type="button" class="add" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { RestaurantId = Restaurant.Id })'"/>
+    @if ((string)Session["FullName"] == "Test Tester")
+    {
+        <input type="button" class="add" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { RestaurantId = Restaurant.Id })'" />
+    }
+    else
+    {
+        <input type="button" class="add" style="background-color: dimgrey; cursor: default" value="Add a New Product" />
+    }
 
     <div class="row">
         <div class="column left">
