@@ -420,13 +420,13 @@
     <p style="padding: 10px">
         @Restaurant.Description
     </p>
-    @if ((string)Session["FullName"] == "Test Tester")
+    @if (Session["Email"].ToString().Contains((Restaurant.Name.ToLower() + ".com")))
     {
         <input type="button" class="add" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { RestaurantId = Restaurant.Id })'" />
     }
     else
     {
-        <input type="button" class="add" style="background-color: dimgrey; cursor: default" value="Add a New Product" />
+        <input type="button" class="add" style="background-color: lightgrey; cursor: default" value="Add a New Product" />
     }
 
     <div class="row">
