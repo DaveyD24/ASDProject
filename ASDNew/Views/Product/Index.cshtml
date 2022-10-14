@@ -444,8 +444,16 @@
                             <button class="description">@Product.Description</button><br>
 
                             <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new { ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Add To Cart ($@Product.Price)</button>
-                            <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new {ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Edit Product</button>
-                            <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new {ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Delete Product</button>
+                            @if (Session["Email"].ToString().Contains((Restaurant.Name.ToLower() + ".com")))
+                            {
+                                <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new { ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Edit Product</button>
+                                <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new { ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Delete Product</button>
+                            }
+                            else
+                            {
+                                <button class="option" style="background-color: lightgrey; cursor: default; color: white; font-weight: bold">Edit Product</button>
+                                <button class="option" style="background-color: lightgrey; cursor: default; color: white; font-weight: bold">Delete Product</button>
+                            }
                         </div>
                     }
                 }
