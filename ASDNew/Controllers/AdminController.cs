@@ -10,7 +10,7 @@ namespace ASDNew.Controllers
     public class AdminController : Controller
     {
         //Instance of Database
-        ASDContext8 db = new ASDContext8();
+        ASDContext9 db = new ASDContext9();
         Random Rand = new Random();
 
         /// <summary>
@@ -114,6 +114,7 @@ namespace ASDNew.Controllers
             {
                 db.Products.Remove(P);
             }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

@@ -19,7 +19,7 @@ namespace UnitTesting
     public class Tests
     {
 
-        ASDContext8 db = new ASDContext8();
+        ASDContext9 db = new ASDContext9();
 
         [Test]
         public void TestMethod()
@@ -57,7 +57,7 @@ namespace UnitTesting
             controller.Create(restaurantId, prodCategory, prodName, prodPrice, prodDescription);
 
             // Query the database after adding the new product
-            ASDContext8 dbReplica = new ASDContext8();
+            ASDContext9 dbReplica = new ASDContext9();
             Product retrievedProduct = dbReplica.Products.OrderByDescending(p => p.Id).Include(x => x.Category).Include(y => y.Restaurant).FirstOrDefault();
             int prodCountAfter = dbReplica.Products.Count();
 
@@ -143,7 +143,7 @@ namespace UnitTesting
             controller.Delete(productToUpdate.Id, productToUpdate.Restaurant.Id);
 
             // Try to retrieve from database after deleting the product
-            ASDContext8 dbReplica = new ASDContext8();
+            ASDContext9 dbReplica = new ASDContext9();
             Product retrievedProduct = dbReplica.Products.Find(productToUpdate.Id);
             int prodCountAfter = dbReplica.Products.Count();
 

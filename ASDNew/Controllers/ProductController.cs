@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,7 +13,10 @@ namespace ASDNew.Controllers
 
     public class ProductController : Controller
     {
-        private ASDContext8 db = new ASDContext8();
+        private ASDContext9 db = new ASDContext9();
+
+        private readonly string productImageBasePath = "~/Images/Products/";
+        private readonly string[] allowedImageFileExtensions = {".jpg", ".jpeg", ".png", ".gif"};
 
         /// <summary>
         /// View the Restaurant menu
@@ -50,7 +54,7 @@ namespace ASDNew.Controllers
         /// </summary>
         /// <param name="db">Database instance</param>
         /// <returns>All products in Products table</returns>
-        public static List<Product> GetAllProducts(ASDContext8 db)
+        public static List<Product> GetAllProducts(ASDContext9 db)
         {
             List<Product> AllProducts = new List<Product>();
             AllProducts = db.Products
@@ -103,7 +107,7 @@ namespace ASDNew.Controllers
         /// <param name="db">Database instance</param>
         /// <param name="ProductCategoryName">Name of ProductCategory</param>
         /// <returns>ProductCategory object</returns>
-        public static ProductCategory GetCategory(ASDContext8 db, string ProductCategoryName)
+        public static ProductCategory GetCategory(ASDContext9 db, string ProductCategoryName)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             foreach (ProductCategory Category in AllCategories)
@@ -122,7 +126,7 @@ namespace ASDNew.Controllers
         /// <param name="db">Database instance</param>
         /// <param name="ProductCategoryID">Id of ProductCategory</param>
         /// <returns>ProductCategory object</returns>
-        public static ProductCategory GetCategory(ASDContext8 db, int? ProductCategoryID)
+        public static ProductCategory GetCategory(ASDContext9 db, int? ProductCategoryID)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             foreach (ProductCategory Category in AllCategories)
@@ -140,7 +144,7 @@ namespace ASDNew.Controllers
         /// </summary>
         /// <param name="db">Database Instance</param>
         /// <returns>List of ProductCategories</returns>
-        public static List<ProductCategory> GetProductCategories(ASDContext8 db)
+        public static List<ProductCategory> GetProductCategories(ASDContext9 db)
         {
             return db.ProductCategories.ToList();
         }
@@ -259,9 +263,10 @@ namespace ASDNew.Controllers
         /// <param name="ProductDescription">Description of Product entered on form</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Create(int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
+        public ActionResult Create(int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription, HttpPostedFileBase ProductImage)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            string redirectToPage = "AddProduct";
 
             // Get the matching product category
             ProductCategory NewCategory = null;
@@ -273,6 +278,62 @@ namespace ASDNew.Controllers
                 }
             }
 
+            // Upload image
+            string fileName = "";
+            if (ProductImage != null)
+            {
+                string fileExtension = Path.GetExtension(ProductImage.FileName).ToLower();
+
+                // Check image file format is allowed
+                if (!allowedImageFileExtensions.Contains(fileExtension))
+                {
+                    string errorMessage = "Only the following image formats are allowed: ";
+                    foreach (string s in allowedImageFileExtensions)
+                    {
+                        errorMessage += s + " ";
+                    }
+
+                    // Display error message if file format is not allowed
+                    TempData["ErrorMessage"] = errorMessage;
+                    return RedirectToAction(redirectToPage, "Product", new { RestaurantID = RestaurantId });
+                }
+
+                // Check that file is less than 500 KB
+                if (ProductImage.ContentLength > 500000)
+                {
+                    // Display error message if file is too large
+                    System.Diagnostics.Debug.WriteLine("Image uploaded is too large");
+                    TempData["ErrorMessage"] = "Uploaded image must be less than 500 KB.";
+                    return RedirectToAction(redirectToPage, "Product", new { RestaurantID = RestaurantId });
+                }
+
+                // Generate random file name
+                Random r = new Random();
+                int fileNumber = r.Next(1, 1000000000);
+
+                fileName = fileNumber + "." + ProductImage.FileName.Split('.').LastOrDefault();
+                string filePath = Path.Combine(Server.MapPath(productImageBasePath), fileName);
+
+                // Check if file already exists
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.Diagnostics.Debug.WriteLine("File already exists in the image directory: " + filePath);
+                    TempData["ErrorMessage"] = "An unexpected error occurred while trying to upload the image. Please try again.";
+                    return RedirectToAction(redirectToPage, "Product", new { RestaurantID = RestaurantId });
+                }
+
+                try
+                {
+                    ProductImage.SaveAs(filePath);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Product image upload failed: " + e.StackTrace);
+                    TempData["ErrorMessage"] = "An unexpected error occurred while trying to upload the image. Please try again.";
+                    return RedirectToAction(redirectToPage, "Product", new { RestaurantID = RestaurantId });
+                }
+            }
+
             // Create the new product using provided parameters
             Product Product = new Product
             {
@@ -280,7 +341,8 @@ namespace ASDNew.Controllers
                 Category = NewCategory,
                 Name = ProductName,
                 Price = ProductPrice,
-                Description = ProductDescription
+                Description = ProductDescription,
+                Image = fileName.Length > 0 ? fileName : null
             };
 
             // Save the new product to database
@@ -288,6 +350,7 @@ namespace ASDNew.Controllers
             {
                 db.Products.Add(Product);
                 db.SaveChanges();
+                TempData["SuccessMessage"] = "Product added successfully!";
             }
             catch (Exception E)
             {
@@ -311,9 +374,10 @@ namespace ASDNew.Controllers
         /// <param name="ProductDescription">Description of product entered on form</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Edit(int ProductId, int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
+        public ActionResult Edit(int ProductId, int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription, HttpPostedFileBase ProductImage)
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            string redirectToPage = "EditProduct";
 
             // Get the matching product category
             ProductCategory NewProductCategory = null;
@@ -329,34 +393,91 @@ namespace ASDNew.Controllers
             Product Entity = db.Products.FirstOrDefault(item => item.Id == ProductId);
 
             // Check product ID exists
-            if (Entity != null)
-            {
-                // Update product with new details
-                Entity.Category = NewProductCategory;
-                Entity.Name = ProductName;
-                Entity.Price = ProductPrice;
-                Entity.Description = ProductDescription;
-
-                try
-                {
-                    // Save changes to database
-                    db.SaveChanges();
-
-                    // Redirect user to restaurant product page
-                    return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
-                }
-                catch (Exception E)
-                {
-                    System.Diagnostics.Debug.WriteLine(E.Message);
-                    System.Diagnostics.Debug.WriteLine(E.StackTrace);
-                    return View("Error");
-                }
-            }
-            else
+            if (Entity == null)
             {
                 System.Diagnostics.Debug.WriteLine("EditProduct entity is null");
                 return View("Error");
             }
+
+            // Upload image
+            string fileName = "";
+            if (ProductImage != null)
+            {
+                string fileExtension = Path.GetExtension(ProductImage.FileName).ToLower();
+
+                // Check image file format is allowed
+                if (!allowedImageFileExtensions.Contains(fileExtension))
+                {
+                    string errorMessage = "Only the following image formats are allowed: ";
+                    foreach (string s in allowedImageFileExtensions)
+                    {
+                        errorMessage += s + " ";
+                    }
+
+                    // Display error message if file format is not allowed
+                    TempData["ErrorMessage"] = errorMessage;
+                    return RedirectToAction(redirectToPage, "Product", new { ProductID = ProductId, RestaurantID = RestaurantId });
+                }
+
+                // Check that file is less than 500 KB
+                if (ProductImage.ContentLength > 500000)
+                {
+                    // Display error message if file is too large
+                    System.Diagnostics.Debug.WriteLine("Image uploaded is too large");
+                    TempData["ErrorMessage"] = "Uploaded image must be less than 500 KB.";
+                    return RedirectToAction(redirectToPage, "Product", new { ProductID = ProductId, RestaurantID = RestaurantId });
+                }
+
+                // Generate random file name
+                Random r = new Random();
+                int fileNumber = r.Next(1, 1000000000);
+
+                fileName = fileNumber + "." + ProductImage.FileName.Split('.').LastOrDefault();
+                string filePath = Path.Combine(Server.MapPath(productImageBasePath), fileName);
+
+                // Check if file already exists
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.Diagnostics.Debug.WriteLine("File already exists in the image directory: " + filePath);
+                    TempData["ErrorMessage"] = "An unexpected error occurred while trying to upload the image. Please try again.";
+                    return RedirectToAction(redirectToPage, "Product", new { ProductID = ProductId, RestaurantID = RestaurantId });
+                }
+
+                try
+                {
+                    ProductImage.SaveAs(filePath);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Product image upload failed: " + e.StackTrace);
+                    TempData["ErrorMessage"] = "An unexpected error occurred while trying to upload the image. Please try again.";
+                    return RedirectToAction(redirectToPage, "Product", new { ProductID = ProductId, RestaurantID = RestaurantId });
+                }
+            }
+
+            // Update product with new details
+            Entity.Category = NewProductCategory;
+            Entity.Name = ProductName;
+            Entity.Price = ProductPrice;
+            Entity.Description = ProductDescription;
+            Entity.Image = ProductImage != null ? fileName : Entity.Image;  // 
+
+            try
+            {
+                // Save changes to database
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Product updated successfully!";
+
+                // Redirect user to restaurant product page
+                return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
+            }
+            catch (Exception E)
+            {
+                System.Diagnostics.Debug.WriteLine(E.Message);
+                System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                return View("Error");
+            }
+
         }
 
         /// <summary>
@@ -379,6 +500,7 @@ namespace ASDNew.Controllers
                     // Remove product record from database
                     db.Products.Remove(Entity);
                     db.SaveChanges();
+                    TempData["SuccessMessage"] = "Product deleted successfully!";
                     return RedirectToAction("Index", "Product", new { RestaurantID = RestaurantId });
                 }
                 catch (Exception E)

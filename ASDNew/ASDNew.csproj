@@ -147,6 +147,7 @@
     <Compile Include="Models\ASDContext5.cs" />
     <Compile Include="Models\ASDContext6.cs" />
     <Compile Include="Models\ASDContext7.cs" />
+    <Compile Include="Models\ASDContext9.cs" />
     <Compile Include="Models\ASDContext8.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -224,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Products\" />
     <Folder Include="Views\ProductCategory\" />
   </ItemGroup>
   <ItemGroup>
