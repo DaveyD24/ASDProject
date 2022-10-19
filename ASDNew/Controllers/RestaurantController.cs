@@ -13,7 +13,7 @@ namespace ASDNew.Controllers
     public class RestaurantController : Controller
     {
         //Database Instance
-        private ASDContext8 db = new ASDContext8();
+        private ASDContext9 db = new ASDContext9();
 
         /// <summary>
         /// Load Restaurant List 
@@ -48,7 +48,7 @@ namespace ASDNew.Controllers
         /// <param name="db">Database Instance</param>
         /// <param name="RestaurantId">Restaurant Id</param>
         /// <returns></returns>
-        public static Restaurant GetRestaurant(ASDContext8 db, int RestaurantId)
+        public static Restaurant GetRestaurant(ASDContext9 db, int RestaurantId)
         {
             var restaurant = db.Restaurants
                .AsNoTracking()
@@ -127,8 +127,8 @@ namespace ASDNew.Controllers
         /// <param name="db">Database Instance</param>
         /// <param name="RestaurantId">Restaurant Id</param>
         /// <returns>Restaurant object</returns>
-        // This is a copy of the GetRestaurant(ASDContext8 db, int Id) method with change tracking
-        public static Restaurant GetRestaurantForDBOperation(ASDContext8 db, int RestaurantId)
+        // This is a copy of the GetRestaurant(ASDContext9 db, int Id) method with change tracking
+        public static Restaurant GetRestaurantForDBOperation(ASDContext9 db, int RestaurantId)
         {
             var restaurant = db.Restaurants
                .Where(d => d.Id == RestaurantId)
@@ -142,7 +142,7 @@ namespace ASDNew.Controllers
         /// <param name="db"></param>
         /// <param name="RestaurantName"></param>
         /// <returns>Restaurant object</returns>
-        public static Restaurant GetRestaurant(ASDContext8 db, string RestaurantName)
+        public static Restaurant GetRestaurant(ASDContext9 db, string RestaurantName)
         {
             var Restaurants = from r in db.Restaurants
                               select r;
@@ -288,9 +288,9 @@ namespace ASDNew.Controllers
         /// Get Database instance
         /// </summary>
         /// <returns>Instance of database</returns>
-        public static ASDContext8 GetDatabase()
+        public static ASDContext9 GetDatabase()
         {
-            return new ASDContext8();
+            return new ASDContext9();
         }
     }
 }
