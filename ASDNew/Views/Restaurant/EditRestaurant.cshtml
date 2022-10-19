@@ -1,0 +1,63 @@
+@model ASDNew.Models.Restaurant
+@using ASDNew.Models;
+
+    @{
+        Restaurant restaurant = (Restaurant)ViewData["Restaurant"];
+
+        ViewBag.Title = "Edit Restaurant";
+    }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <h1>Edit Restaurant</h1>
+        @using (Html.BeginForm("Edit", "Restaurant", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+
+        <input type="hidden" name="RestaurantId" id="RestaurantId" value="@restaurant.Id">
+
+        <div class="form-group">
+            <label for="RestaurantName" class="control-label col-sm-2">Restaurant Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="RestaurantName" id="RestaurantName" placeholder="Restaurant Name" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="RestaurantDescription" class="control-label col-sm-2">Restaurant Description</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="RestaurantDescription" id="RestaurantDescription" placeholder="Restaurant Description" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="RestaurantEmail" class="control-label col-sm-2">Restaurant Email</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="RestaurantEmail" id="RestaurantEmail" placeholder="Restaurant Email" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="RestaurantPassword" class="control-label col-sm-2">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" name="RestaurantPassword" id="RestaurantPassword" placeholder="Restaurant Password" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+                <button type="submit" onclick="location.href='@Url.Action(" Index")'" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Cancel</button>
+            </div>
+        </div>
+
+        }
+    </div>
+</body>
+</html>

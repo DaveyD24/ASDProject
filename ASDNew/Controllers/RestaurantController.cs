@@ -43,18 +43,6 @@ namespace ASDNew.Controllers
         }
 
         /// <summary>
-        ///  Add new Restaurant to database
-        /// </summary>
-        /// <param name="Restaurant">Restaurant to add</param>
-        /// <returns>Restaurant/Index View</returns>
-        public ActionResult Create(Restaurant Restaurant)
-        {
-            db.Restaurants.Add(Restaurant);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        /// <summary>
         /// Get Restaurant from Id
         /// </summary>
         /// <param name="db">Database Instance</param>
@@ -167,7 +155,135 @@ namespace ASDNew.Controllers
             }
             return null;
         }
-        
+
+        public ActionResult AddRestaurant()
+        {
+            return View();
+        }
+
+        public ActionResult EditRestaurant(int? RestaurantId)
+        {
+            // Show error page if parameters are null
+            if (RestaurantId == null)
+            {
+                System.Diagnostics.Debug.WriteLine("One or more parameters is null");
+                return View("Error");
+            }
+
+            // Store data to be used by the View
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
+            ViewData["Restaurant"] = Restaurant;
+
+            // Show error page if restaurant ID does not exist
+            if (Restaurant == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Restaurant and/or product is null or could not be found");
+                return View("Error");
+            }
+
+            return View(Restaurant);
+        }
+
+
+        public ActionResult DeleteRestaurant(int? RestaurantId)
+        {
+            // Show error page if parameters are null
+            if (RestaurantId == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Parameter is null");
+                return View("Error");
+            }
+
+            // Store data to be used by the View
+            Restaurant Restaurant = RestaurantController.GetRestaurant(db, (int)RestaurantId);
+            ViewData["Restaurant"] = Restaurant;
+
+            // Show error page if restaurant ID does not exist
+            if (Restaurant == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Restaurant is null or could not be found");
+                return View("Error");
+            }
+
+            return View(Restaurant);
+        }
+
+        /// <summary>
+        ///  Add new Restaurant to database
+        /// </summary>
+        /// <param name="Restaurant">Restaurant to add</param>
+        /// <returns>Restaurant/Index View</returns>
+        public ActionResult Create(Restaurant Restaurant)
+        {
+            db.Restaurants.Add(Restaurant);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Edit(int RestaurantId, string RestaurantName, string RestaurantDescription, string RestaurantEmail, string RestaurantPassword )
+        {
+            // Retrieve existing product from database
+            Restaurant Entity = db.Restaurants.FirstOrDefault(rest => rest.Id == RestaurantId);
+
+            // Check product ID exists
+            if (Entity != null)
+            {
+                // Update product with new details
+                Entity.Name = RestaurantName;
+                Entity.Description = RestaurantDescription;
+                Entity.Email = RestaurantEmail;
+                Entity.Password = RestaurantPassword;
+
+                try
+                {
+                    // Save changes to database
+                    db.SaveChanges();
+
+                    // Redirect user to restaurant product page
+                    return RedirectToAction("Index");
+                }
+                catch (Exception E)
+                {
+                    System.Diagnostics.Debug.WriteLine(E.Message);
+                    System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                    return View("Error");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Edit Restaurant entity is null");
+                return View("Error");
+            }
+        }
+
+        public ActionResult Delete(int RestaurantId)
+        {
+            // Fetch restaurant ID from database
+            Restaurant Entity = db.Restaurants.FirstOrDefault(rest => rest.Id == RestaurantId);
+
+            // Check restaurant ID exists
+            if (Entity != null)
+            {
+                try
+                {
+                    // Remove restaurant record from database
+                    db.Restaurants.Remove(Entity);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception E)
+                {
+                    System.Diagnostics.Debug.WriteLine(E.Message);
+                    System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                    return View("Error");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("DeleteRestaurant entity is null");
+                return View("Error");
+            }
+        }
+
         /// <summary>
         /// Get Database instance
         /// </summary>

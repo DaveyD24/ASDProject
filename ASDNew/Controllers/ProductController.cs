@@ -190,8 +190,7 @@ namespace ASDNew.Controllers
         /// <summary>
         /// Edits existing product entry in the database
         /// </summary>
-        /// <param name="ProductId">Id of Product</param>
-        /// <param name="RestaurantId">Id of Restaurant</param>
+        /// <param name="RestaurantId">Id of Product</param>
         /// <returns>EditProduct Page</returns>
         public ActionResult EditProduct(int? ProductId, int? RestaurantId)
         {
