@@ -1,4 +1,6 @@
-﻿@model <ASDNew.Models.Customers>
+﻿@model IEnumerable<ASDNew.Models.Customer>
+
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -28,30 +30,30 @@
     </div>
     <!-- Form -->
     @using (Html.BeginForm("Edit", "Customer", FormMethod.Post))
-        {
-    <form>
-        <table>
-            <tr>
-                <td>First Name:</td>
-                <td>@Html.TextBoxFor(m => m.FirstName) </td>
-            </tr>
-            <tr>
-                <td>Last Name:</td>
-                <td>@Html.TextBoxFor(m => m.LastName) </td>
-            </tr>
-            <tr>
-                <td>Email:</td>
-                <td>@Html.TextBoxFor(m => m.Email) </td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td>@Html.TextBoxFor(m => m.Password)</td>
-            </tr>
-            <tr>
-                <td><input class="button" type="submit" value="EditingUserDetail"></td>
-            </tr>
-        </table>
-    </form>
-        }
+    {
+        <form>
+            <table>
+                <tr>
+                    <td>First Name:</td>
+                    <td><input type="text" placeholder="Enter new First Name" name="FirstName" /> </td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td><input type="text" placeholder="Enter new Last Name" name="Name" /></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="text" placeholder="Enter new Email" name="Email" /> </td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="text" placeholder="Enter new Password" name="Password" /></td>
+                </tr>
+                <tr>
+                    <td><input class="button" type="submit" value="EditingUserDetail"></td>
+                </tr>
+            </table>
+        </form>
+    }
 </body>
 </html>

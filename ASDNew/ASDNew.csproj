@@ -202,6 +202,8 @@
     <Content Include="Views\Product\ProductPage.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
+	<Content Include="Views\Customer\EditUserDetails.cshtml" />
+	<Content Include="Views\Customer\Login.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Restaurant\Index.cshtml" />
