@@ -13,7 +13,9 @@ Controllers: ProductController.cs, RestaurantController.cs, ProductCategoryContr
 Views: Product/Index, Restaurant/Index, Admin/Index, Error/Index
 
 Abishek
--
+Models:OrderDetails.CS
+Controllers:OrderManagerController.CS
+View: index.cshtml, OrderDetails.cshtml, layout.cshtml
 
 Jaghadishan
 Models: Customer.cs, CustomerLogin.cs
