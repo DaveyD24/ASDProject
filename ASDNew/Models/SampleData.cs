@@ -86,11 +86,11 @@ namespace ASDNew.Models
 
         //List<Tuple<string, string>> PossiblePairs = new List<Tuple<string, string>>();
         public List<Product> PossiblePairs = new List<Product>();
-        ASDContext5 db;
+        ASDContext8 db;
         Random random;
         public SampleProduct()
         {
-            db = new ASDContext5();
+            db = new ASDContext8();
             random = new Random();
             //PossiblePairs.Add(new Tuple<string, string>("Cheese Burger", GetProductCategory("Burgers").Name));
             PossiblePairs.Add(new Product
@@ -331,17 +331,33 @@ namespace ASDNew.Models
         public ProductCategory GetProductCategory(string name)
         {
 
-            //ASDContext5 db = new ASDContext5();
+            ProductCategory Category = db.ProductCategories.FirstOrDefault(item => item.Name == name);
+            return Category;
+            //SampleProductCategory SPC = new SampleProductCategory();
+            //List<ProductCategory> Categories = SPC.SampleCategories;
+            //ProductCategory productCategory = null;
+            //foreach (var category in Categories)
+            //{
+            //    if (category.Name.Equals(name))
+            //    {
+            //        productCategory = category;
+            //    }
+            //}
 
-            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
-            foreach (ProductCategory pc in AllCategories)
-            {
-                if (pc.Name.Equals(name))
-                {
-                    return pc;
-                }
-            }
-            return null;
+            //ProductCategory Category = db.ProductCategories.Find(productCategory.Id);
+            //return Category;
+
+            //ASDContext8 db = new ASDContext8();
+
+            //List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            //foreach (ProductCategory pc in AllCategories)
+            //{
+            //    if (pc.Name.Equals(name))
+            //    {
+            //        return pc;
+            //    }
+            //}
+            //return null;
 
             //SampleProductCategory SPC = new SampleProductCategory();
             //foreach (ProductCategory pc in SPC.SampleCategories)

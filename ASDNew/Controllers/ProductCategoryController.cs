@@ -11,7 +11,7 @@ namespace ASDNew.Controllers
     {
 
         //Database instance
-        ASDContext5 db = new ASDContext5();
+        ASDContext8 db = new ASDContext8();
 
         /// <summary>
         /// Default Index

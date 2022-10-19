@@ -14,7 +14,7 @@ namespace ASDNew.Controllers
     public class PaymentController : Controller
     {
         //Instance of Database
-        private ASDContext5 db = new ASDContext5();
+        private ASDContext8 db = new ASDContext8();
 
         /// <summary>
         /// Get Payment from database for user
@@ -22,7 +22,7 @@ namespace ASDNew.Controllers
         /// <param name="db">Database instance</param>
         /// <param name="Email">Email of user</param>
         /// <returns>Payment object for user</returns>
-        public static Payment PaymentHistory(ASDContext5 db, string Email)
+        public static Payment PaymentHistory(ASDContext8 db, string Email)
         {
             List<Payment> PaymentHistory = db.Payments.ToList();
             foreach (Payment Payment in PaymentHistory)

@@ -10,7 +10,7 @@ namespace ASDNew.Controllers
     public class AdminController : Controller
     {
         //Instance of Database
-        ASDContext5 db = new ASDContext5();
+        ASDContext8 db = new ASDContext8();
         Random Rand = new Random();
 
         /// <summary>
@@ -101,17 +101,41 @@ namespace ASDNew.Controllers
             }
             return RedirectToAction("Index");
         }
+
         public ActionResult AddCustomers()
         {
-            SampleCustomer sc = new SampleCustomer();
+            return RedirectToAction("Index");
+        }
 
-            foreach (Customer c in sc.AllCustomers)
+        public ActionResult RemoveProducts()
+        {
+            List<Product> AllProducts = db.Products.ToList();
+            foreach (Product P in AllProducts)
             {
-                db.Customers.Add(c);
-                db.SaveChanges();
+                db.Products.Remove(P);
             }
             return RedirectToAction("Index");
         }
-    }
 
+        public ActionResult RemoveProductCategories()
+        {
+            List<ProductCategory> AllCategories = db.ProductCategories.ToList();
+            foreach (ProductCategory C in AllCategories)
+            {
+                db.ProductCategories.Remove(C);
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult RemoveRestaurants()
+        {
+            List<Restaurant> AllRestaurants = db.Restaurants.ToList();
+            foreach (Restaurant R in AllRestaurants)
+            {
+                db.Restaurants.Remove(R);
+            }
+            return RedirectToAction("Index");
+        }
+
+    }
 }
