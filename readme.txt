@@ -33,8 +33,8 @@ Controllers: PaymentController.cs, OrderController.cs
 Views: Product/Index, Payment/Index, Payment/PaymentHistory, Payment/PaymentSuccess, Payment/PaymentPage
 
 Patrick.E
-Models: -
-Controllers: ProductController.cs
-Views: Product/AddProduct, Product/EditProduct, Product/DeleteProduct
+Models: Product.cs
+Controllers: ProductController.cs, ProductCategoryController.cs
+Views: Product/AddProduct, Product/EditProduct, Product/DeleteProduct, ProductCategory/Index, ProductCategory/AddProductCategory, ProductCategory/EditProductCategory, ProductCategory/DeleteProductCategory, Admin/Index
 
 More detailed contributions can be found in our report
