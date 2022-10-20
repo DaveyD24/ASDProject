@@ -1,0 +1,84 @@
+﻿@model IEnumerable<ASDNew.Models.ProductCategory>
+@{ 
+    ViewBag.Title = "Manage Product Categories";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Product Categories</h1>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <b>Error:</b> @TempData["ErrorMessage"]
+            </div>
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <p>
+                <div class="alert alert-success alert-dismissible fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <b>@TempData["SuccessMessage"]</b>
+                </div>
+            </p>
+        }
+        <div class="alert alert-info">
+            <p><b>Please note:</b> You can only delete a product category if there are no products assigned to it.</p>
+        </div>
+        <p>
+            <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("AddProductCategory", "ProductCategory")'">Add Category</button>
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Category ID</th>
+                    <th>Category Name</th>
+                    <th>Number of Products</th>
+                    <th>Actions</th>
+            </thead>
+
+            </tr>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    var productCounts = (Dictionary<int, int>)ViewData["ProductCounts"];
+                    var count = 0;
+                    productCounts.TryGetValue(category.Id, out count);
+                    <tr>
+                        <td>
+                            @category.Id
+                        </td>
+                        <td>
+                            @category.Name
+                        </td>
+                        <td>
+                            @count
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("EditProductCategory", "ProductCategory", new { CategoryId = category.Id })'">Edit</button>
+                            @if (count <= 0)
+                            {
+                                <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("DeleteProductCategory", "ProductCategory", new { CategoryId = category.Id })'">Delete</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-default" disabled>Delete</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

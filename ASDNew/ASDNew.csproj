@@ -222,11 +222,14 @@
     <Content Include="Views\Login\EditUserDetails.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\Register.cshtml" />
+    <Content Include="Views\ProductCategory\Index.cshtml" />
+    <Content Include="Views\ProductCategory\AddProductCategory.cshtml" />
+    <Content Include="Views\ProductCategory\EditProductCategory.cshtml" />
+    <Content Include="Views\ProductCategory\DeleteProductCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\Products\" />
-    <Folder Include="Views\ProductCategory\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
