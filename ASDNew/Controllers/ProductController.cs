@@ -253,6 +253,41 @@ namespace ASDNew.Controllers
             return View(Product);
         }
 
+        private List<string> ValidateProduct(int RestaurantId, int ProductCategory, string ProductName, double ProductPrice, string ProductDescription)
+        {
+            List<string> msg = new List<string>();
+            if (db.Restaurants.Find(RestaurantId) == null)
+            {
+                msg.Add("Restaurant ID does not exist or was not provided.");
+            }
+            if (db.ProductCategories.Find(ProductCategory) == null)
+            {
+                msg.Add("Product category ID does not exist or was not provided.");
+            }
+            if (ProductName.Trim().Length < 1)
+            {
+                msg.Add("Please enter a product name.");
+            }
+            if (ProductName.Length > 100)
+            {
+                msg.Add("Product name must be 100 characters or less.");
+            }
+            if (ProductPrice < 0.0)
+            {
+                msg.Add("Product price cannot be a negative value.");
+            }
+            // Check if price is 2 decimal places
+            if (Math.Round(ProductPrice, 2) != ProductPrice)
+            {
+                msg.Add("Please enter a valid product price, in dollars and cents.");
+            }
+            if (ProductDescription.Trim().Length > 0  && !(ProductDescription.Length <= 400))
+            {
+                msg.Add("Description must be 400 characters or less.");
+            }
+            return msg;
+        }
+
         /// <summary>
         /// Posts information from CreateProduct form
         /// </summary>
@@ -267,6 +302,15 @@ namespace ASDNew.Controllers
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             string redirectToPage = "AddProduct";
+
+            // Validate product attributes
+            List<string> validationResult = ValidateProduct(RestaurantId, ProductCategory, ProductName, ProductPrice, ProductDescription);
+            if (validationResult.Count > 0)
+            {
+                // Display error message if validation failed
+                TempData["ValidationErrors"] = validationResult;
+                return RedirectToAction(redirectToPage, "Product", new { RestaurantID = RestaurantId });
+            }
 
             // Get the matching product category
             ProductCategory NewCategory = null;
@@ -378,6 +422,15 @@ namespace ASDNew.Controllers
         {
             List<ProductCategory> AllCategories = db.ProductCategories.ToList();
             string redirectToPage = "EditProduct";
+
+            // Validate product attributes
+            List<string> validationResult = ValidateProduct(RestaurantId, ProductCategory, ProductName, ProductPrice, ProductDescription);
+            if (validationResult.Count > 0)
+            {
+                // Display error message if validation failed
+                TempData["ValidationErrors"] = validationResult;
+                return RedirectToAction(redirectToPage, "Product", new { ProductID = ProductId, RestaurantID = RestaurantId });
+            }
 
             // Get the matching product category
             ProductCategory NewProductCategory = null;
