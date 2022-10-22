@@ -5,7 +5,6 @@
 
 trigger:
 - main
-- unit-test
 
 pool:
   vmImage: 'windows-latest'
@@ -58,3 +57,11 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'ASDProject'
     publishLocation: 'Container'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Resource Manager - ASDProject'
+    appType: 'webApp'
+    appName: 'asdproject'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
