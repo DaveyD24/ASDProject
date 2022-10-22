@@ -31,6 +31,7 @@ namespace UnitTesting
 
         //Patrick.E
         //F109: Adding products to restaurant
+        /*
         [Test]
         public void TestAddProduct()
         {
@@ -70,9 +71,11 @@ namespace UnitTesting
             Assert.AreEqual(prodPrice, retrievedProduct.Price);
             Assert.AreEqual(prodDescription, retrievedProduct.Description);
         }
+        */
 
         //Patrick.E
         //F110: Edit/delete products in restaurant
+        /*
         [Test]
         public void TestEditProduct()
         {
@@ -116,9 +119,11 @@ namespace UnitTesting
             Assert.AreEqual(newPrice, retrievedProduct.Price);
             Assert.AreEqual(newDescription, retrievedProduct.Description);
         }
+        */
 
         //Patrick.E
         //F110: Edit/delete products in restaurant
+        /*
         [Test]
         public void TestDeleteProduct()
         {
@@ -151,6 +156,7 @@ namespace UnitTesting
             Assert.Null(retrievedProduct, "Retrieved product was expected to be null");
             Assert.IsTrue(prodCountAfter == (prodCountBefore - 1), "Number of product records was expected to decrease by 1 after deleting the product");
         }
+        */
 
         [Test] //David
         public void TestStringConverter()
