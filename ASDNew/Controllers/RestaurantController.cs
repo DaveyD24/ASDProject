@@ -42,6 +42,11 @@ namespace ASDNew.Controllers
             return View(RestaurantArray);
         }
 
+        public ActionResult listOfRestaurants()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Get Restaurant from Id
         /// </summary>
@@ -158,6 +163,7 @@ namespace ASDNew.Controllers
 
         public ActionResult AddRestaurant()
         {
+
             return View();
         }
 
@@ -216,8 +222,17 @@ namespace ASDNew.Controllers
         public ActionResult Create(Restaurant Restaurant)
         {
             db.Restaurants.Add(Restaurant);
+            SampleProduct SampProd = new SampleProduct();
+            Random random = new Random();
+            int ProductCount = random.Next(8, 16); ;
+            for (int i = 0; i < ProductCount; i++)
+            {
+                Product prod = SampProd.GetRandomProduct();
+                prod.Restaurant = Restaurant;
+                db.Products.Add(prod);
+            }
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Admin");
         }
 
         public ActionResult Edit(int RestaurantId, string RestaurantName, string RestaurantDescription, string RestaurantEmail, string RestaurantPassword )
@@ -260,14 +275,21 @@ namespace ASDNew.Controllers
         {
             // Fetch restaurant ID from database
             Restaurant Entity = db.Restaurants.FirstOrDefault(rest => rest.Id == RestaurantId);
+            List<Product> AllProducts = ProductController.GetAllProducts(db);
+            List<Product> FilteredProducts = ProductController.FilterProductList(Entity, AllProducts);
 
             // Check restaurant ID exists
             if (Entity != null)
             {
                 try
                 {
+                    foreach (Product Product in FilteredProducts)
+                    {
+                        db.Products.Remove(Product);
+                    }
                     // Remove restaurant record from database
                     db.Restaurants.Remove(Entity);
+                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 catch (Exception E)

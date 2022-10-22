@@ -13,9 +13,9 @@
         @using (Html.BeginForm("Create", "Restaurant", FormMethod.Post, new { @class = "form-horizontal" }))
             {
         <div class="form-group">
-            <label for="ProductName" class="control-label col-sm-2">Restaurant Name</label>
+            <label for="Name" class="control-label col-sm-2">Restaurant Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="ProductName" id="ProductName" placeholder="Product Name" required>
+                <input type="text" class="form-control" name="Name" id="Name" placeholder="Restaurant Name" required>
             </div>
         </div>
 
@@ -27,7 +27,7 @@
         </div>
 
         <div class="form-group">
-            <label for="Email" class="control-label col-sm-2">Product Name</label>
+            <label for="Email" class="control-label col-sm-2">Restaurant Email</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="Email" id="Email" placeholder="Email" required>
             </div>
@@ -43,7 +43,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
-                <button type="button" onclick="location.href='@Url.Action("Index", "Restaurant",)'" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                <button type="button" onclick="location.href='@Url.Action("Index","Restaurant")'" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
             </div>
         </div>
 

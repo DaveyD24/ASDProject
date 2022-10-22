@@ -1,9 +1,9 @@
 @model ASDNew.Models.Restaurant
 @using ASDNew.Models;
 @{
-        Restaurant restaurant = (Restaurant)ViewData["Restaurant"];
+    Restaurant restaurant = (Restaurant)ViewData["Restaurant"];
 
-        ViewBag.Title = "Delete Product";
+    ViewBag.Title = "Delete Product";
 }
 
 <!DOCTYPE html>
@@ -20,47 +20,38 @@
         <h3>Restaurant</h3>
         @using (Html.BeginForm("Delete", "Restaurant", FormMethod.Post))
         {
-        <input type="hidden" name="RestaurantId" id="RestaurantId" value="@restaurant.Id">
-        <table>
-            <tr>
-                <td>
-                    Restaurant Name:
-                </td>
-                <td>
-                    @restaurant.Name
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Restaurant Description:
-                </td>
-                <td>
-                    @restaurant.Description
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Restaurant Email:
-                </td>
-                <td>
-                    @restaurant.Email
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Restaurant Password:
-                </td>
-                <td>
-                    @restaurant.Password
-                </td>
-            </tr>
-            <tr>
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Confirm </button>
-                <button type="submit" onclick="location.href='@Url.Action("Index")'" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Cancel</button>
-            </tr>
-        </table>
+            <input type="hidden" name="RestaurantId" id="RestaurantId" value="@restaurant.Id">
 
+            <div class="form-group">
+                <label for="RestaurantName" class="control-label col-sm-2">Restaurant Name</label>
+                <label for="RestaurantName" class="control-label col-sm-10">@restaurant.Name</label>
+
+            </div>
+
+            <div class="form-group">
+                <label for="RestaurantDescription" class="control-label col-sm-2">Restaurant Description</label>
+                <label for="RestaurantDescription" class="control-label col-sm-10">@restaurant.Description</label>
+            </div>
+
+            <div class="form-group">
+                <label for="RestaurantEmail" class="control-label col-sm-2">Restaurant Email</label>
+                <label for="RestaurantEmail" class="control-label col-sm-10">@restaurant.Email</label>
+            </div>
+
+            <div class="form-group">
+                <label for="RestaurantPassword" class="control-label col-sm-2">Restaurant Password</label>
+                <label for="RestaurantPassword" class="control-label col-sm-10">@restaurant.Password</label>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+                </div>
+            </div>
         }
+        <div class="col-sm-10">
+            <button type="submit" onclick="location.href='@Url.Action("Index")'" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Cancel</button>
+        </div>
     </div>
 </body>
 </html>
