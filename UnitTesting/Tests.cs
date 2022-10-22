@@ -178,6 +178,7 @@ namespace UnitTesting
 
         //Brendan
         //F112: Show payment history
+        /*
         [Test]
         public void ShowPaymentHistory()
         {
@@ -194,6 +195,7 @@ namespace UnitTesting
             //Assert that payments is not null and that there are payment records in the payment database
             Assert.NotNull(payments);
         }
+        */
 
         [Test]
         public void TestProductCount()
