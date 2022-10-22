@@ -161,12 +161,20 @@ namespace ASDNew.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Load Add Restaurant Page
+        /// </summary>
+        /// <returns>Restaurant/AddRestaurant View</returns>
         public ActionResult AddRestaurant()
         {
 
             return View();
         }
 
+        /// <summary>
+        /// Load Edit Restaurant Page
+        /// </summary>
+        /// <returns>Restaurant/EditRestaurant View</returns>
         public ActionResult EditRestaurant(int? RestaurantId)
         {
             // Show error page if parameters are null
@@ -190,7 +198,10 @@ namespace ASDNew.Controllers
             return View(Restaurant);
         }
 
-
+        /// <summary>
+        /// Load Delete Restaurant Page
+        /// </summary>
+        /// <returns>Restaurant/DeleteRestaurant View</returns>
         public ActionResult DeleteRestaurant(int? RestaurantId)
         {
             // Show error page if parameters are null
@@ -218,9 +229,10 @@ namespace ASDNew.Controllers
         ///  Add new Restaurant to database
         /// </summary>
         /// <param name="Restaurant">Restaurant to add</param>
-        /// <returns>Restaurant/Index View</returns>
+        /// <returns>Admin/Index View</returns>
         public ActionResult Create(Restaurant Restaurant)
         {
+            ///adds restaurant to db
             db.Restaurants.Add(Restaurant);
             SampleProduct SampProd = new SampleProduct();
             Random random = new Random();
@@ -231,19 +243,26 @@ namespace ASDNew.Controllers
                 prod.Restaurant = Restaurant;
                 db.Products.Add(prod);
             }
+            ///saves changes
             db.SaveChanges();
+            ///returns to admin page
             return RedirectToAction("Index", "Admin");
         }
 
+        /// <summary>
+        ///  Edits selected restaurant
+        /// </summary>
+        /// <param name="Restaurant">Restaurant to edit</param>
+        /// <returns>Restaurant/Index View</returns>
         public ActionResult Edit(int RestaurantId, string RestaurantName, string RestaurantDescription, string RestaurantEmail, string RestaurantPassword )
         {
-            // Retrieve existing product from database
+            // Retrieve existing restaurant from database
             Restaurant Entity = db.Restaurants.FirstOrDefault(rest => rest.Id == RestaurantId);
 
-            // Check product ID exists
+            // Check restaurant ID exists
             if (Entity != null)
             {
-                // Update product with new details
+                // Update restaurant with new details
                 Entity.Name = RestaurantName;
                 Entity.Description = RestaurantDescription;
                 Entity.Email = RestaurantEmail;
@@ -254,7 +273,7 @@ namespace ASDNew.Controllers
                     // Save changes to database
                     db.SaveChanges();
 
-                    // Redirect user to restaurant product page
+                    // Redirect user to list of restaurant page
                     return RedirectToAction("Index");
                 }
                 catch (Exception E)
@@ -271,6 +290,11 @@ namespace ASDNew.Controllers
             }
         }
 
+        /// <summary>
+        ///  Delete selected Restaurant to database
+        /// </summary>
+        /// <param name="Restaurant">Restaurant to delete</param>
+        /// <returns>Restaurant/Index View</returns>
         public ActionResult Delete(int RestaurantId)
         {
             // Fetch restaurant ID from database
@@ -278,7 +302,8 @@ namespace ASDNew.Controllers
             List<Product> AllProducts = ProductController.GetAllProducts(db);
             List<Product> FilteredProducts = ProductController.FilterProductList(Entity, AllProducts);
 
-            // Check restaurant ID exists
+            // Check restaurant ID exists then deletes restaurant
+            // If the restaurant can't be deleted throws error
             if (Entity != null)
             {
                 try

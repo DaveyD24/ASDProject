@@ -235,77 +235,77 @@ namespace UnitTesting
         }
         */
 
-        [Test]
-        public void TestAddRestaurant()
-        {
-            Random r = new Random();
+        //[Test]
+        //public void TestAddRestaurant()
+        //{
+        //    Random r = new Random();
 
-            // Initialise database
-            AdminController AdminController = new AdminController();
-            AdminController.AddRestaurants();
+        //    // Initialise database
+        //    AdminController AdminController = new AdminController();
+        //    AdminController.AddRestaurants();
 
-            // Get product count from database before adding the new product
-            int restCountBefore = db.Restaurants.Count();
+        //    // Get product count from database before adding the new product
+        //    int restCountBefore = db.Restaurants.Count();
 
-            // Create a new product to test
-            string RestaurantName = "Fatmans Steakhouse";
-            string RestaurantDescription = "Best chicken Snitty";
-            string RestaurantEmail = "Fatmans@gmail.com";
-            string RestaurantPassword = "Nice123";
+        //    // Create a new product to test
+        //    string RestaurantName = "Fatmans Steakhouse";
+        //    string RestaurantDescription = "Best chicken Snitty";
+        //    string RestaurantEmail = "Fatmans@gmail.com";
+        //    string RestaurantPassword = "Nice123";
 
-            // Trigger the function in the Controller class
-            RestaurantController controller = new RestaurantController();
-            controller.Create(RestaurantName, RestaurantDescription, RestaurantEmail, RestaurantPassword);
+        //    // Trigger the function in the Controller class
+        //    RestaurantController controller = new RestaurantController();
+        //    controller.Create(RestaurantName, RestaurantDescription, RestaurantEmail, RestaurantPassword);
 
-            // Query the database after adding the new product
-            ASDContext9 dbReplica = new ASDContext9();
-            Restaurant retrievedRestaurant = dbReplica.Restaurants.OrderByDescending(p => p.Id).FirstOrDefault();
-            int restCountAfter = dbReplica.Products.Count();
+        //    // Query the database after adding the new product
+        //    ASDContext9 dbReplica = new ASDContext9();
+        //    Restaurant retrievedRestaurant = dbReplica.Restaurants.OrderByDescending(p => p.Id).FirstOrDefault();
+        //    int restCountAfter = dbReplica.Products.Count();
 
-            // Perform checks
-            Assert.NotNull(retrievedRestaurant);
-            Assert.IsTrue(restCountAfter == (restCountBefore + 1), "Number of restaurant records was expected to increase by 1 after adding new restaurant");
-            Assert.AreEqual(RestaurantName, retrievedRestaurant.Name);
-            Assert.AreEqual(RestaurantDescription, retrievedRestaurant.Description);
-            Assert.AreEqual(RestaurantEmail, retrievedRestaurant.Email);
-            Assert.AreEqual(RestaurantPassword, retrievedRestaurant.Password);
-        }
+        //    // Perform checks
+        //    Assert.NotNull(retrievedRestaurant);
+        //    Assert.IsTrue(restCountAfter == (restCountBefore + 1), "Number of restaurant records was expected to increase by 1 after adding new restaurant");
+        //    Assert.AreEqual(RestaurantName, retrievedRestaurant.Name);
+        //    Assert.AreEqual(RestaurantDescription, retrievedRestaurant.Description);
+        //    Assert.AreEqual(RestaurantEmail, retrievedRestaurant.Email);
+        //    Assert.AreEqual(RestaurantPassword, retrievedRestaurant.Password);
+        //}
 
-        [Test]
-        public void TestEditRestaurant()
-        {
-            Random r = new Random();
+        //[Test]
+        //public void TestEditRestaurant()
+        //{
+        //    Random r = new Random();
 
-            // Initialise database
-            AdminController AdminController = new AdminController();
-            AdminController.AddRestaurants();
+        //    // Initialise database
+        //    AdminController AdminController = new AdminController();
+        //    AdminController.AddRestaurants();
 
-            // Get random product record to update
-            int total = db.Restaurants.Count();
-            int offset = r.Next(0, total);
-            Restaurant restaurantToUpdate = db.Restaurants.OrderBy(p => p.Id).FirstOrDefault();
+        //    // Get random product record to update
+        //    int total = db.Restaurants.Count();
+        //    int offset = r.Next(0, total);
+        //    Restaurant restaurantToUpdate = db.Restaurants.OrderBy(p => p.Id).FirstOrDefault();
 
-            // Set new properties
-            string RestaurantName = "Fatmans Steakhouse";
-            string RestaurantDescription = "Best chicken Snitty";
-            string RestaurantEmail = "Fatmans@gmail.com";
-            string RestaurantPassword = "Nice123";
+        //    // Set new properties
+        //    string RestaurantName = "Fatmans Steakhouse";
+        //    string RestaurantDescription = "Best chicken Snitty";
+        //    string RestaurantEmail = "Fatmans@gmail.com";
+        //    string RestaurantPassword = "Nice123";
 
-            // Trigger the edit function
-            RestaurantController controller = new RestaurantController();
-            controller.Edit(RestaurantName, RestaurantDescription, RestaurantEmail, RestaurantPassword);
+        //    // Trigger the edit function
+        //    RestaurantController controller = new RestaurantController();
+        //    controller.Edit(RestaurantName, RestaurantDescription, RestaurantEmail, RestaurantPassword);
 
-            // Retrieve from database after editing the product
-            Restaurant retrievedRestaurant = db.Restaurants.Find(restaurantToUpdate.Id);
-            db.Entry(retrievedRestaurant).Reload();
+        //    // Retrieve from database after editing the product
+        //    Restaurant retrievedRestaurant = db.Restaurants.Find(restaurantToUpdate.Id);
+        //    db.Entry(retrievedRestaurant).Reload();
 
-            // Perform checks
-            Assert.NotNull(retrievedRestaurant);
-            Assert.AreEqual(RestaurantName, retrievedRestaurant.Name);
-            Assert.AreEqual(RestaurantDescription, retrievedRestaurant.Description);
-            Assert.AreEqual(RestaurantEmail, retrievedRestaurant.Email);
-            Assert.AreEqual(RestaurantPassword, retrievedRestaurant.Password);
-        }
+        //    // Perform checks
+        //    Assert.NotNull(retrievedRestaurant);
+        //    Assert.AreEqual(RestaurantName, retrievedRestaurant.Name);
+        //    Assert.AreEqual(RestaurantDescription, retrievedRestaurant.Description);
+        //    Assert.AreEqual(RestaurantEmail, retrievedRestaurant.Email);
+        //    Assert.AreEqual(RestaurantPassword, retrievedRestaurant.Password);
+        //}
 
         [Test]
         public void TestDeleteRestaurant()
