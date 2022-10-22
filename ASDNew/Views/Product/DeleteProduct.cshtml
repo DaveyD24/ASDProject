@@ -19,8 +19,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>Delete Product: @Model.Name</h1>
-        <div class="alert alert-danger">Are you sure you want to delete this product?</div>
+        <h1>Delete Product</h1>
+
+        @if (Session["Email"] != null && Session["Email"].ToString().Contains((restaurant.Name.ToLower() + ".com")))
+        {
+        <div class="alert alert-warning">Are you sure you want to delete this product?</div>
         <div class="well well-sm col-sm-12">
             @using (Html.BeginForm("Delete", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
             {
@@ -89,6 +92,14 @@
                 </div>
             }
         </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                <b>You are not authorised to access this page.</b>
+            </div>
+            <button type="button" onclick="location.href='@Url.Action("Index", "Product", new { RestaurantID = restaurant.Id }, null)'" class="btn btn-primary">Back to Restaurant Home Page</button>
+        }
     </div>
 </body>
 </html>

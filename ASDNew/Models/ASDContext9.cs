@@ -9,7 +9,7 @@ namespace ASDNew.Models
     public class ASDContext9 : DbContext
     {
 
-        public ASDContext9()
+        public ASDContext9() : base("name=ASDDbConnection")
         {
             var type = typeof(System.Data.Entity.SqlServer.SqlProviderServices);
             if (type == null)
