@@ -63,5 +63,5 @@ steps:
     azureSubscription: 'Resource Manager - ASDProject'
     appType: 'webApp'
     appName: 'asdproject'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
