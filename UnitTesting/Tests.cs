@@ -197,6 +197,7 @@ namespace UnitTesting
         }
         */
 
+        /*
         [Test]
         public void TestProductCount()
         {
@@ -219,7 +220,9 @@ namespace UnitTesting
             //Assert.That(ProductCount >= 8);
             //Assert.That(ProductCount <= 16);
         }
+        */
 
+        /*
         [Test]
         public void TestCategoryDuplication()
         {
@@ -230,6 +233,7 @@ namespace UnitTesting
 
             Assert.AreEqual(db.ProductCategories.ToList().Count, db.ProductCategories.Distinct().ToList().Count);
         }
+        */
 
     }
 }
