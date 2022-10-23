@@ -307,6 +307,7 @@ namespace UnitTesting
         //    Assert.AreEqual(RestaurantPassword, retrievedRestaurant.Password);
         //}
 
+
         //[Test]
         //public void TestDeleteRestaurant()
         //{
@@ -325,14 +326,6 @@ namespace UnitTesting
         //    AdminController.AddProductCategories();
         //    AdminController.AddRestaurants();
         //    AdminController.AddProducts();
-
-            // Get restaurant count from database before deleting the restaurant
-            int restCountBefore = db.Restaurants.Count();
-
-            // Get random restaurant to delete
-            int total = db.Restaurants.Count();
-            int offset = r.Next(1, total);
-            Restaurant restaurantToUpdate = db.Restaurants.FirstOrDefault(a => a.Id == offset);
 
         //    // Get restaurant count from database before deleting the restaurant
         //    int restCountBefore = db.Restaurants.Count();
