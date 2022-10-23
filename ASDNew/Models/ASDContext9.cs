@@ -23,5 +23,6 @@ namespace ASDNew.Models
         public DbSet<Payment> Payments { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<OrderHistory> OrderHistory { get; set; }
     }
 }
