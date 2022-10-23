@@ -171,6 +171,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210181032294_InitialCreate.cs" />
+    <Compile Include="Migrations\202210181032294_InitialCreate.Designer.cs">
+      <DependentUpon>202210181032294_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210231127035_Migration1.cs" />
+    <Compile Include="Migrations\202210231127035_Migration1.designer.cs">
+      <DependentUpon>202210231127035_Migration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ASDContext.cs" />
     <Compile Include="Models\ASDContext2.cs" />
     <Compile Include="Models\ASDContext3.cs" />
@@ -262,6 +271,7 @@
     <Content Include="Views\ProductCategory\AddProductCategory.cshtml" />
     <Content Include="Views\ProductCategory\EditProductCategory.cshtml" />
     <Content Include="Views\ProductCategory\DeleteProductCategory.cshtml" />
+    <Content Include="Views\Error\UnauthorizedMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -278,6 +288,14 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202210181032294_InitialCreate.resx">
+      <DependentUpon>202210181032294_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210231127035_Migration1.resx">
+      <DependentUpon>202210231127035_Migration1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

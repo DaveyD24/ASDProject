@@ -31,10 +31,6 @@ namespace ASDNew.Models
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$", ErrorMessage="Invalid password")]
         public string Password { get; set; }
 
-        //This might not be necessary
-        //public List<Product> Products { get; set; }
-
-
     }
 
     public class RestaurantDBContext : DbContext

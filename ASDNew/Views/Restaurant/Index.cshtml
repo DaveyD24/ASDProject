@@ -4,8 +4,19 @@
 
 @{
     bool HeadingWritten = false;
-    //int[] ProductCounts = (int[])ViewData["ProductCounts"];
-    //ASDNew.Models.ProductCategory[] MostCategory = (ASDNew.Models.ProductCategory[])ViewData["MostCategory"];
+
+    int[] ProductCounts = null;
+    if (((int[])ViewData["ProductCounts"]).Length > 0)
+    {
+        ProductCounts = (int[])ViewData["ProductCounts"];
+    }
+
+    ASDNew.Models.ProductCategory[] MostCategory = null;
+    if (((ASDNew.Models.ProductCategory[])ViewData["MostCategory"]).Length > 0)
+    {
+        MostCategory = (ASDNew.Models.ProductCategory[])ViewData["MostCategory"];
+    }
+
     ASDNew.Models.Restaurant[] Restaurants = Model.ToArray();
 }
 
@@ -84,19 +95,19 @@
                                 @Html.ActionLink(Restaurants[i].Name, "Index", "Product", new { RestaurantID = Restaurants[i].Id }, null)
                             </td>
                             <td style="padding: 5px; text-align: center">
-                                @* MostCategory[i].Name *@
+                                @if (MostCategory != null)
+                                {
+                                    @MostCategory[i].Name
+                                }
                             </td>
                             <td style="padding: 5px; text-align: center">
-                                @* ProductCounts[i] *@
+                                @if (ProductCounts != null)
+                                {
+                                    @ProductCounts[i]
+                                }
                             </td>
                             <td style="padding: 15px; text-align: center">
                                 @Restaurants[i].Description
-                            </td>
-                            <td style="padding: 5px; text-align: center">
-                                <input type="button" value="Edit" class="btn btn-primary" onclick="location.href = '@Url.Action("EditRestaurant", "Restaurant", new { RestaurantID = Restaurants[i].Id })'" />
-                            </td>
-                            <td style="padding: 5px; text-align: center">
-                                <input type="button" value="Delete" class="btn btn-primary" onclick="location.href = '@Url.Action("DeleteRestaurant", "Restaurant", new { RestaurantID = Restaurants[i].Id })'" />                          
                             </td>
                         </tr>
 
@@ -122,12 +133,6 @@
                         </td>
                         <td style="padding: 15px; text-align: center">
                             @Restaurants[i].Description
-                        </td>
-                        <td style="padding: 5px; text-align: center">
-                            <input type="button" value="Edit" class="btn btn-primary" onclick="location.href = '@Url.Action("EditRestaurant", "Restaurant")'" />
-                        </td>
-                        <td style="padding: 5px; text-align: center">
-                            <input type="button" value="Delete" class="btn btn-primary" onclick="location.href = '@Url.Action("RemoveRestaurant", "Restaurant")'" />
                         </td>
                     </tr>
 

@@ -29,6 +29,14 @@ namespace ASDNew.Controllers
             {
                 return View("~/Views/Error/Index.cshtml");
             }
+            if (Session["Id"] == null)
+            {
+                //return View("~/Views/Error/UnauthorizedMenu.cshtml");
+                return RedirectToAction("UnauthorizedMenu", "Error", new
+                {
+                    RestaurantId = (int)RestaurantID
+                });
+            }
             
             //Get current instance of Restaurant Controller
             var Rcontroller = DependencyResolver.Current.GetService<RestaurantController>();

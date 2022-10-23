@@ -2,10 +2,8 @@
     @model IEnumerable<ASDNew.Models.Restaurant>
 
         @{
-        bool HeadingWritten = false;
-        int[] ProductCounts = (int[])ViewData["ProductCounts"];
-        ASDNew.Models.ProductCategory[] MostCategory = (ASDNew.Models.ProductCategory[])ViewData["MostCategory"];
-        ASDNew.Models.Restaurant[] Restaurants = Model.ToArray();
+            bool HeadingWritten = false;
+            ASDNew.Models.Restaurant[] Restaurants = Model.ToArray();
         }
 
         <style>

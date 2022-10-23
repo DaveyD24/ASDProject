@@ -326,13 +326,13 @@ namespace UnitTesting
         //    AdminController.AddRestaurants();
         //    AdminController.AddProducts();
 
-        //    // Get product count from database before deleting the product
-        //    int prodCountBefore = db.Restaurants.Count();
+            // Get restaurant count from database before deleting the restaurant
+            int restCountBefore = db.Restaurants.Count();
 
-        //    // Get random product record to update
-        //    int total = db.Restaurants.Count();
-        //    int offset = r.Next(0, total);
-        //    Restaurant restaurantToUpdate = db.Restaurants.OrderBy(a => a.Id).Skip(offset).FirstOrDefault();
+            // Get random restaurant to delete
+            int total = db.Restaurants.Count();
+            int offset = r.Next(1, total);
+            Restaurant restaurantToUpdate = db.Restaurants.FirstOrDefault(a => a.Id == offset);
 
         //    // Get restaurant count from database before deleting the restaurant
         //    int restCountBefore = db.Restaurants.Count();

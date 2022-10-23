@@ -1,0 +1,7 @@
+﻿@model ASDNew.Models.Restaurant
+
+
+<h1>Error</h1>
+<p>You are not authorized to visit @Model.Name without logging in!</p>
+<input type="button" class="btn btn-primary" value="Login" onclick="location.href = '@Url.Action("Login", "Login")'" />
+<input type="button" class="btn btn-warning" value="Back" onclick="location.href = '@Url.Action("Index", "Restaurant")'" />
