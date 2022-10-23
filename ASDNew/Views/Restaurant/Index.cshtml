@@ -92,12 +92,6 @@
                             <td style="padding: 15px; text-align: center">
                                 @Restaurants[i].Description
                             </td>
-                            <td style="padding: 5px; text-align: center">
-                                <input type="button" value="Edit" class="btn btn-primary" onclick="location.href = '@Url.Action("EditRestaurant", "Restaurant", new { RestaurantID = Restaurants[i].Id })'" />
-                            </td>
-                            <td style="padding: 5px; text-align: center">
-                                <input type="button" value="Delete" class="btn btn-primary" onclick="location.href = '@Url.Action("DeleteRestaurant", "Restaurant", new { RestaurantID = Restaurants[i].Id })'" />                          
-                            </td>
                         </tr>
 
                     </tbody>
@@ -122,12 +116,6 @@
                         </td>
                         <td style="padding: 15px; text-align: center">
                             @Restaurants[i].Description
-                        </td>
-                        <td style="padding: 5px; text-align: center">
-                            <input type="button" value="Edit" class="btn btn-primary" onclick="location.href = '@Url.Action("EditRestaurant", "Restaurant")'" />
-                        </td>
-                        <td style="padding: 5px; text-align: center">
-                            <input type="button" value="Delete" class="btn btn-primary" onclick="location.href = '@Url.Action("RemoveRestaurant", "Restaurant")'" />
                         </td>
                     </tr>
 

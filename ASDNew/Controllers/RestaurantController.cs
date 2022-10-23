@@ -42,9 +42,19 @@ namespace ASDNew.Controllers
             return View(RestaurantArray);
         }
 
+        /// <summary>
+        /// Load Restaurant List for admin use
+        /// </summary>
+        /// <returns>Restaurant/listOfRestaurants View</returns>
         public ActionResult listOfRestaurants()
         {
-            return View();
+            //Get all Restaurants in the database
+            List<Restaurant> Restaurants = db.Restaurants.ToList();
+
+            //Convert Restaurant List to Array
+            Restaurant[] RestaurantArray = Restaurants.ToArray();
+
+            return View(RestaurantArray);
         }
 
         /// <summary>
@@ -59,7 +69,7 @@ namespace ASDNew.Controllers
                .AsNoTracking()
                .Where(d => d.Id == RestaurantId)
                .FirstOrDefault();
-            
+
             return restaurant;
         }
 
@@ -229,7 +239,7 @@ namespace ASDNew.Controllers
         ///  Add new Restaurant to database
         /// </summary>
         /// <param name="Restaurant">Restaurant to add</param>
-        /// <returns>Admin/Index View</returns>
+        /// <returns>Restaurant/listOfRestaurant View</returns>
         public ActionResult Create(Restaurant Restaurant)
         {
             ///adds restaurant to db
@@ -247,14 +257,15 @@ namespace ASDNew.Controllers
             db.SaveChanges();
             ///returns to admin page
             return RedirectToAction("Index", "Admin");
+
         }
 
         /// <summary>
         ///  Edits selected restaurant
         /// </summary>
         /// <param name="Restaurant">Restaurant to edit</param>
-        /// <returns>Restaurant/Index View</returns>
-        public ActionResult Edit(int RestaurantId, string RestaurantName, string RestaurantDescription, string RestaurantEmail, string RestaurantPassword )
+        /// <returns>Restaurant/listOf View</returns>
+        public ActionResult Edit(int RestaurantId, string RestaurantName, string RestaurantDescription, string RestaurantEmail, string RestaurantPassword)
         {
             // Retrieve existing restaurant from database
             Restaurant Entity = db.Restaurants.FirstOrDefault(rest => rest.Id == RestaurantId);
@@ -290,54 +301,54 @@ namespace ASDNew.Controllers
             }
         }
 
-        /// <summary>
-        ///  Delete selected Restaurant to database
-        /// </summary>
-        /// <param name="Restaurant">Restaurant to delete</param>
-        /// <returns>Restaurant/Index View</returns>
-        public ActionResult Delete(int RestaurantId)
-        {
-            // Fetch restaurant ID from database
-            Restaurant Entity = db.Restaurants.FirstOrDefault(rest => rest.Id == RestaurantId);
-            List<Product> AllProducts = ProductController.GetAllProducts(db);
-            List<Product> FilteredProducts = ProductController.FilterProductList(Entity, AllProducts);
-
-            // Check restaurant ID exists then deletes restaurant
-            // If the restaurant can't be deleted throws error
-            if (Entity != null)
+            /// <summary>
+            ///  Delete selected Restaurant to database
+            /// </summary>
+            /// <param name="Restaurant">Restaurant to delete</param>
+            /// <returns>Restaurant/listOfRestaurants View</returns>
+            public ActionResult Delete(int RestaurantId)
             {
-                try
+                // Fetch restaurant ID from database
+                Restaurant Entity = db.Restaurants.FirstOrDefault(rest => rest.Id == RestaurantId);
+                List<Product> AllProducts = ProductController.GetAllProducts(db);
+                List<Product> FilteredProducts = ProductController.FilterProductList(Entity, AllProducts);
+
+                // Check restaurant ID exists then deletes restaurant
+                // If the restaurant can't be deleted throws error
+                if (Entity != null)
                 {
-                    foreach (Product Product in FilteredProducts)
+                    try
                     {
-                        db.Products.Remove(Product);
+                        foreach (Product Product in FilteredProducts)
+                        {
+                            db.Products.Remove(Product);
+                        }
+                        // Remove restaurant record from database
+                        db.Restaurants.Remove(Entity);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
                     }
-                    // Remove restaurant record from database
-                    db.Restaurants.Remove(Entity);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    catch (Exception E)
+                    {
+                        System.Diagnostics.Debug.WriteLine(E.Message);
+                        System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                        return View("Error");
+                    }
                 }
-                catch (Exception E)
+                else
                 {
-                    System.Diagnostics.Debug.WriteLine(E.Message);
-                    System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                    System.Diagnostics.Debug.WriteLine("DeleteRestaurant entity is null");
                     return View("Error");
                 }
             }
-            else
+
+            /// <summary>
+            /// Get Database instance
+            /// </summary>
+            /// <returns>Instance of database</returns>
+            public static ASDContext9 GetDatabase()
             {
-                System.Diagnostics.Debug.WriteLine("DeleteRestaurant entity is null");
-                return View("Error");
+                return new ASDContext9();
             }
         }
-
-        /// <summary>
-        /// Get Database instance
-        /// </summary>
-        /// <returns>Instance of database</returns>
-        public static ASDContext9 GetDatabase()
-        {
-            return new ASDContext9();
-        }
     }
-}
