@@ -158,7 +158,7 @@
         outline: solid;
         outline-width: 1px;
         outline-color: lightgray;
-        font-size 15px;
+        font-size: 15px;
     }
 
     .description {
@@ -186,7 +186,7 @@
         border: none;
         text-align: center;
         outline: none;
-        font-size 15px;
+        font-size: 15px;
         font-weight: bold;
     }
 
@@ -399,6 +399,14 @@
         color: #202020;
     }
 
+    .product-image {
+        width: 50%;
+        /* Required to horizontally center image */
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
 
 
 </style>
@@ -415,12 +423,25 @@
 </head>
 <body>
 
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <p>
+            <div class="alert alert-success alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <b>@TempData["SuccessMessage"]</b>
+            </div>
+        </p>
+    }
+
+
     <h2>@Restaurant.Name</h2>
     <img src="~/Images/RestaurantBanners/test.png" alt="Banner" />
     <p style="padding: 10px">
         @Restaurant.Description
     </p>
-    @if (Session["Email"].ToString().Contains((Restaurant.Name.ToLower() + ".com")))
+
+    @if (Session["Email"] != null && Session["Email"].ToString().Contains((Restaurant.Name.ToLower() + ".com")))
     {
         <input type="button" class="add" value="Add a New Product" onclick="location.href = '@Url.Action("AddProduct", "Product", new { RestaurantId = Restaurant.Id })'" />
     }
@@ -442,9 +463,15 @@
                         <button class="collapsible">@Product.Name</button>
                         <div class="content">
                             <button class="description">@Product.Description</button><br>
+                            @if (Product.Image != null)
+                            {
+                                <button class="description">
+                                    <img class="product-image" src="~/Images/Products/@Product.Image">
+                                </button>
+                            }
 
                             <button class="cart" onclick='location.href = "@Url.Action("AddToCart", "Product", new { ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Add To Cart ($@Product.Price)</button>
-                            @if (Session["Email"].ToString().Contains((Restaurant.Name.ToLower() + ".com")))
+                            @if (Session["Email"] != null && Session["Email"].ToString().Contains((Restaurant.Name.ToLower() + ".com")))
                             {
                                 <button class="option" onclick='location.href="@Url.Action("EditProduct", "Product", new { ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Edit Product</button>
                                 <button class="option" onclick='location.href="@Url.Action("DeleteProduct", "Product", new { ProductId = Product.Id, RestaurantId = Restaurant.Id })"'>Delete Product</button>

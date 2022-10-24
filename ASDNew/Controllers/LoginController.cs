@@ -12,7 +12,7 @@ namespace ASDNew.Controllers
     public class LoginController : Controller
     {
         //private DB_Entities _db = new DB_Entities();
-        ASDContext8 _db = new ASDContext8();
+        ASDContext9 _db = new ASDContext9();
         // GET: Home
         public ActionResult Index()
         {

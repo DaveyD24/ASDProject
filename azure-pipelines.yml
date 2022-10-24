@@ -5,7 +5,6 @@
 
 trigger:
 - main
-- unit-test
 
 pool:
   vmImage: 'windows-latest'
@@ -28,9 +27,17 @@ steps:
   displayName: 'Build the project - $(buildConfiguration)'
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    msbuildArgs: '/p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl="$(System.DefaultWorkingDirectory)\\WebAppContent"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)\\WebAppContent'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
 
 - task: VisualStudioTestPlatformInstaller@1
   displayName: 'Install Visual Studio Test Platform'
@@ -58,3 +65,11 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'ASDProject'
     publishLocation: 'Container'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Resource Manager - ASDProject'
+    appType: 'webApp'
+    appName: 'asdproject'
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'

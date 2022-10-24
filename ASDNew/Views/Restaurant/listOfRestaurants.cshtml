@@ -1,40 +1,137 @@
-@{
-    ViewBag.Title = "List of Restaurants";
-}
+@*@model IEnumerable<ASDNew.Models.Restaurant>*@
+    @model IEnumerable<ASDNew.Models.Restaurant>
 
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css">
-        <title>Restaurants</title>
-    <head>
-        <h1>Name of Website</h1>
-    </head>
-    <body>
-        <ul class="Navigation">
-            <li class="Active"><a href="index.html">Home</a></li>
-            <li><a href="">Page 2</a></li>
-            <li><a href="p">Page 3</a></li>
-    
-        </ul>
-        <br><br><br><br><br><br>
-        <h2><span class="pageheading">Welcome to ASDxd!</span></h2>
-        
-        <div class="options">
-            <button>
-                Delivery
-            </button>
-            <button>
-                Pick-up
-            </button>
-        </div>
-        <div class="listings">
-            <h3 class="Active"><a href="productPage.html">Burger Shop</a></h3>
-            <h3>Restaurant 2</h3>
-            <h3>Restaurant 3</h3>
-            <h3>Restaurant 4</h3>
-            <h3>Restaurant 5</h3>
-        </div>
-    </body>
-</html>
+        @{
+            bool HeadingWritten = false;
+            ASDNew.Models.Restaurant[] Restaurants = Model.ToArray();
+        }
+
+        <style>
+            table.rounded-corners {
+                /* Change these properties */
+
+                border-radius: 15px;
+                /* Don't change these properties */
+                border-spacing: 0;
+                border-collapse: separate;
+                border: var(--border);
+                overflow: hidden;
+            }
+
+                /* Apply a border to the right of all but the last column */
+                table.rounded-corners th:not(:last-child),
+                table.rounded-corners td:not(:last-child) {
+                    border-right: var(--border);
+                }
+
+                /* Apply a border to the bottom of all but the last row */
+                table.rounded-corners > thead > tr:not(:last-child) > th,
+                table.rounded-corners > thead > tr:not(:last-child) > td,
+                table.rounded-corners > tbody > tr:not(:last-child) > th,
+                table.rounded-corners > tbody > tr:not(:last-child) > td,
+                table.rounded-corners > tfoot > tr:not(:last-child) > th,
+                table.rounded-corners > tfoot > tr:not(:last-child) > td,
+                table.rounded-corners > tr:not(:last-child) > td,
+                table.rounded-corners > tr:not(:last-child) > th,
+                table.rounded-corners > thead:not(:last-child),
+                table.rounded-corners > tbody:not(:last-child),
+                table.rounded-corners > tfoot:not(:last-child) {
+                    border-bottom: var(--border);
+                }
+        </style>
+
+        <!DOCTYPE html>
+
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width" />
+            <title></title>
+        </head>
+        <body>
+            <div>
+                <br>
+                <h1 style="text-align: center">All Restaurants</h1>
+                <br>
+                @for (int i = 0; i < Restaurants.Count(); i++)
+                {
+                if (!HeadingWritten)
+                {
+                <table class="rounded-corners">
+                    <thead>
+                    <th>
+                    </th>
+                    <th style="text-align: center">
+                        Name
+                    </th>
+                    <th style="text-align: center">
+                        Description
+                    </th>
+                    <th style="text-align: center">
+                        Email
+                    </th>
+                    <th style="text-align: center">
+                        Password
+                    </th>
+                    </thead>
+                    <tbody style="background-color:whitesmoke; border-radius: 25%">
+
+                        <tr style="padding-bottom: 5em">
+                            <td><img src="~/Images/plate.png" / style="height: 150px; padding: 25px"></td>
+                            <td style="width:17%; text-align: center">
+                                @Restaurants[i].Name
+                            </td>
+                            <td style="padding: 15px; text-align: center">
+                                @Restaurants[i].Description
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                @Restaurants[i].Email
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                @Restaurants[i].Password
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                <input type="button" value="Edit" class="btn btn-primary" onclick="location.href = '@Url.Action(" EditRestaurant", "Restaurant" , new { RestaurantID=Restaurants[i].Id })'" />
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                <input type="button" value="Delete" class="btn btn-primary" onclick="location.href = '@Url.Action(" DeleteRestaurant", "Restaurant" , new { RestaurantID=Restaurants[i].Id })'" />
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table><br>
+                HeadingWritten = true;
+                }
+                else
+                {
+                <table class="rounded-corners">
+                    <tbody style="background-color:whitesmoke; border-radius: 25%">
+
+                        <tr style="padding-bottom: 5em">
+                            <td><img src="~/Images/plate.png" / style="height: 150px; padding: 25px"></td>
+                            <td style="width:17%; text-align: center">
+                                @Restaurants[i].Name
+                            </td>
+                            <td style="padding: 15px; text-align: center">
+                                @Restaurants[i].Description
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                @Restaurants[i].Email
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                @Restaurants[i].Password
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                <input type="button" value="Edit" class="btn btn-primary" onclick="location.href = '@Url.Action(" EditRestaurant", "Restaurant" )'" />
+                            </td>
+                            <td style="padding: 5px; text-align: center">
+                                <input type="button" value="Delete" class="btn btn-primary" onclick="location.href = '@Url.Action(" RemoveRestaurant", "Restaurant" )'" />
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table><br>
+                }
+                }
+            </div>
+        </body>
+    </html>

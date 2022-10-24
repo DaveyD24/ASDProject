@@ -19,9 +19,33 @@
 </head>
 <body>
     <div class="container">
-        <h1>Edit Product: @Model.Name</h1>
+        <h1>Edit Product</h1>
+        <h3>@Model.Name</h3>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <b>Error:</b> @TempData["ErrorMessage"]
+            </div>
+        }
+
+        @if (TempData["ValidationErrors"] != null)
+        {
+            List<string> validationErrors = (List<string>)TempData["ValidationErrors"];
+            foreach (string error in validationErrors)
+            {
+                <div class="alert alert-danger alert-dismissible fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <b>Error:</b> @error
+                </div>
+            }
+        }
+
+        @if (Session["Email"] != null && Session["Email"].ToString().Contains((restaurant.Name.ToLower() + ".com")))
+        {
         <div class="well well-sm col-sm-12">
-            @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
+            @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
             {
                 <input type="hidden" name="ProductId" id="ProductId" value="@Model.Id">
                 <input type="hidden" name="RestaurantId" id="RestaurantId" value="@restaurant.Id">
@@ -67,6 +91,28 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="control-label col-sm-2">Current Image</label>
+                    <div class="col-sm-10">
+                        @if (Model.Image != null)
+                        {
+                            <img style="width: 100px" src="~/Images/Products/@Model.Image">
+                        }
+                        else
+                        {
+                            <p class="form-control-static">(None)</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ProductImage" class="control-label col-sm-2">Upload a New Image</label>
+                    <div class="col-sm-10">
+                        <input type="file" name="ProductImage" id="ProductImage" runat="server">
+                        <span id="helpBlock" class="help-block">Maximum file size is 500 KB.<br>Allowed file formats: .jpg .jpeg .png .gif</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Save</button>
                         <button type="button" onclick="location.href='@Url.Action("Index", "Product", new {RestaurantID = restaurant.Id }, null)'" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
@@ -74,6 +120,14 @@
                 </div>
             }
         </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                <b>You are not authorised to access this page.</b>
+            </div>
+            <button type="button" onclick="location.href='@Url.Action("Index", "Product", new { RestaurantID = restaurant.Id }, null)'" class="btn btn-primary">Back to Restaurant Home Page</button>
+        }
     </div>
 </body>
 </html>

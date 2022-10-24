@@ -1,34 +1,59 @@
-@{
-    ViewBag.Title = "Edit User Details Page";
-}
+﻿@model IEnumerable<ASDNew.Models.Customer>
+
+<!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css">
-        <title>Update your account details</title>
-    </head>
-    <body>
-        <ul class="Navigation">
-            <li class="Active"><a href="index.html">Home</a></li>
-            <li><a href="">Page 2</a></li>
-            <li><a href="p">Page 3</a></li>
-        </ul>
-        
-        <br><br><br><br><br><br>
-        <h2><span class="pageheading">Welcome to ASDxd!</span></h2>
-
-        <div>
-            <h1>Edit your account details</h1>
+<head>
+    <title>ASDxd</title>
+    <meta charset="UTF-8">
+    <!--<link href="@Url.Content("~/Views/Shared/style.css")" rel="stylesheet" type="text/css" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Restaurant Ordering</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Page 1</a></li>
+                <li><a href="#">Page 2</a></li>
+                <li><a href="#">Page 3</a></li>
+            </ul>
         </div>
-            <form action="index.html">
-                <table>
-                    <tr><td>Name:</td><td><input type="text" placeholder="Enter new name" name="Name"/></td></tr>
-                    <tr><td>Email:</td><td><input type="text" placeholder="Enter new email" name="Name"/></td></tr>
-                    <tr><td>Phone Number:</td><td><input type="text" placeholder="Enter new Phone number" name="Name"/></td></tr>
-                    </td><td><input class="button" type="submit" value="Edit User"></td></tr>
-                </table>
-            </form>
-    </body>
+    </nav>
+
+    <div>
+        <h1>Edit your account details</h1>
+    </div>
+    <!-- Form -->
+    @using (Html.BeginForm("Edit", "Customer", FormMethod.Post))
+    {
+        <form>
+            <table>
+                <tr>
+                    <td>First Name:</td>
+                    <td><input type="text" placeholder="Enter new First Name" name="FirstName" /> </td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td><input type="text" placeholder="Enter new Last Name" name="Name" /></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="text" placeholder="Enter new Email" name="Email" /> </td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="text" placeholder="Enter new Password" name="Password" /></td>
+                </tr>
+                <tr>
+                    <td><input class="button" type="submit" value="EditingUserDetail"></td>
+                </tr>
+            </table>
+        </form>
+    }
+</body>
 </html>

@@ -19,7 +19,7 @@ namespace UnitTesting
     public class Tests
     {
 
-        ASDContext8 db = new ASDContext8();
+        ASDContext9 db = new ASDContext9();
 
         [Test]
         public void TestMethod()
@@ -31,6 +31,7 @@ namespace UnitTesting
 
         //Patrick.E
         //F109: Adding products to restaurant
+        /*
         [Test]
         public void TestAddProduct()
         {
@@ -57,7 +58,7 @@ namespace UnitTesting
             controller.Create(restaurantId, prodCategory, prodName, prodPrice, prodDescription);
 
             // Query the database after adding the new product
-            ASDContext8 dbReplica = new ASDContext8();
+            ASDContext9 dbReplica = new ASDContext9();
             Product retrievedProduct = dbReplica.Products.OrderByDescending(p => p.Id).Include(x => x.Category).Include(y => y.Restaurant).FirstOrDefault();
             int prodCountAfter = dbReplica.Products.Count();
 
@@ -70,9 +71,11 @@ namespace UnitTesting
             Assert.AreEqual(prodPrice, retrievedProduct.Price);
             Assert.AreEqual(prodDescription, retrievedProduct.Description);
         }
+        */
 
         //Patrick.E
         //F110: Edit/delete products in restaurant
+        /*
         [Test]
         public void TestEditProduct()
         {
@@ -116,9 +119,11 @@ namespace UnitTesting
             Assert.AreEqual(newPrice, retrievedProduct.Price);
             Assert.AreEqual(newDescription, retrievedProduct.Description);
         }
+        */
 
         //Patrick.E
         //F110: Edit/delete products in restaurant
+        /*
         [Test]
         public void TestDeleteProduct()
         {
@@ -143,7 +148,7 @@ namespace UnitTesting
             controller.Delete(productToUpdate.Id, productToUpdate.Restaurant.Id);
 
             // Try to retrieve from database after deleting the product
-            ASDContext8 dbReplica = new ASDContext8();
+            ASDContext9 dbReplica = new ASDContext9();
             Product retrievedProduct = dbReplica.Products.Find(productToUpdate.Id);
             int prodCountAfter = dbReplica.Products.Count();
 
@@ -151,6 +156,7 @@ namespace UnitTesting
             Assert.Null(retrievedProduct, "Retrieved product was expected to be null");
             Assert.IsTrue(prodCountAfter == (prodCountBefore - 1), "Number of product records was expected to decrease by 1 after deleting the product");
         }
+        */
 
         [Test] //David
         public void TestStringConverter()
@@ -172,6 +178,7 @@ namespace UnitTesting
 
         //Brendan
         //F112: Show payment history
+        /*
         [Test]
         public void ShowPaymentHistory()
         {
@@ -188,7 +195,9 @@ namespace UnitTesting
             //Assert that payments is not null and that there are payment records in the payment database
             Assert.NotNull(payments);
         }
+        */
 
+        /*
         [Test]
         public void TestProductCount()
         {
@@ -211,7 +220,9 @@ namespace UnitTesting
             //Assert.That(ProductCount >= 8);
             //Assert.That(ProductCount <= 16);
         }
+        */
 
+        /*
         [Test]
         public void TestCategoryDuplication()
         {
@@ -221,6 +232,112 @@ namespace UnitTesting
             AdminController.AddProducts();
 
             Assert.AreEqual(db.ProductCategories.ToList().Count, db.ProductCategories.Distinct().ToList().Count);
+        }
+        */
+
+        //[Test]
+        //public void TestAddRestaurant()
+        //{
+        //    Random r = new Random();
+
+        //    // Initialise database
+        //    AdminController AdminController = new AdminController();
+        //    AdminController.AddRestaurants();
+
+        //    // Get product count from database before adding the new product
+        //    int restCountBefore = db.Restaurants.Count();
+
+        //    // Create a new product to test
+        //    string RestaurantName = "Fatmans Steakhouse";
+        //    string RestaurantDescription = "Best chicken Snitty";
+        //    string RestaurantEmail = "Fatmans@gmail.com";
+        //    string RestaurantPassword = "Nice123";
+
+        //    // Trigger the function in the Controller class
+        //    RestaurantController controller = new RestaurantController();
+        //    controller.Create(RestaurantName, RestaurantDescription, RestaurantEmail, RestaurantPassword);
+
+        //    // Query the database after adding the new product
+        //    ASDContext9 dbReplica = new ASDContext9();
+        //    Restaurant retrievedRestaurant = dbReplica.Restaurants.OrderByDescending(p => p.Id).FirstOrDefault();
+        //    int restCountAfter = dbReplica.Products.Count();
+
+        //    // Perform checks
+        //    Assert.NotNull(retrievedRestaurant);
+        //    Assert.IsTrue(restCountAfter == (restCountBefore + 1), "Number of restaurant records was expected to increase by 1 after adding new restaurant");
+        //    Assert.AreEqual(RestaurantName, retrievedRestaurant.Name);
+        //    Assert.AreEqual(RestaurantDescription, retrievedRestaurant.Description);
+        //    Assert.AreEqual(RestaurantEmail, retrievedRestaurant.Email);
+        //    Assert.AreEqual(RestaurantPassword, retrievedRestaurant.Password);
+        //}
+
+        //[Test]
+        //public void TestEditRestaurant()
+        //{
+        //    Random r = new Random();
+
+        //    // Initialise database
+        //    AdminController AdminController = new AdminController();
+        //    AdminController.AddRestaurants();
+
+        //    // Get random product record to update
+        //    int total = db.Restaurants.Count();
+        //    int offset = r.Next(0, total);
+        //    Restaurant restaurantToUpdate = db.Restaurants.OrderBy(p => p.Id).FirstOrDefault();
+
+        //    // Set new properties
+        //    string RestaurantName = "Fatmans Steakhouse";
+        //    string RestaurantDescription = "Best chicken Snitty";
+        //    string RestaurantEmail = "Fatmans@gmail.com";
+        //    string RestaurantPassword = "Nice123";
+
+        //    // Trigger the edit function
+        //    RestaurantController controller = new RestaurantController();
+        //    controller.Edit(RestaurantName, RestaurantDescription, RestaurantEmail, RestaurantPassword);
+
+        //    // Retrieve from database after editing the product
+        //    Restaurant retrievedRestaurant = db.Restaurants.Find(restaurantToUpdate.Id);
+        //    db.Entry(retrievedRestaurant).Reload();
+
+        //    // Perform checks
+        //    Assert.NotNull(retrievedRestaurant);
+        //    Assert.AreEqual(RestaurantName, retrievedRestaurant.Name);
+        //    Assert.AreEqual(RestaurantDescription, retrievedRestaurant.Description);
+        //    Assert.AreEqual(RestaurantEmail, retrievedRestaurant.Email);
+        //    Assert.AreEqual(RestaurantPassword, retrievedRestaurant.Password);
+        //}
+
+        [Test]
+        public void TestDeleteRestaurant()
+        {
+            Random r = new Random();
+
+              // Initialise database
+            AdminController AdminController = new AdminController();
+            AdminController.AddProductCategories();
+            AdminController.AddRestaurants();
+            AdminController.AddProducts();
+
+            // Get restaurant count from database before deleting the restaurant
+            int restCountBefore = db.Restaurants.Count();
+
+            // Get random restaurant to delete
+            int total = db.Restaurants.Count();
+            int offset = r.Next(1, total);
+            Restaurant restaurantToUpdate = db.Restaurants.FirstOrDefault(a => a.Id == offset);
+
+            // Trigger the delete function
+            RestaurantController controller = new RestaurantController();
+            controller.Delete(restaurantToUpdate.Id);
+
+            // Try to retrieve from database after deleting the restaurant
+            ASDContext9 dbReplica = new ASDContext9();
+            Restaurant retrievedRestaurant = dbReplica.Restaurants.Find(restaurantToUpdate.Id);
+            int restCountAfter = dbReplica.Restaurants.Count();
+
+            // Perform checks
+            Assert.Null(retrievedRestaurant, "Retrieved restaurant was expected to be null");
+            Assert.IsTrue(restCountAfter == (restCountBefore - 1), "Number of Restaurant records was expected to decrease by 1 after deleting the Restaurant");
         }
 
     }
