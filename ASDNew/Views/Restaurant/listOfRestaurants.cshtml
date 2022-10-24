@@ -121,10 +121,10 @@
                                 @Restaurants[i].Password
                             </td>
                             <td style="padding: 5px; text-align: center">
-                                <input type="button" value="Edit" class="btn btn-primary" onclick="location.href = '@Url.Action(" EditRestaurant", "Restaurant" )'" />
+                                <input type="button" value="Edit" class="btn btn-primary" onclick="location.href = '@Url.Action("EditRestaurant", new { RestaurantID=Restaurants[i].Id } )'" />
                             </td>
                             <td style="padding: 5px; text-align: center">
-                                <input type="button" value="Delete" class="btn btn-primary" onclick="location.href = '@Url.Action(" RemoveRestaurant", "Restaurant" )'" />
+                                <input type="button" value="Delete" class="btn btn-primary" onclick="location.href = '@Url.Action("DeleteRestaurant", new { RestaurantID=Restaurants[i].Id } )'" />
                             </td>
                         </tr>
 

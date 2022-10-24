@@ -259,7 +259,7 @@ namespace ASDNew.Controllers
                 db.SaveChanges();
             }
             ///returns to admin page
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("listOfRestaurants", "Restaurant");
 
         }
 
@@ -290,7 +290,7 @@ namespace ASDNew.Controllers
                         db.SaveChanges();
 
                         // Redirect user to list of restaurant page
-                        return RedirectToAction("Index");
+                        return RedirectToAction("listOfRestaurants", "Restaurant");
                     }
                     catch (Exception E)
                     {
@@ -337,7 +337,7 @@ namespace ASDNew.Controllers
                         // Remove restaurant record from database
                         db.Restaurants.Remove(Entity);
                         db.SaveChanges();
-                        return RedirectToAction("Index");
+                        return RedirectToAction("listOfRestaurants", "Restaurant");
                     }
                     catch (Exception E)
                     {
