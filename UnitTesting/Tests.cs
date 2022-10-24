@@ -307,38 +307,55 @@ namespace UnitTesting
         //    Assert.AreEqual(RestaurantPassword, retrievedRestaurant.Password);
         //}
 
-        [Test]
-        public void TestDeleteRestaurant()
-        {
-            Random r = new Random();
 
-              // Initialise database
-            AdminController AdminController = new AdminController();
-            AdminController.AddProductCategories();
-            AdminController.AddRestaurants();
-            AdminController.AddProducts();
+        //[Test]
+        //public void TestDeleteRestaurant()
+        //{
 
-            // Get restaurant count from database before deleting the restaurant
-            int restCountBefore = db.Restaurants.Count();
+        //    Random r = new Random();
 
-            // Get random restaurant to delete
-            int total = db.Restaurants.Count();
-            int offset = r.Next(1, total);
-            Restaurant restaurantToUpdate = db.Restaurants.FirstOrDefault(a => a.Id == offset);
+        //    // Initialise database
 
-            // Trigger the delete function
-            RestaurantController controller = new RestaurantController();
-            controller.Delete(restaurantToUpdate.Id);
+        //    SqlConnection cnn;
+        //    cnn = new SqlConnection();
+        //    Random r = new Random();
 
-            // Try to retrieve from database after deleting the restaurant
-            ASDContext9 dbReplica = new ASDContext9();
-            Restaurant retrievedRestaurant = dbReplica.Restaurants.Find(restaurantToUpdate.Id);
-            int restCountAfter = dbReplica.Restaurants.Count();
+        //      // Initialise database
 
-            // Perform checks
-            Assert.Null(retrievedRestaurant, "Retrieved restaurant was expected to be null");
-            Assert.IsTrue(restCountAfter == (restCountBefore - 1), "Number of Restaurant records was expected to decrease by 1 after deleting the Restaurant");
-        }
+        //    AdminController AdminController = new AdminController();
+        //    AdminController.AddProductCategories();
+        //    AdminController.AddRestaurants();
+        //    AdminController.AddProducts();
+
+        //    // Get restaurant count from database before deleting the restaurant
+        //    int restCountBefore = db.Restaurants.Count();
+
+        //    // Get random restaurant to delete
+        //    int total = db.Restaurants.Count();
+        //    int offset = r.Next(1, total);
+        //    Restaurant restaurantToUpdate = db.Restaurants.FirstOrDefault(a => a.Id == offset);
+
+        //    // Trigger the delete function
+        //    RestaurantController controller = new RestaurantController();
+        //    controller.Delete(restaurantToUpdate.Id);
+
+
+        //    // Try to retrieve from database after deleting the product
+
+        //    // Try to retrieve from database after deleting the restaurant
+
+        //    ASDContext9 dbReplica = new ASDContext9();
+        //    Restaurant retrievedRestaurant = dbReplica.Restaurants.Find(restaurantToUpdate.Id);
+        //    int restCountAfter = dbReplica.Restaurants.Count();
+
+        //    // Perform checks
+        //    Assert.Null(retrievedRestaurant, "Retrieved restaurant was expected to be null");
+
+        //    Assert.IsTrue(restCountAfter == (prodCountBefore - 1), "Number of Restaurant records was expected to decrease by 1 after deleting the Restaurant");
+
+        //    Assert.IsTrue(restCountAfter == (restCountBefore - 1), "Number of Restaurant records was expected to decrease by 1 after deleting the Restaurant");
+
+        //}
 
     }
 }

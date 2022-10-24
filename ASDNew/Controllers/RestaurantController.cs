@@ -242,19 +242,22 @@ namespace ASDNew.Controllers
         /// <returns>Restaurant/listOfRestaurant View</returns>
         public ActionResult Create(Restaurant Restaurant)
         {
-            ///adds restaurant to db
-            db.Restaurants.Add(Restaurant);
-            SampleProduct SampProd = new SampleProduct();
-            Random random = new Random();
-            int ProductCount = random.Next(8, 16); ;
-            for (int i = 0; i < ProductCount; i++)
+            if (ModelState.IsValid)
             {
-                Product prod = SampProd.GetRandomProduct();
-                prod.Restaurant = Restaurant;
-                db.Products.Add(prod);
+                ///adds restaurant to db
+                db.Restaurants.Add(Restaurant);
+                SampleProduct SampProd = new SampleProduct();
+                Random random = new Random();
+                int ProductCount = random.Next(8, 16); ;
+                for (int i = 0; i < ProductCount; i++)
+                {
+                    Product prod = SampProd.GetRandomProduct();
+                    prod.Restaurant = Restaurant;
+                    db.Products.Add(prod);
+                }
+                ///saves changes
+                db.SaveChanges();
             }
-            ///saves changes
-            db.SaveChanges();
             ///returns to admin page
             return RedirectToAction("Index", "Admin");
 
@@ -267,30 +270,38 @@ namespace ASDNew.Controllers
         /// <returns>Restaurant/listOf View</returns>
         public ActionResult Edit(int RestaurantId, string RestaurantName, string RestaurantDescription, string RestaurantEmail, string RestaurantPassword)
         {
-            // Retrieve existing restaurant from database
-            Restaurant Entity = db.Restaurants.FirstOrDefault(rest => rest.Id == RestaurantId);
-
-            // Check restaurant ID exists
-            if (Entity != null)
+            if (ModelState.IsValid)
             {
-                // Update restaurant with new details
-                Entity.Name = RestaurantName;
-                Entity.Description = RestaurantDescription;
-                Entity.Email = RestaurantEmail;
-                Entity.Password = RestaurantPassword;
+                // Retrieve existing restaurant from database
+                Restaurant Entity = db.Restaurants.FirstOrDefault(rest => rest.Id == RestaurantId);
 
-                try
+                // Check restaurant ID exists
+                if (Entity != null)
                 {
-                    // Save changes to database
-                    db.SaveChanges();
+                    // Update restaurant with new details
+                    Entity.Name = RestaurantName;
+                    Entity.Description = RestaurantDescription;
+                    Entity.Email = RestaurantEmail;
+                    Entity.Password = RestaurantPassword;
 
-                    // Redirect user to list of restaurant page
-                    return RedirectToAction("Index");
+                    try
+                    {
+                        // Save changes to database
+                        db.SaveChanges();
+
+                        // Redirect user to list of restaurant page
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception E)
+                    {
+                        System.Diagnostics.Debug.WriteLine(E.Message);
+                        System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                        return View("Error");
+                    }
                 }
-                catch (Exception E)
+                else
                 {
-                    System.Diagnostics.Debug.WriteLine(E.Message);
-                    System.Diagnostics.Debug.WriteLine(E.StackTrace);
+                    System.Diagnostics.Debug.WriteLine("Edit Restaurant entity is null");
                     return View("Error");
                 }
             }
