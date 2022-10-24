@@ -66,10 +66,15 @@ steps:
     ArtifactName: 'ASDProject'
     publishLocation: 'Container'
 
-- task: AzureWebApp@1
+- task: AzureRmWebAppDeployment@4
+  displayName: 'Deploy to Azure App Service'
   inputs:
+    ConnectionType: 'AzureRM'
     azureSubscription: 'Resource Manager - ASDProject'
     appType: 'webApp'
-    appName: 'asdproject'
-    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    deploymentMethod: 'auto'
+    WebAppName: 'asdproject'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    enableCustomDeployment: true
+    DeploymentType: 'webDeploy'
+    AdditionalArguments: 
+    RenameFilesFlag: false
